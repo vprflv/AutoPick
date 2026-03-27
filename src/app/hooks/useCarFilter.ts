@@ -1,0 +1,80 @@
+import { useState, useMemo } from 'react';
+import {initialCars} from "@/app/api/products/route";
+
+export function useCarFilter() {
+    const [cars] = useState(initialCars);
+
+    // Все фильтры в одном месте
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState('all');
+    const [selectedType, setSelectedType] = useState('all');
+    const [priceRange, setPriceRange] = useState({min: 1000000, max: 8000000});
+    const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc'>('price-desc');
+
+    const brands = ['all', ...new Set(cars.map(car => car.brand))];
+    const types = ['all', ...new Set(cars.map(car => car.type))];
+
+    const filteredAndSortedCars = useMemo(() => {
+        let result = [...cars];
+
+
+        if (searchTerm) {
+            const term = searchTerm.toLowerCase();
+            result = result.filter(car =>
+                `${car.brand} ${car.model}`.toLowerCase().includes(term)
+            );
+        }
+
+        // Фильтр по бренду
+        if (selectedBrand !== 'all') {
+            result = result.filter(car => car.brand === selectedBrand);
+        }
+
+        // Фильтр по типу
+        if (selectedType !== 'all') {
+            result = result.filter(car => car.type === selectedType);
+        }
+
+        // Фильтр по цене
+        result = result.filter(car =>
+            car.price >= priceRange.min && car.price <= priceRange.max
+        )
+
+        // Сортировка
+        if (sortBy === 'price-asc') result.sort((a, b) => a.price - b.price);
+        if (sortBy === 'price-desc') result.sort((a, b) => b.price - a.price);
+        if (sortBy === 'year-desc') result.sort((a, b) => b.year - a.year);
+
+        return result;
+
+
+    }, [cars, searchTerm, selectedBrand, selectedType, priceRange, sortBy]);
+
+    const resetFilters = () => {
+        setSearchTerm('');
+        setSelectedBrand('all');
+        setSelectedType('all');
+        setPriceRange({ min: 1000000, max: 8000000 });
+        setSortBy('price-desc');
+    };
+
+    return {
+        cars: filteredAndSortedCars,
+        brands,
+        types,
+        totalCount: cars.length,
+        filters: {
+            searchTerm, setSearchTerm,
+            selectedBrand, setSelectedBrand,
+            selectedType, setSelectedType,
+            priceRange, setPriceRange,
+            sortBy, setSortBy,
+        },
+        resetFilters,
+    }
+
+
+
+
+
+}
