@@ -9,14 +9,31 @@ import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
 import {getCarsAction} from "@/src/features/create-car/model/actions";
 
 
-export function CarDetailPage() {
+interface CallbackFormProps {
+    onSuccess?: () => void;
+    source?: string;
+}
+
+
+
+
+export function CarDetailPage({ onSuccess,source = 'Неизвестная страница' }: CallbackFormProps) {
+
 
     const params = useParams();
     const router = useRouter();
     const [car, setCar] = useState<Car | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        email: '',
+        comment: '',
+        source: source,
+    });
 
 
     useEffect(() => {
@@ -69,6 +86,8 @@ export function CarDetailPage() {
 
     const formatPrice = (price: number) =>
         new Intl.NumberFormat('ru-RU').format(price);
+
+
 
 
     return (
