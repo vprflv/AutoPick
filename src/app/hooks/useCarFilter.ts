@@ -1,14 +1,17 @@
 import { useState, useMemo } from 'react';
 import {initialCars} from "@/app/api/products/route";
+import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
 
 export function useCarFilter() {
-    const [cars] = useState(initialCars);
+
+    const{cars}=useGetInitialCars()
+
 
     // Все фильтры в одном месте
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBrand, setSelectedBrand] = useState('all');
     const [selectedType, setSelectedType] = useState('all');
-    const [priceRange, setPriceRange] = useState({min: 1000000, max: 8000000});
+    const [priceRange, setPriceRange] = useState({min: 500000, max: 100000000});
     const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc'>('price-desc');
 
     const brands = ['all', ...new Set(cars.map(car => car.brand))];
@@ -54,7 +57,7 @@ export function useCarFilter() {
         setSearchTerm('');
         setSelectedBrand('all');
         setSelectedType('all');
-        setPriceRange({ min: 1000000, max: 8000000 });
+        setPriceRange({ min: 500000, max: 100000000 });
         setSortBy('price-desc');
     };
 

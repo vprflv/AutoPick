@@ -83,7 +83,7 @@ export default function AutoPickLanding() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
                 {filteredCars.map((car) => (
-                    <CarCard key={filteredCars.id} car={car} formatPrice={formatPrice} />
+                    <CarCard key={car.id} car={car} formatPrice={formatPrice} />
                 ))}
               </div>
 

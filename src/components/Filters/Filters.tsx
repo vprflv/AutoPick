@@ -85,7 +85,7 @@ export default function Filters({
                             type="number"
                             placeholder="До"
                             value={priceRange.max}
-                            onChange={(e) => setPriceRange({ ...priceRange, max: Number(e.target.value) || 10000000 })}
+                            onChange={(e) => setPriceRange({ ...priceRange, max: Number(e.target.value) || 100000000 })}
                             className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-500 outline-none"
                         />
                     </div>
@@ -111,7 +111,7 @@ export default function Filters({
                     setSearchTerm('');
                     setSelectedBrand('all');
                     setSelectedType('all');
-                    setPriceRange({ min: 1000000, max: 8000000 });
+                    setPriceRange({ min: 500000, max: 100000000 });
                 }}
                 className="mt-10 w-full py-4 text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 transition-colors"
             >

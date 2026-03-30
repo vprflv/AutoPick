@@ -1,26 +1,32 @@
 import Image from 'next/image';
 import Button from "@/src/components/ui/Button";
+import {useRouter} from "next/navigation";
+import {Car} from "@/src/shared/types/types";
 
 
-interface Car {
-    id: number;
-    brand: string;
-    model: string;
-    year: number;
-    price: number;
-    mileage: number;
-    image: string;
-    type: string;
-    fuel?: string;
-    transmission?: string;
-}
+
+// interface Car {
+//     id: number;
+//     brand: string;
+//     model: string;
+//     year: number;
+//     price: number;
+//     mileage: number;
+//     image: string;
+//     type: string;
+//     fuel?: string;
+//     transmission?: string;
+// }
 
 interface CarCardProps {
+    key:number;
     car: Car;
     formatPrice: (price: number) => string;
 }
 
 export default function CarCard({ car, formatPrice }: CarCardProps) {
+
+    const router = useRouter();
     return (
         <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100 flex flex-col h-full w-full">
 
@@ -75,7 +81,7 @@ export default function CarCard({ car, formatPrice }: CarCardProps) {
                         variant="primary"
                         size="md"
                         className="px-10 py-3.5 text-base font-medium whitespace-nowrap"
-                        onClick={() => alert(`Открываем подробную карточку ${car.brand} ${car.model}`)}
+                        onClick={() => router.push(`/cars/${car.id}`)}
                     >
                         Подробнее
                     </Button>

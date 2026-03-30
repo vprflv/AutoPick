@@ -1,4 +1,6 @@
 import {Car} from "@/src/shared/types/types";
+import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
+
 
 export const initialCars: Car[] = [
     { id: 1, brand: 'Toyota', model: 'Camry', year: 2024, price: 2850000, mileage: 8500, image: 'https://picsum.photos/id/1015/800/600', type: 'Седан', fuel: 'Бензин', transmission: 'Автомат' },
@@ -10,3 +12,5 @@ export const initialCars: Car[] = [
     { id: 7, brand: 'Lada', model: 'Vesta Cross', year: 2024, price: 1480000, mileage: 2300, image: 'https://picsum.photos/id/301/800/600', type: 'Универсал', fuel: 'Бензин', transmission: 'Механика' },
     { id: 8, brand: 'Skoda', model: 'Kodiaq', year: 2023, price: 3480000, mileage: 11200, image: 'https://picsum.photos/id/551/800/600', type: 'Кроссовер', fuel: 'Бензин', transmission: 'Автомат' },
 ];
+
+

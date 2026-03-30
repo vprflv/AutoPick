@@ -10,6 +10,10 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: '**.picsum.photos',   // на всякий случай (для поддоменов)
             },
+            {
+                protocol: 'https',
+                hostname: 'upload.wikimedia.org',   // на всякий случай (для поддоменов)
+            },
         ],
     },
 };
