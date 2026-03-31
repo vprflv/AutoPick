@@ -3,6 +3,7 @@
 import {Car} from "@/src/shared/types/types";
 import React, {useState, useTransition} from "react";
 import {addCarAction} from "@/src/features/create-car/model/actions";
+import {ImageUploader} from "@/src/components/admin/ImageUploader";
 
 interface CarFormProps {
     onSuccess?: () => void;
@@ -21,19 +22,38 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
         year: new Date().getFullYear(),
         price: 0,
         mileage: 0,
-        image: '',
         type: 'Седан',
         fuel: 'Бензин',
         transmission: 'Автомат',
     });
+
+    const [imageUrls, setImageUrls] = useState<string[]>(['']);
+
+    // const handleImageChange = (index: number, value: string) => {
+    //     const newImages = [...imageUrls];
+    //     newImages[index] = value;
+    //     setImageUrls(newImages);
+    // };
+
+
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
         setSuccessMessage(null);
 
+        const validImages = imageUrls.filter(url => url.trim() !== '');
+
+        if (validImages.length === 0) {
+            setError('Добавьте хотя бы одну фотографию автомобиля');
+            return;
+        }
+
         startTransition(async () => {
-            const result = await addCarAction(formData);
+            const result = await addCarAction({
+                ...formData,
+                images: validImages,
+            });
 
             if (result.success) {
                 setSuccessMessage(result.message || 'Автомобиль добавлен!');
@@ -44,11 +64,11 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     year: new Date().getFullYear(),
                     price: 0,
                     mileage: 0,
-                    image: '',
                     type: 'Седан',
                     fuel: 'Бензин',
                     transmission: 'Автомат',
                 });
+                setImageUrls(['']);
                 onSuccess?.();
             }else {
                 setError(result.error || 'Не удалось добавить автомобиль');
@@ -116,17 +136,17 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     />
                 </div>
 
-                <div>
-                    <label className="block text-sm mb-2">Ссылка на фото</label>
-                    <input
-                        type="url"
-                        required
-                        value={formData.image}
-                        onChange={(e) => setFormData({...formData, image: e.target.value})}
-                        placeholder="https://..."
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Ссылка на фото</label>*/}
+                {/*    <input*/}
+                {/*        type="url"*/}
+                {/*        required*/}
+                {/*        value={formData.image}*/}
+                {/*        onChange={(e) => setFormData({...formData, image: e.target.value})}*/}
+                {/*        placeholder="https://..."*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
 
                 <div>
                     <label className="block text-sm mb-2">Тип кузова</label>
@@ -157,6 +177,12 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     </select>
                 </div>
 
+                <ImageUploader
+                    images={imageUrls}
+                    onChange={setImageUrls}
+                    maxImages={8}
+                />
+
                 <div className="md:col-span-2">
                     <button
                         type="submit"
@@ -165,6 +191,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                         Добавить автомобиль
                     </button>
                 </div>
+
             </form>
 
             <button

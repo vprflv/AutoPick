@@ -1,9 +1,10 @@
 'use client';
 
-import {Car, NewCar} from "@/src/shared/types/types";
+import {Car, CreateCarData, NewCar} from "@/src/shared/types/types";
 import React, {useEffect, useState} from "react";
 import {editCarAction} from "@/src/features/create-car/model/actions";
 import Button from "@/src/components/ui/Button";
+import {ImageUploader} from "@/src/components/admin/ImageUploader";
 
 interface EditCarModalProps {
     isOpen: boolean;
@@ -13,18 +14,18 @@ interface EditCarModalProps {
 }
 
 export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalProps) {
-    const [formData, setFormData] = useState<NewCar>({
+    const [formData, setFormData] = useState({
         brand: '',
         model: '',
         year: new Date().getFullYear(),
         price: 0,
         mileage: 0,
-        image: '',
         type: 'Седан',
         fuel: 'Бензин',
         transmission: 'Автомат',
     });
 
+    const [imageUrls, setImageUrls] = useState<string[]>([''])
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -36,11 +37,17 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                 year: car.year,
                 price: car.price,
                 mileage: car.mileage,
-                image: car.image,
                 type: car.type,
                 fuel: car.fuel || 'Бензин',
                 transmission: car.transmission || 'Автомат',
             });
+
+            // Заполняем изображения
+            const initialImages = car.images && car.images.length > 0
+                ? car.images
+                : (car.image ? [car.image] : ['']);
+
+            setImageUrls(initialImages);
             setError(null);
         }
     }, [car, isOpen]);
@@ -49,10 +56,22 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
         e.preventDefault();
         if (!car) return;
 
+        const validImages = imageUrls.filter(url => url.trim() !== '');
+
+        if (validImages.length === 0) {
+            setError('Добавьте хотя бы одну фотографию автомобиля');
+            return;
+        }
+
         setIsPending(true);
         setError(null);
 
-        const result = await editCarAction(car.id, formData);
+        const updateData: CreateCarData = {
+            ...formData,
+            images: validImages,
+        };
+
+        const result = await editCarAction(car.id, updateData);
 
         setIsPending(false);
 
@@ -62,8 +81,7 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
         } else {
             setError(result.error || 'Не удалось обновить автомобиль');
         }
-
-    }
+    };
     if (!isOpen || !car) return null;
 
     return (
@@ -145,16 +163,16 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                             />
                         </div>
 
-                        <div>
-                            <label className="block text-sm mb-2">Ссылка на фото</label>
-                            <input
-                                type="url"
-                                value={formData.image}
-                                onChange={(e) => setFormData({...formData, image: e.target.value})}
-                                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                                required
-                            />
-                        </div>
+                        {/*<div>*/}
+                        {/*    <label className="block text-sm mb-2">Ссылка на фото</label>*/}
+                        {/*    <input*/}
+                        {/*        type="url"*/}
+                        {/*        value={formData.image}*/}
+                        {/*        onChange={(e) => setFormData({...formData, image: e.target.value})}*/}
+                        {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                        {/*        required*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
                         <div>
                             <label className="block text-sm mb-2">Тип кузова</label>
@@ -199,6 +217,13 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                             </select>
                         </div>
                     </div>
+
+                    {/* Компонент загрузки фотографий */}
+                    <ImageUploader
+                        images={imageUrls}
+                        onChange={setImageUrls}
+                        maxImages={8}
+                    />
 
                     <div className="flex gap-4 pt-6">
                         <Button

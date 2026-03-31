@@ -10,6 +10,7 @@ interface CallbackEmailData {
     email?: string;
     comment?: string;
     source?: string;
+    privacy:boolean
 }
 
 
@@ -27,7 +28,8 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
         ${data.comment ? `<p><strong>Комментарий:</strong><br>${data.comment.replace(/\n/g, '<br>')}</p>` : ''}
         <hr>
           <p><strong>Источник заявки:</strong> ${data.source || 'Неизвестно'}</p>
-          
+          <hr>
+          <strong>Согласие на обработку данных :${data.privacy}</strong>
           <hr>
         
         
