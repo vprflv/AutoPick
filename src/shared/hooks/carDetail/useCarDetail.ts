@@ -7,13 +7,10 @@ import {Car} from "@/src/shared/types/types";
 export function useCarDetail() {
     const params = useParams();
     const router = useRouter();
-
     const [car, setCar] = useState<Car | null>(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
     const [images, setImages] = useState<string[]>([]);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isFullscreen, setIsFullscreen] = useState(false);
 
     useEffect(() => {
         const loadAndFindCar = async () => {
@@ -42,7 +39,7 @@ export function useCarDetail() {
                         : (foundCar.image ? [foundCar.image] : []);
 
                     setImages(carImages);
-                    setCurrentImageIndex(0);
+
                 } else {
                     setError('Автомобиль не найден');
                     setTimeout(() => router.push('/'), 1500);
@@ -54,7 +51,15 @@ export function useCarDetail() {
             } finally {
                 setLoading(false);
             }
-        }},[params.id, router] )
+        };
 
+        loadAndFindCar()
+        },[params.id, router] )
 
+    return {
+        car,
+        error,
+        loading,
+        images
+    }
 }

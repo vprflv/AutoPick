@@ -27,13 +27,17 @@ interface CarCardProps {
 export default function CarCard({ car, formatPrice }: CarCardProps) {
 
     const router = useRouter();
+
+    const mainImage = car.images && car.images.length > 0
+        ? car.images[0]
+        : car.image;
     return (
         <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100 flex flex-col h-full w-full">
 
             {/* Изображение */}
             <div className="relative">
                 <Image
-                    src={car.image}
+                    src={mainImage}
                     alt={`${car.brand} ${car.model}`}
                     width={800}
                     height={520}

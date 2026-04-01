@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import {editCarAction} from "@/src/features/create-car/model/actions";
 import Button from "@/src/components/ui/Button";
 import {ImageUploader} from "@/src/components/admin/ImageUploader";
+import {CustomSelectAdmin} from "@/src/components/ui/CustomSelectAdmin";
 
 interface EditCarModalProps {
     isOpen: boolean;
@@ -133,7 +134,7 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                         <div>
                             <label className="block text-sm mb-2">Год выпуска</label>
                             <input
-                                type="number"
+                                type="text"
                                 value={formData.year}
                                 onChange={(e) => setFormData({...formData, year: parseInt(e.target.value)})}
                                 className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
@@ -144,7 +145,7 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                         <div>
                             <label className="block text-sm mb-2">Цена (₽)</label>
                             <input
-                                type="number"
+                                type="text"
                                 value={formData.price}
                                 onChange={(e) => setFormData({...formData, price: parseInt(e.target.value)})}
                                 className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
@@ -155,7 +156,7 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                         <div>
                             <label className="block text-sm mb-2">Пробег (км)</label>
                             <input
-                                type="number"
+                                type="text"
                                 value={formData.mileage}
                                 onChange={(e) => setFormData({...formData, mileage: parseInt(e.target.value)})}
                                 className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
@@ -163,58 +164,54 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                             />
                         </div>
 
-                        {/*<div>*/}
-                        {/*    <label className="block text-sm mb-2">Ссылка на фото</label>*/}
-                        {/*    <input*/}
-                        {/*        type="url"*/}
-                        {/*        value={formData.image}*/}
-                        {/*        onChange={(e) => setFormData({...formData, image: e.target.value})}*/}
-                        {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                        {/*        required*/}
-                        {/*    />*/}
-                        {/*</div>*/}
 
                         <div>
-                            <label className="block text-sm mb-2">Тип кузова</label>
-                            <select
+
+                            <CustomSelectAdmin
+                                label="Тип кузова"
                                 value={formData.type}
-                                onChange={(e) => setFormData({...formData, type: e.target.value})}
-                                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                            >
-                                <option>Седан</option>
-                                <option>Кроссовер</option>
-                                <option>Универсал</option>
-                                <option>Хэтчбек</option>
-                                <option>Внедорожник</option>
-                            </select>
+                                onChange={(val) => setFormData({ ...formData, type: val })}
+                                options={[
+                                    { value: 'Седан', label: 'Седан' },
+                                    { value: 'Кроссовер', label: 'Кроссовер' },
+                                    { value: 'Универсал', label: 'Универсал' },
+                                    { value: 'Хэтчбек', label: 'Хэтчбек' },
+                                    { value: 'Внедорожник', label: 'Внедорожник' },
+                                ]}
+                            />
+
                         </div>
 
+
+
                         <div>
-                            <label className="block text-sm mb-2">Топливо</label>
-                            <select
+
+                            <CustomSelectAdmin
+                                label="Топливо"
                                 value={formData.fuel}
-                                onChange={(e) => setFormData({...formData, fuel: e.target.value})}
-                                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                            >
-                                <option>Бензин</option>
-                                <option>Дизель</option>
-                                <option>Гибрид</option>
-                                <option>Электро</option>
-                            </select>
+                                onChange={(val) => setFormData({ ...formData, fuel: val })}
+                                options={[
+                                    { value: 'Бензин', label: 'Бензин' },
+                                    { value: 'Дизель', label: 'Дизель' },
+                                    { value: 'Гибрид', label: 'Гибрид' },
+                                    { value: 'Электро', label: 'Электро' },
+                                ]}
+                            />
                         </div>
 
                         <div>
-                            <label className="block text-sm mb-2">Коробка передач</label>
-                            <select
+
+                            <CustomSelectAdmin
+                                label="Коробка передач"
                                 value={formData.transmission}
-                                onChange={(e) => setFormData({...formData, transmission: e.target.value})}
-                                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                            >
-                                <option>Автомат</option>
-                                <option>Робот</option>
-                                <option>Механика</option>
-                                <option>Вариатор</option>
-                            </select>
+                                onChange={(val) => setFormData({ ...formData, transmission: val })}
+                                options={[
+                                    { value: 'Автомат', label: 'Автомат' },
+                                    { value: 'Робот', label: 'Робот' },
+                                    { value: 'Механика', label: 'Механика' },
+                                    { value: 'Вариатор', label: 'Вариатор' },
+                                ]}
+                            />
                         </div>
                     </div>
 
