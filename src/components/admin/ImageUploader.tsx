@@ -2,7 +2,8 @@
 'use client';
 
 import { useState } from 'react';
-import {uploadCarImage} from "@/src/features/create-car/model/actions";
+import {uploadCarImage} from "@/src/features/admin/actions/uploadImageAction";
+
 
 
 interface ImageUploaderProps {

@@ -1,23 +1,26 @@
-import {createBrowserClient} from "@supabase/ssr";
+// src/shared/lib/supabase.ts
 
+import { createBrowserClient } from '@supabase/ssr';
 
-
-
+// ==================== КЛИЕНТСКИЙ КЛИЕНТ ====================
+// Используется в компонентах с 'use client'
 export const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!
 );
 
-export const createServerSupabaseClient  = async () => {
+// ==================== СЕРВЕРНЫЙ КЛИЕНТ ====================
+
+export async function createServerSupabaseClient() {
     const { createServerClient } = await import('@supabase/ssr');
     const { cookies } = await import('next/headers');
 
 
-    const cookieStore = await  cookies();
+    const cookieStore = await cookies();
 
     return createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
         {
             cookies: {
                 getAll() {
@@ -29,10 +32,10 @@ export const createServerSupabaseClient  = async () => {
                             cookieStore.set(name, value, options);
                         });
                     } catch {
-                        
+                        // Игнорируем ошибки
                     }
                 },
             },
         }
     );
-};
+}

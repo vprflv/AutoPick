@@ -2,9 +2,9 @@
 
 import {Car} from "@/src/shared/types/types";
 import React, {useState, useTransition} from "react";
-import {addCarAction} from "@/src/features/create-car/model/actions";
 import {ImageUploader} from "@/src/components/admin/ImageUploader";
 import {CustomSelectAdmin} from "@/src/components/ui/CustomSelectAdmin";
+import {addCarAction} from "@/src/features/admin/actions/addCarAction";
 
 interface CarFormProps {
     onSuccess?: () => void;

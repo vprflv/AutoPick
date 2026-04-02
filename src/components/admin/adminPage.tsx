@@ -1,13 +1,14 @@
 'use client';
 
-import {useEffect, useState} from "react";
+import { useState} from "react";
 import {Car} from "@/src/shared/types/types";
 import {CarForm} from "@/src/components/admin/CarForm";
 import {CarList} from "@/src/components/admin/CarList";
 import {AdminHeader} from "@/src/components/admin/AdminHeader";
-import {deleteCarAction, getCarsAction} from "@/src/features/create-car/model/actions";
+
 import {EditCarModal} from "@/src/components/admin/EditCarModal";
 import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
+import {deleteCarAction} from "@/src/features/admin/actions/deleteCarAction";
 
 export function AdminPage() {
     const {cars,loadCars}=useGetInitialCars()
@@ -20,22 +21,20 @@ export function AdminPage() {
 
 
 
-// Загружаем автомобили при монтировании
-    useEffect(() => {
-        loadCars();
-    }, []);
 
 // Обработчик успешного добавления
     const handleAddSuccess = () => {
-        loadCars();
+
         setShowForm(false);
     };
 
 // Обработчик успешного редактирования
     const handleEditSuccess = () => {
-        loadCars();
-        setIsEditModalOpen(false);
-        setEditingCar(null);
+            console.log("handleEditSuccess вызван — обновляем список");
+            loadCars();           // обновляем данные
+            setIsEditModalOpen(false);
+            setEditingCar(null);
+
     };
 
     const handleEditClick = (car: Car) => {
@@ -52,7 +51,7 @@ export function AdminPage() {
     const deleteCar = async (id: number) => {
         if (confirm('Удалить этот автомобиль?')) {
            await deleteCarAction(id)
-            loadCars();
+
         }
     };
 
