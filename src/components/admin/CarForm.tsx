@@ -137,17 +137,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     />
                 </div>
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Ссылка на фото</label>*/}
-                {/*    <input*/}
-                {/*        type="url"*/}
-                {/*        required*/}
-                {/*        value={formData.image}*/}
-                {/*        onChange={(e) => setFormData({...formData, image: e.target.value})}*/}
-                {/*        placeholder="https://..."*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <div>
 

@@ -16,7 +16,10 @@ export default function Header() {
                 <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl">
-                            🚗
+                            <Link href='/'>
+                                🚗
+                            </Link>
+
                         </div>
                         <div>
                             <div className="text-3xl font-bold tracking-tight">AutoPick</div>
@@ -25,10 +28,10 @@ export default function Header() {
                     </div>
 
                     <nav className="hidden md:flex items-center gap-8 text-lg font-medium">
-                        <Link href="#catalog" className="hover:text-blue-600 transition-colors">Каталог</Link>
-                        <Link href="#" className="hover:text-blue-600 transition-colors">Как это работает</Link>
-                        <Link href="#" className="hover:text-blue-600 transition-colors">О нас</Link>
-                        <Link href="#" className="hover:text-blue-600 transition-colors">Контакты</Link>
+                        <Link href="/#catalog" className="hover:text-blue-600 transition-colors">Каталог</Link>
+                        <Link href="howitworks" className="hover:text-blue-600 transition-colors">Как это работает</Link>
+                        <Link href="about" className="hover:text-blue-600 transition-colors">О нас</Link>
+                        <Link href="contacts" className="hover:text-blue-600 transition-colors">Контакты</Link>
                     </nav>
 
                     <div className="flex items-center gap-4">

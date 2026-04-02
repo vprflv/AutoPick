@@ -4,75 +4,105 @@
 import {Car, CreateCarData, NewCar} from "@/src/shared/types/types";
 import {createServerSupabaseClient} from "@/src/shared/lib/supabse";
 import {revalidatePath} from "next/cache";
-const supabase = createServerSupabaseClient();
+
+
+
+
+export async function uploadCarImage(file: File): Promise<{ success: boolean; url?: string; error?: string }> {
+    try {
+        const supabase = await createServerSupabaseClient();
+
+        const fileExt = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+        const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
+        const filePath = `cars/${fileName}`;
+
+        // Загружаем файл в Storage
+        const { error: uploadError } = await supabase.storage
+            .from('car-images')
+            .upload(filePath, file, {
+                cacheControl: '3600',
+                upsert: false,
+            });
+
+        if (uploadError) throw uploadError;
+
+        // Получаем публичную ссылку
+        const { data: publicUrlData } = supabase.storage
+            .from('car-images')
+            .getPublicUrl(filePath);
+
+        return {
+            success: true,
+            url: publicUrlData.publicUrl,
+        };
+
+    } catch (err: any) {
+        console.error('Upload error:', err);
+        return {
+            success: false,
+            error: err.message || 'Не удалось загрузить изображение'
+        };
+    }
+}
 
 
 // add cars
 
-export async function addCarAction(data: NewCar & { images: string[] }) {
+export async function addCarAction(data: CreateCarData) {
     try {
-        const { data:carData, error:carError  } = await supabase
+        const supabase = await createServerSupabaseClient();
+
+        // Создаём автомобиль
+        const { data: newCar, error: carError } = await supabase
             .from('cars')
             .insert({
-                brand: data.brand.trim(),
-                model: data.model.trim(),
+                brand: data.brand,
+                model: data.model,
                 year: data.year,
                 price: data.price,
                 mileage: data.mileage,
                 type: data.type,
-                fuel: data.fuel?.trim() || null,
-                transmission: data.transmission?.trim() || null,
+                fuel: data.fuel,
+                transmission: data.transmission,
             })
             .select()
             .single();
 
-        if (carError) {
-            console.error('Ошибка добавления автомобиля:', carError);
-            return { success: false, error: carError.message };
-        }
-        if (!carData) {
-            return { success: false, error: 'Не удалось создать автомобиль' };
+        if (carError || !newCar) {
+            return { success: false, error: carError?.message || 'Не удалось создать автомобиль' };
         }
 
+        // Сохраняем изображения
         if (data.images && data.images.length > 0) {
-            const imageInserts = data.images
-                .filter(url => url.trim() !== '')
-                .map((image_url, index) => ({
-                    car_id: carData.id,
-                    image_url: image_url.trim(),
-                    sort_order: index,
-                }));
+            const imageInserts = data.images.map((image_url, index) => ({
+                car_id: newCar.id,
+                image_url,
+                sort_order: index,
+            }));
 
-            if (imageInserts.length > 0) {
-                const {error: imagesError} = await supabase
-                    .from('car_images')
-                    .insert(imageInserts);
+            const { error: imagesError } = await supabase
+                .from('car_images')
+                .insert(imageInserts);
 
-                if (imagesError) {
-                    console.error('Ошибка добавления фотографий:', imagesError);
-                    // Не прерываем процесс, если фото не добавились
-                }
+            if (imagesError) {
+                console.error('Ошибка сохранения изображений:', imagesError);
+                // Не откатываем создание автомобиля, только логируем
             }
         }
-
-        revalidatePath('/admin');
-        revalidatePath('/');
-        revalidatePath('/cars');
 
         return {
             success: true,
             message: 'Автомобиль успешно добавлен!',
-            data: carData
+            data: newCar,
         };
 
-    }catch (err:any){
-        console.error('Server Action error:', err);
+    } catch (err: any) {
+        console.error('addCarAction error:', err);
         return {
             success: false,
-            error: err.message || 'Произошла неизвестная ошибка'
+            error: err.message || 'Произошла ошибка при добавлении автомобиля',
         };
     }
-
 }
 
 
@@ -80,6 +110,7 @@ export async function addCarAction(data: NewCar & { images: string[] }) {
 
 
 export async function getCarsAction() {
+    const supabase = await createServerSupabaseClient();
     try {
         const { data, error } = await supabase
             .from('cars')
@@ -135,73 +166,65 @@ export async function getCarsAction() {
 // edit
 
 export async function editCarAction(carId: number, data: CreateCarData) {
-    try{
-        const { data: carData, error: carError } = await supabase
+    try {
+        const supabase = await createServerSupabaseClient();
+
+        // 1. Обновляем основную информацию автомобиля
+        const { error: carError } = await supabase
             .from('cars')
             .update({
-                brand: data.brand.trim(),
-                model: data.model.trim(),
+                brand: data.brand,
+                model: data.model,
                 year: data.year,
                 price: data.price,
                 mileage: data.mileage,
                 type: data.type,
-                fuel: data.fuel?.trim() || null,
-                transmission: data.transmission?.trim() || null,
+                fuel: data.fuel,
+                transmission: data.transmission,
                 updated_at: new Date().toISOString(),
             })
-            .eq('id', carId)
-            .select()
-            .single();
+            .eq('id', carId);
 
-        if (carError) throw carError;
-        if (!carData) throw new Error('Автомобиль не найден');
+        if (carError) {
+            return {
+                success: false,
+                error: carError.message || 'Не удалось обновить автомобиль',
+            };
+        }
 
-
-        const { error: deleteError } = await supabase
+        // 2. Удаляем старые изображения из таблицы car_images
+        await supabase
             .from('car_images')
             .delete()
             .eq('car_id', carId);
 
-        if (deleteError) {
-            console.error('Ошибка удаления старых фото:', deleteError);
-        }
-
+        // 3. Добавляем новые изображения
         if (data.images && data.images.length > 0) {
-            const imageInserts = data.images
-                .filter(url => url.trim() !== '')
-                .map((image_url, index) => ({
-                    car_id: carId,
-                    image_url: image_url.trim(),
-                    sort_order: index,
-                }))
-            if (imageInserts.length > 0) {
-                const { error: imagesError } = await supabase
-                    .from('car_images')
-                    .insert(imageInserts);
+            const imageInserts = data.images.map((image_url, index) => ({
+                car_id: carId,
+                image_url,
+                sort_order: index,
+            }));
 
-                if (imagesError) {
-                    console.error('Ошибка добавления новых фото:', imagesError);
-                }
+            const { error: imagesError } = await supabase
+                .from('car_images')
+                .insert(imageInserts);
+
+            if (imagesError) {
+                console.error('Ошибка при обновлении изображений:', imagesError);
             }
         }
-
-        // Обновляем кэш
-        revalidatePath('/admin');
-        revalidatePath('/');
-        revalidatePath(`/cars/${carId}`);
 
         return {
             success: true,
             message: 'Автомобиль успешно обновлён!',
-            data: carData
         };
 
-
-    }catch(err:any){
-        console.error('Server Action editCarAction error:', err);
+    } catch (err: any) {
+        console.error('editCarAction error:', err);
         return {
             success: false,
-            error: err.message || 'Не удалось обновить автомобиль'
+            error: err.message || 'Произошла ошибка при редактировании',
         };
     }
 }
@@ -210,6 +233,7 @@ export async function editCarAction(carId: number, data: CreateCarData) {
 // delete
 
 export async function deleteCarAction(carId: number) {
+    const supabase = await createServerSupabaseClient();
     try {
         const { error } = await supabase
             .from('cars')

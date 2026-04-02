@@ -4,20 +4,6 @@ import {useRouter} from "next/navigation";
 import {Car} from "@/src/shared/types/types";
 
 
-
-// interface Car {
-//     id: number;
-//     brand: string;
-//     model: string;
-//     year: number;
-//     price: number;
-//     mileage: number;
-//     image: string;
-//     type: string;
-//     fuel?: string;
-//     transmission?: string;
-// }
-
 interface CarCardProps {
     key:number;
     car: Car;
