@@ -2,8 +2,9 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabase } from "@/src/shared/lib/supabse";
+
 import { Car } from "@/src/shared/types/types";
+import {supabase} from "@/src/shared/lib/supabase";
 
 export function useGetInitialCars() {
     const [cars, setCars] = useState<Car[]>([]);

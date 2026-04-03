@@ -2,13 +2,17 @@
 
 import { useState} from "react";
 import {Car} from "@/src/shared/types/types";
-import {CarForm} from "@/src/components/admin/CarForm";
-import {CarList} from "@/src/components/admin/CarList";
-import {AdminHeader} from "@/src/components/admin/AdminHeader";
 
-import {EditCarModal} from "@/src/components/admin/EditCarModal";
+
+
+
+
 import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
 import {deleteCarAction} from "@/src/features/admin/actions/deleteCarAction";
+import {AdminHeader} from "@/src/features/admin/components/AdminHeader";
+import {CarForm} from "@/src/features/admin/components/CarForm";
+import {CarList} from "@/src/features/admin/components/CarList";
+import {EditCarModal} from "@/src/features/admin/components/EditCarModal";
 
 export function AdminPage() {
     const {cars,loadCars}=useGetInitialCars()

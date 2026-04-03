@@ -1,7 +1,8 @@
 'use server'
 
 import {CreateCarData} from "@/src/shared/types/types";
-import {createServerSupabaseClient} from "@/src/shared/lib/supabse";
+import {createServerSupabaseClient} from "@/src/shared/lib/supabase";
+
 
 export async function addCarAction(data: CreateCarData) {
     try {

@@ -3,9 +3,10 @@
 import { Car, CreateCarData } from "@/src/shared/types/types";
 import React, { useEffect, useState, useRef } from "react";
 import Button from "@/src/components/ui/Button";
-import { ImageUploader } from "@/src/components/admin/ImageUploader";
+
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
 import { editCarAction } from "@/src/features/admin/actions/editCarAction";
+import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
 
 interface EditCarModalProps {
     isOpen: boolean;

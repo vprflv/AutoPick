@@ -1,7 +1,8 @@
 
 'use server';
-import {createServerSupabaseClient} from "@/src/shared/lib/supabse";
+
 import {revalidatePath} from "next/cache";
+import {createServerSupabaseClient} from "@/src/shared/lib/supabase";
 
 export async function deleteCarAction(carId: number) {
     const supabase = await createServerSupabaseClient();

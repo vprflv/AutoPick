@@ -1,6 +1,8 @@
 'use server';
 
-import {createServerSupabaseClient} from "@/src/shared/lib/supabse";
+
+
+import {createServerSupabaseClient} from "@/src/shared/lib/supabase";
 
 export async function uploadCarImage(file: File): Promise<{ success: boolean; url?: string; error?: string }> {
     try {

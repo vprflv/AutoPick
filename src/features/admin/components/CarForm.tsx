@@ -1,10 +1,11 @@
 'use client';
 
-import {Car} from "@/src/shared/types/types";
+
 import React, {useState, useTransition} from "react";
-import {ImageUploader} from "@/src/components/admin/ImageUploader";
+
 import {CustomSelectAdmin} from "@/src/components/ui/CustomSelectAdmin";
 import {addCarAction} from "@/src/features/admin/actions/addCarAction";
+import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
 
 interface CarFormProps {
     onSuccess?: () => void;

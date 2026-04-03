@@ -105,14 +105,6 @@ export function CarDetailPage() {
                                     Оставить заявку
                                 </Button>
 
-                                <Button
-                                    variant="outline"
-                                    size="lg"
-                                    className="py-7 text-xl"
-                                    onClick={() => alert('Телефон: +7 (999) 123-45-67\nМы перезвоним вам в течение 5 минут')}
-                                >
-                                    Позвонить менеджеру
-                                </Button>
                             </div>
 
                             <p className="text-center text-sm text-zinc-500 pt-4">

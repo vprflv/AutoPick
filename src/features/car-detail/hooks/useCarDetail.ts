@@ -5,7 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Car } from "@/src/shared/types/types";
-import {supabase} from "@/src/shared/lib/supabse";
+import {supabase} from "@/src/shared/lib/supabase";
+
 
 export function useCarDetail() {
     const params = useParams();
