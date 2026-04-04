@@ -1,8 +1,7 @@
 'use client';
 
-import Button from "@/src/components/ui/Button";
-import Link from "next/link";
 import Header from "@/src/components/common/Header/Header";
+import {CallbackForm} from "@/src/components/common/Callback/CallbackForm";
 
 export default function ContactsPage() {
     return (
@@ -58,28 +57,29 @@ export default function ContactsPage() {
                     {/* Правый блок */}
                     <div className="bg-white rounded-3xl p-10 shadow-xl">
                         <h2 className="text-2xl font-semibold mb-8">Напишите нам</h2>
+                        <CallbackForm/>
 
-                        <form className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-500 mb-2">Ваше имя</label>
-                                <input type="text" className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none" placeholder="Иван Иванов" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-500 mb-2">Телефон</label>
-                                <input type="tel" className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none" placeholder="+7 (999) 123-45-67" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-zinc-500 mb-2">Сообщение</label>
-                                <textarea
-                                    rows={5}
-                                    className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none resize-y"
-                                    placeholder="Расскажите, какой автомобиль вы ищете..."
-                                ></textarea>
-                            </div>
-                            <Button variant="primary" size="lg" className="w-full">
-                                Отправить сообщение
-                            </Button>
-                        </form>
+                        {/*<form className="space-y-6">*/}
+                        {/*    <div>*/}
+                        {/*        <label className="block text-sm font-medium text-zinc-500 mb-2">Ваше имя</label>*/}
+                        {/*        <input type="text" className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none" placeholder="Иван Иванов" />*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <label className="block text-sm font-medium text-zinc-500 mb-2">Телефон</label>*/}
+                        {/*        <input type="tel" className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none" placeholder="+7 (999) 123-45-67" />*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <label className="block text-sm font-medium text-zinc-500 mb-2">Сообщение</label>*/}
+                        {/*        <textarea*/}
+                        {/*            rows={5}*/}
+                        {/*            className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none resize-y"*/}
+                        {/*            placeholder="Расскажите, какой автомобиль вы ищете..."*/}
+                        {/*        ></textarea>*/}
+                        {/*    </div>*/}
+                        {/*    <Button variant="primary" size="lg" className="w-full">*/}
+                        {/*        Отправить сообщение*/}
+                        {/*    </Button>*/}
+                        {/*</form>*/}
                     </div>
                 </div>
 

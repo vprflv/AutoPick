@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import {initialCars} from "@/app/api/products/route";
 import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
 
 export function useCarFilter() {

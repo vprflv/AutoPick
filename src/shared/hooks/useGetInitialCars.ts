@@ -1,4 +1,4 @@
-// src/shared/hooks/useGetInitialCars.ts
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -11,7 +11,7 @@ export function useGetInitialCars() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    // Делаем loadCars стабильной функцией с useCallback
+
     const loadCars = useCallback(async () => {
         try {
             setLoading(true);
@@ -47,7 +47,7 @@ export function useGetInitialCars() {
         }
     }, []);
 
-    // Загружаем данные при первом рендере
+
     useEffect(() => {
         loadCars();
     }, [loadCars]);
@@ -56,6 +56,6 @@ export function useGetInitialCars() {
         cars,
         loading,
         error,
-        loadCars   // ← ОБЯЗАТЕЛЬНО возвращаем функцию
+        loadCars
     };
 }

@@ -5,35 +5,42 @@ import { useState } from "react";
 import Button from "@/src/components/ui/Button";
 import Modal from "@/src/components/ui/Modal";
 import { CallbackForm } from "@/src/components/common/Callback/CallbackForm";
-import {useCarDetail} from "@/src/features/car-detail/hooks/useCarDetail";
-import {GalleryCardDeatil} from "@/src/features/car-detail/components/CardDeatil/Gallery";
+import { useCarCardGallery } from "@/src/features/car-detail/hooks/useCarCardGallery";
+import { GalleryCardDeatil } from "@/src/features/car-detail/components/CardDeatil/Gallery";
 
 export function CarDetailPage() {
     const router = useRouter();
-    const{car, images, loading,error}=useCarDetail()
+    const { car, loading, error } = useCarCardGallery();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Галерея
 
     if (loading) {
-        return <div className="min-h-screen flex items-center justify-center"><p className="text-2xl text-zinc-500">Загрузка...</p></div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-2xl text-zinc-500">Загрузка...</p>
+            </div>
+        );
     }
 
     if (error || !car) {
-        return <div className="min-h-screen flex items-center justify-center"><p className="text-2xl text-red-500">{error || 'Автомобиль не найден'}</p></div>;
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-2xl text-red-500">{error || 'Автомобиль не найден'}</p>
+            </div>
+        );
     }
 
     const formatPrice = (price: number) => new Intl.NumberFormat('ru-RU').format(price);
 
     return (
         <>
-            <div className="min-h-screen bg-zinc-50 pb-16">
+            <div className="min-h-screen bg-zinc-50 pb-12 md:pb-16">
                 {/* Шапка */}
                 <div className="bg-white border-b sticky top-0 z-50">
-                    <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-5 flex items-center justify-between">
                         <button
                             onClick={() => router.back()}
-                            className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors"
+                            className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors text-sm sm:text-base"
                         >
                             ← Назад к каталогу
                         </button>
@@ -41,40 +48,43 @@ export function CarDetailPage() {
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 pt-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 md:pt-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
 
-                        <GalleryCardDeatil car={car} images={images} />
+                        {/* Галерея */}
+                        <div className="lg:col-span-3">
+                            <GalleryCardDeatil car={car}  />
+                        </div>
 
                         {/* Правая колонка с информацией */}
                         <div className="lg:col-span-2 space-y-8">
                             <div>
                                 <div className="flex items-center gap-4 mb-4">
-                                    <span className="bg-blue-100 text-blue-700 px-5 py-1.5 rounded-2xl text-sm font-medium">
+                                    <span className="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-2xl text-sm font-medium">
                                         {car.year} год
                                     </span>
-                                    <span className="bg-zinc-100 text-zinc-700 px-5 py-1.5 rounded-2xl text-sm font-medium">
+                                    <span className="bg-zinc-100 text-zinc-700 px-4 py-1.5 rounded-2xl text-sm font-medium">
                                         {car.type}
                                     </span>
                                 </div>
 
-                                <h1 className="text-5xl font-bold tracking-tight leading-none mb-6">
+                                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight mb-6">
                                     {car.brand} {car.model}
                                 </h1>
                             </div>
 
                             {/* Цена */}
-                            <div className="bg-white rounded-3xl p-8 shadow">
-                                <div className="text-zinc-500">Цена</div>
-                                <div className="text-6xl font-bold text-blue-600 tracking-tighter mt-1">
+                            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow">
+                                <div className="text-zinc-500 text-sm">Цена</div>
+                                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 tracking-tighter mt-1">
                                     {formatPrice(car.price)} ₽
                                 </div>
                             </div>
 
                             {/* Характеристики */}
-                            <div className="bg-white rounded-3xl p-8 shadow">
+                            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow">
                                 <h3 className="text-xl font-semibold mb-6">Характеристики</h3>
-                                <div className="grid grid-cols-1 gap-y-6 text-lg">
+                                <div className="grid grid-cols-1 gap-y-6 text-base sm:text-lg">
                                     <div className="flex justify-between">
                                         <span className="text-zinc-500">Пробег</span>
                                         <span className="font-medium">{car.mileage.toLocaleString('ru-RU')} км</span>
@@ -99,7 +109,7 @@ export function CarDetailPage() {
                                 <Button
                                     variant="primary"
                                     size="lg"
-                                    className="py-7 text-xl"
+                                    className="py-6 sm:py-7 text-base sm:text-xl font-medium"
                                     onClick={() => setIsModalOpen(true)}
                                 >
                                     Оставить заявку
@@ -126,8 +136,6 @@ export function CarDetailPage() {
                     source={`Страница автомобиля: ${car.brand} ${car.model}`}
                 />
             </Modal>
-
-
         </>
     );
 }

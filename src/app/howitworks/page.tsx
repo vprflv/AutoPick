@@ -1,17 +1,20 @@
 'use client';
 
 import Button from "@/src/components/ui/Button";
-import Link from "next/link";
 import Header from "@/src/components/common/Header/Header";
+import { Users, Send, MessageCircle } from "lucide-react";
+import Modal from "@/src/components/ui/Modal";
+import {CallbackForm} from "@/src/components/common/Callback/CallbackForm";
+import {useState} from "react";
 
 export default function HowItWorksPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div className="min-h-screen bg-zinc-50">
-            {/* Шапка */}
             <Header />
 
-            {/* Основной контент */}
             <div className="max-w-5xl mx-auto px-6 py-16">
+                {/* Заголовок */}
                 <div className="text-center mb-16">
                     <h1 className="text-5xl font-bold tracking-tight mb-6">
                         Как это работает
@@ -101,24 +104,84 @@ export default function HowItWorksPage() {
                     </div>
                 </div>
 
-                {/* Финальный блок */}
-                <div className="mt-24 bg-white rounded-3xl p-16 text-center shadow">
+                {/* Финальный блок с соцсетями */}
+                <div className="mt-24 bg-white rounded-3xl p-12 md:p-16 text-center shadow">
                     <h3 className="text-3xl font-semibold mb-4">
                         Готовы найти свой идеальный автомобиль?
                     </h3>
-                    <p className="text-zinc-600 text-lg mb-8 max-w-md mx-auto">
+                    <p className="text-zinc-600 text-lg mb-10 max-w-md mx-auto">
                         Наши специалисты уже готовы помочь вам. Это бесплатно и ни к чему не обязывает.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button variant="primary" size="lg" className="px-10">
+
+                    {/* Кнопка по центру */}
+                    <div className="flex justify-center">
+                        <Button onClick={() => setIsModalOpen(true)} variant="primary" size="lg" className="px-12 py-4 text-lg">
                             Оставить заявку
                         </Button>
-                        <Button variant="outline" size="lg" className="px-10">
-                            Позвонить нам
-                        </Button>
+                    </div>
+
+                    {/* Блок "Мы в соцсетях" */}
+                    <div className="mt-16 pt-12 border-t border-zinc-100">
+                        <p className="text-zinc-500 mb-6 text-sm uppercase tracking-widest">
+                            Мы в социальных сетях
+                        </p>
+
+                        <div className="flex flex-wrap justify-center gap-8">
+                            <a
+                                href="https://vk.com/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex flex-col items-center gap-2 group"
+                            >
+                                <div className="w-14 h-14 bg-[#0077FF] text-white rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
+                                    <Users size={28} />
+                                </div>
+                                <span className="text-sm text-zinc-600">ВКонтакте</span>
+                            </a>
+
+                            <a
+                                href="https://t.me/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex flex-col items-center gap-2 group"
+                            >
+                                <div className="w-14 h-14 bg-[#229ED9] text-white rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
+                                    <Send size={28} />
+                                </div>
+                                <span className="text-sm text-zinc-600">Telegram</span>
+                            </a>
+
+                            <a
+                                href="https://wa.me/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex flex-col items-center gap-2 group"
+                            >
+                                <div className="w-14 h-14 bg-[#25D366] text-white rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110">
+                                    <MessageCircle size={28} />
+                                </div>
+                                <span className="text-sm text-zinc-600">WhatsApp</span>
+                            </a>
+                        </div>
+
+                        <p className="text-xs text-zinc-400 mt-10">
+                            Подписывайтесь, чтобы не пропустить новые автомобили и выгодные предложения
+                        </p>
                     </div>
                 </div>
             </div>
+
+            {/* Модальное окно */}
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Перезвоните мне"
+            >
+                <CallbackForm
+                    onSuccess={() => setIsModalOpen(false)}
+                    source="Главная страница сайта"
+                />
+            </Modal>
         </div>
     );
 }
