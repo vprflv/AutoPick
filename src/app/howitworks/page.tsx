@@ -4,7 +4,7 @@ import Button from "@/src/components/ui/Button";
 import Header from "@/src/components/common/Header/Header";
 import { Users, Send, MessageCircle } from "lucide-react";
 import Modal from "@/src/components/ui/Modal";
-import {CallbackForm} from "@/src/components/common/Callback/CallbackForm";
+import {CallbackForm} from "@/src/features/callback/components/CallbackForm";
 import {useState} from "react";
 
 export default function HowItWorksPage() {
@@ -178,8 +178,6 @@ export default function HowItWorksPage() {
                 title="Перезвоните мне"
             >
                 <CallbackForm
-                    onSuccess={() => setIsModalOpen(false)}
-                    source="Главная страница сайта"
                 />
             </Modal>
         </div>

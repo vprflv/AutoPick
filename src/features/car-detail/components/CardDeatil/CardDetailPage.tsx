@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Button from "@/src/components/ui/Button";
 import Modal from "@/src/components/ui/Modal";
-import { CallbackForm } from "@/src/components/common/Callback/CallbackForm";
+import { CallbackForm } from "@/src/features/callback/components/CallbackForm";
 import { useCarCardGallery } from "@/src/features/car-detail/hooks/useCarCardGallery";
 import { GalleryCardDeatil } from "@/src/features/car-detail/components/CardDeatil/Gallery";
 
@@ -132,7 +132,6 @@ export function CarDetailPage() {
                 title="Перезвоните мне"
             >
                 <CallbackForm
-                    onSuccess={() => setIsModalOpen(false)}
                     source={`Страница автомобиля: ${car.brand} ${car.model}`}
                 />
             </Modal>

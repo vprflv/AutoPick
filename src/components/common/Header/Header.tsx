@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState, useCallback } from 'react';
 import Button from "@/src/components/ui/Button";
 import Modal from "@/src/components/ui/Modal";
-import { CallbackForm } from "@/src/components/common/Callback/CallbackForm";
+import { CallbackForm } from "@/src/features/callback/components/CallbackForm";
 import { Menu, X } from 'lucide-react';
 import {HeaderMobileMenu} from "@/src/components/common/Header/mobile/HeaderMobileMenu";
 
@@ -37,7 +37,7 @@ export default function Header() {
                         </Link>
 
                         {/* Десктоп навигация */}
-                        <nav className="hidden md:flex items-center gap-8 text-base font-medium">
+                        <nav className="hidden xl:flex items-center gap-8 text-base font-medium">
                             <Link href="/#catalog" className="hover:text-blue-600 transition-colors">Каталог</Link>
                             <Link href="/howitworks" className="hover:text-blue-600 transition-colors">Как это
                                 работает</Link>
@@ -46,7 +46,7 @@ export default function Header() {
                         </nav>
 
                         {/* Десктоп кнопки */}
-                        <div className="hidden md:flex items-center gap-4">
+                        <div className="hidden xl:flex items-center gap-4">
                             <Button
                                 variant="outline"
                                 size="md"
@@ -61,7 +61,7 @@ export default function Header() {
 
                         <button
                             onClick={toggleMenu}
-                            className="sm:hidden p-5 -mr-5 text-zinc-800 active:bg-zinc-100 rounded-2xl transition-all z-[100] touch-manipulation select-none"
+                            className="xl:hidden p-5 -mr-5 text-zinc-800 active:bg-zinc-100 rounded-2xl transition-all z-[100] touch-manipulation select-none"
                             aria-label="Открыть меню"
                         >
                             {isMenuOpen ? (
@@ -87,8 +87,6 @@ export default function Header() {
                 title="Перезвоните мне"
             >
                 <CallbackForm
-                    onSuccess={() => setIsModalOpen(false)}
-                    source="Главная страница сайта"
                 />
             </Modal>
         </>

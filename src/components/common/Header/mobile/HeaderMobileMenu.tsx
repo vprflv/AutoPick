@@ -15,7 +15,7 @@ export function HeaderMobileMenu({setIsMenuOpen, setIsModalOpen}: PropsHeaderMob
     }, []);
 
     return (
-        <div className="sm:hidden mt-6 pt-6 border-t border-zinc-100 pb-10 bg-white z-[90] relative">
+        <div className="xl:hidden mt-6 pt-6 border-t border-zinc-100 pb-10 bg-white z-[90] relative">
             <nav className="flex flex-col gap-3 text-[17px] font-medium">
                 <Link
                     href="/#catalog"
