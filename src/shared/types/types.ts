@@ -8,7 +8,14 @@ export interface Car {
     type: string;
     fuel?: string;
     transmission?: string;
+    image?:string,
     images?: string[];
+
+    car_images?: Array<{
+        image_url: string;
+        sort_order: number;
+    }>;
+
     created_at?: string;
     updated_at?: string;
 }

@@ -8,13 +8,13 @@ export function useCarFilter() {
 
     // Все фильтры в одном месте
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedBrand, setSelectedBrand] = useState('all');
-    const [selectedType, setSelectedType] = useState('all');
+    const [selectedBrand, setSelectedBrand] = useState<'all' | string>('all');
+    const [selectedType, setSelectedType] = useState<'all' | string>('all');
     const [priceRange, setPriceRange] = useState({min: 500000, max: 100000000});
-    const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc'>('price-desc');
+    const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'year-asc' >('price-desc');
 
     const brands = ['all', ...new Set(cars.map(car => car.brand))];
-    const types = ['all', ...new Set(cars.map(car => car.type))];
+    const types = ['all', ...new Set(cars.map(car => car.type || ''))];
 
     const filteredAndSortedCars = useMemo(() => {
         let result = [...cars];
@@ -46,6 +46,7 @@ export function useCarFilter() {
         if (sortBy === 'price-asc') result.sort((a, b) => a.price - b.price);
         if (sortBy === 'price-desc') result.sort((a, b) => b.price - a.price);
         if (sortBy === 'year-desc') result.sort((a, b) => b.year - a.year);
+        if (sortBy === 'year-asc') result.sort((a, b) => a.year - b.year);
 
         return result;
 

@@ -5,15 +5,15 @@ export function useCarCard(car: Car) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     // Формируем массив изображений (с защитой от старого формата)
-    const images = useMemo(() => {
-        if (car.images && car.images.length > 0) {
+    const images = useMemo<string[]>(() => {
+        if (car.images && Array.isArray(car.images) && car.images.length > 0) {
             return car.images;
         }
-        if (car.image) {
+        if (car.image && typeof car.image === 'string') {
             return [car.image];
         }
         return [];
-    }, [car.images, car.image]);
+    }, [car.image, car.image]);
 
     const mainImage = images[currentImageIndex] || '/placeholder-car.jpg';
 

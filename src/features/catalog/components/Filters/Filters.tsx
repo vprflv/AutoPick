@@ -72,7 +72,7 @@ export default function Filters({
                     value={selectedType}
                     onChange={setSelectedType}
                     options={[
-                        { value: "all", label: "Все типы" },
+                        { value: 'all', label: "Все типы" },
                         ...types
                             .filter(t => t !== "all")
                             .map(type => ({ value: type, label: type }))

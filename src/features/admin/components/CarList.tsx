@@ -34,7 +34,7 @@ export function CarList({ cars, onDelete, onEdit }: CarListProps) {
                     // Берём первое фото как главное, если массив существует
                     const mainImage = car.images && car.images.length > 0
                         ? car.images[0]
-                        : car.image; // fallback на старое поле
+                        : car.images; // fallback на старое поле
 
                     return (
                         <div
@@ -44,7 +44,7 @@ export function CarList({ cars, onDelete, onEdit }: CarListProps) {
                             {/* Изображение */}
                             <div className="relative h-48 overflow-hidden">
                                 <Image
-                                    src={mainImage}
+                                    src={typeof mainImage === 'string' ? mainImage : '/placeholder-car.jpg'}
                                     alt={`${car.brand} ${car.model}`}
                                     fill
                                     className="object-cover group-hover:scale-105 transition-transform duration-300"

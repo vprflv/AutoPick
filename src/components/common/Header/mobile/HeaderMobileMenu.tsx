@@ -3,9 +3,9 @@ import Button from "@/src/components/ui/Button";
 import {useCallback, useState} from "react";
 
 
-interface PropsHeaderMobileMenu{
-    setIsMenuOpen:(boolean)=>void
-    setIsModalOpen:(boolean)=>void
+interface PropsHeaderMobileMenu {
+    setIsMenuOpen: (isOpen: boolean) => void;
+    setIsModalOpen: (isOpen: boolean) => void;
 }
 
 export function HeaderMobileMenu({setIsMenuOpen, setIsModalOpen}: PropsHeaderMobileMenu){
