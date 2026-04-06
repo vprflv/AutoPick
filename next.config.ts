@@ -4,7 +4,7 @@ const nextConfig = {
 
     output: 'standalone',
     experimental: {
-        // Если нужно — можно добавить, но пока не трогаем
+        turbopack: false,
     },
     // allowedDevOrigins: [
     //     '192.168.0.102',     // твой текущий IP
