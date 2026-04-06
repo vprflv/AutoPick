@@ -14,9 +14,6 @@ import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-
-
-
 export default function AutoPickLanding() {
     const { cars: filteredCars, brands, types, filters, resetFilters } = useCarFilter();
 
@@ -36,6 +33,7 @@ export default function AutoPickLanding() {
             <section id="catalog" className="py-8">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-10">
+
                         <div className="lg:w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
                             <Filters
                                 searchTerm={filters.searchTerm}
