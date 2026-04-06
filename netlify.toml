@@ -2,21 +2,16 @@
   command = "pnpm build"
   publish = ".next"
 
-# Основной редирект для Next.js App Router (самое важное)
+# Правильный редирект для Next.js App Router
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/__next_data"
   status = 200
 
-# Дополнительные редиректы для динамических страниц
+# Альтернативный (более надёжный) вариант — через серверless функцию
 [[redirects]]
-  from = "/cars/*"
-  to = "/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/admin/*"
-  to = "/index.html"
+  from = "/*"
+  to = "/.netlify/functions/next"
   status = 200
 
 [functions]
