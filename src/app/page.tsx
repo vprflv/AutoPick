@@ -1,4 +1,4 @@
-
+// src/app/page.tsx
 'use client';
 
 import Header from "@/src/components/common/Header/Header";
@@ -12,7 +12,6 @@ import { useCarFilter } from "@/src/features/catalog/hooks/useCarFilter";
 import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
 export const fetchCache = 'force-no-store';
 
 export default function AutoPickLanding() {
