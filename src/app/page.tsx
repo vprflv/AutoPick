@@ -1,5 +1,5 @@
 'use client';
-
+export const dynamic = 'force-dynamic';
 import Header from "@/src/components/common/Header/Header";
 import Filters from "@/src/features/catalog/components/Filters/Filters";
 import CarCard from "@/src/features/catalog/components/CarCard/CarCard";
