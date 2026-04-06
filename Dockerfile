@@ -2,10 +2,10 @@ FROM node:22-alpine AS base
 
 WORKDIR /app
 
-# Copy package files
+# Copy only essential files first
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
+# Install pnpm and dependencies
 RUN corepack enable && \
     corepack prepare pnpm@9 --activate && \
     pnpm install --frozen-lockfile --prefer-offline
@@ -13,17 +13,17 @@ RUN corepack enable && \
 # Copy source code
 COPY . .
 
-# Build
+# Build the app
 RUN pnpm build
 
-# Production stage
+# Production image
 FROM node:22-alpine AS runner
 
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy only necessary files
+# Copy built assets
 COPY --from=base /app/.next ./.next
 COPY --from=base /app/public ./public
 COPY --from=base /app/package.json ./package.json
