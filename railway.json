@@ -1,17 +1,7 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "nixpacksPlan": {
-      "phases": {
-        "install": {
-          "cmds": ["pnpm install --frozen-lockfile --prefer-offline"]
-        },
-        "build": {
-          "cmds": ["pnpm build"]
-        }
-      }
-    }
+    "builder": "DOCKERFILE"
   },
   "deploy": {
     "startCommand": "pnpm start",
