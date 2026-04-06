@@ -13,6 +13,9 @@ RUN corepack enable && \
 # Copy source code
 COPY . .
 
+ENV NEXT_PUBLIC_SUPABASE_URL=//yfrqupwvvklyojymetod.supabase.co
+ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_DgDXLA7PyOLUa9tEU0e6zw_utfIta9f
+
 # Build the app
 RUN pnpm build
 
