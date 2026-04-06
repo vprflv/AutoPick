@@ -15,13 +15,14 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            // Если это dummy клиент — сразу выходим с пустым списком
+            // Если это dummy-клиент — сразу выходим
             if (!supabase || typeof supabase.from !== 'function') {
                 console.warn('Supabase is using dummy client');
                 setCars([]);
                 return;
             }
 
+            // Реальный запрос
             const { data, error: supabaseError } = await supabase
                 .from('cars')
                 .select(`
