@@ -1,4 +1,4 @@
-// src/shared/hooks/useGetInitialCars.ts
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -15,14 +15,14 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            // Если это dummy клиент — сразу выходим
+            // Если это dummy клиент — сразу выходим с пустым списком
             if (!supabase || typeof supabase.from !== 'function') {
-                console.warn('Supabase is using dummy client - no real data');
+                console.warn('Supabase is using dummy client');
                 setCars([]);
                 return;
             }
 
-            const result = await supabase
+            const { data, error: supabaseError } = await supabase
                 .from('cars')
                 .select(`
                     *,
@@ -33,12 +33,14 @@ export function useGetInitialCars() {
                 `)
                 .order('created_at', { ascending: false });
 
-            if (result.error) {
-                console.error('Supabase error:', result.error);
-                throw result.error;
+            if (supabaseError) {
+                console.error('Supabase error:', supabaseError);
+                setError(supabaseError.message);
+                setCars([]);
+                return;
             }
 
-            const carsWithImages: Car[] = (result.data || []).map((car: any) => ({
+            const carsWithImages: Car[] = (data || []).map((car: any) => ({
                 ...car,
                 images: car.car_images
                         ?.sort((a: any, b: any) => a.sort_order - b.sort_order)
