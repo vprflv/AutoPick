@@ -1,18 +1,19 @@
 // src/shared/lib/supabase.ts
 import { createBrowserClient } from '@supabase/ssr';
 
+// ====================== КЛИЕНТСКИЙ КЛИЕНТ ======================
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim();
 
 const dummySupabase = {
-    from: () => ({
-        select: () => ({
-            eq: () => ({
-                single: () => Promise.resolve({ data: null, error: null })
+    from: (table: string) => ({
+        select: (columns?: string) => ({
+            eq: (column: string, value: any) => ({
+                single: () => Promise.resolve({ data: null, error: null }),
             }),
-            order: () => ({
-                single: () => Promise.resolve({ data: [], error: null })
-            })
+            order: (column: string, options?: any) => ({
+                single: () => Promise.resolve({ data: [], error: null }),
+            }),
         }),
         insert: () => Promise.resolve({ data: null, error: null }),
         update: () => Promise.resolve({ data: null, error: null }),
@@ -20,9 +21,37 @@ const dummySupabase = {
     }),
 };
 
-const client = (!supabaseUrl || !supabaseKey)
+export const supabase = (!supabaseUrl || !supabaseKey)
     ? dummySupabase
-    : createBrowserClient(supabaseUrl, supabaseKey);
+    : createBrowserClient(supabaseUrl, supabaseKey!);
 
-export const supabase = client;
 export default supabase;
+
+// ====================== СЕРВЕРНЫЙ КЛИЕНТ (для админки) ======================
+export async function createServerSupabaseClient() {
+    const { createServerClient } = await import('@supabase/ssr');
+    const { cookies } = await import('next/headers');
+
+    const cookieStore = await cookies();
+
+    if (!supabaseUrl || !supabaseKey) {
+        throw new Error('Supabase server credentials are missing. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY');
+    }
+
+    return createServerClient(supabaseUrl, supabaseKey, {
+        cookies: {
+            getAll() {
+                return cookieStore.getAll();
+            },
+            setAll(cookiesToSet) {
+                try {
+                    cookiesToSet.forEach(({ name, value, options }) => {
+                        cookieStore.set(name, value, options);
+                    });
+                } catch (err) {
+                    console.error('Failed to set cookie:', err);
+                }
+            },
+        },
+    });
+}
