@@ -5,14 +5,10 @@
     "nixpacksPlan": {
       "phases": {
         "install": {
-          "cmds": [
-            "pnpm install --frozen-lockfile --prefer-offline"
-          ]
+          "cmds": ["pnpm install --frozen-lockfile --prefer-offline"]
         },
         "build": {
-          "cmds": [
-            "pnpm build"
-          ]
+          "cmds": ["pnpm build"]
         }
       }
     }

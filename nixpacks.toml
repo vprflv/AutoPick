@@ -1,0 +1,15 @@
+[phases.setup]
+nixPkgs = ["nodejs", "pnpm"]
+
+[phases.install]
+cmds = [
+  "pnpm install --frozen-lockfile --prefer-offline"
+]
+
+[phases.build]
+cmds = [
+  "pnpm build"
+]
+
+[start]
+cmd = "pnpm start"
