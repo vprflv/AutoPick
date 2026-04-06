@@ -15,14 +15,14 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            // Защита от dummy клиента
+            // Если это dummy клиент — сразу выходим
             if (!supabase || typeof supabase.from !== 'function') {
-                console.warn('Supabase client is dummy or not initialized');
+                console.warn('Supabase is using dummy client - no real data');
                 setCars([]);
                 return;
             }
 
-            const { data, error: supabaseError } = await supabase
+            const result = await supabase
                 .from('cars')
                 .select(`
                     *,
@@ -33,12 +33,12 @@ export function useGetInitialCars() {
                 `)
                 .order('created_at', { ascending: false });
 
-            if (supabaseError) {
-                console.error('Supabase query error:', supabaseError);
-                throw supabaseError;
+            if (result.error) {
+                console.error('Supabase error:', result.error);
+                throw result.error;
             }
 
-            const carsWithImages: Car[] = (data || []).map((car: any) => ({
+            const carsWithImages: Car[] = (result.data || []).map((car: any) => ({
                 ...car,
                 images: car.car_images
                         ?.sort((a: any, b: any) => a.sort_order - b.sort_order)
@@ -50,7 +50,7 @@ export function useGetInitialCars() {
         } catch (err: any) {
             console.error('loadCars error:', err);
             setError(err.message || 'Ошибка загрузки автомобилей');
-            setCars([]); // очищаем при ошибке
+            setCars([]);
         } finally {
             setLoading(false);
         }
