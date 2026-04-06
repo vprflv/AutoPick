@@ -1,5 +1,5 @@
 'use client';
-export const dynamic = 'force-dynamic';
+
 import Header from "@/src/components/common/Header/Header";
 import Filters from "@/src/features/catalog/components/Filters/Filters";
 import CarCard from "@/src/features/catalog/components/CarCard/CarCard";
@@ -8,6 +8,9 @@ import Footer from "@/src/components/common/Footer/Footer";
 import { Hero } from "@/src/components/common/Hero/Hero";
 import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 import Pagination from "@/src/features/catalog/components/Pagination/Pagination";
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default function AutoPickLanding() {
     const {

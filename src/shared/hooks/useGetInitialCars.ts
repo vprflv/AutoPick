@@ -1,6 +1,4 @@
 
-'use client';
-
 import { useState, useEffect, useCallback } from 'react';
 
 import { Car } from "@/src/shared/types/types";
