@@ -2,13 +2,13 @@
   command = "pnpm build"
   publish = ".next"
 
-# Основной редирект для Next.js 15/16 App Router
+# Основной редирект для Next.js App Router
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/next"
   status = 200
 
-# Дополнительно для динамических маршрутов
+# Дополнительные редиректы для важных путей
 [[redirects]]
   from = "/cars/*"
   to = "/.netlify/functions/next"
@@ -19,6 +19,10 @@
   to = "/.netlify/functions/next"
   status = 200
 
+[[redirects]]
+  from = "/howitworks"
+  to = "/.netlify/functions/next"
+  status = 200
+
 [functions]
   node_bundler = "esbuild"
-  directory = ".netlify/functions"
