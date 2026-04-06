@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import {Car} from "@/src/shared/types/types";
-import Button from "@/src/components/ui/Button";
+
 
 interface CarListProps {
     cars: Car[];
