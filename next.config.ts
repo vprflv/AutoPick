@@ -1,11 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: true,
 
-    allowedDevOrigins: [
-        '192.168.0.102',     // твой текущий IP
-        'localhost',
-        '127.0.0.1'
-    ],
+    output: 'standalone',
+    experimental: {
+        // Если нужно — можно добавить, но пока не трогаем
+    },
+    // allowedDevOrigins: [
+    //     '192.168.0.102',     // твой текущий IP
+    //     'localhost',
+    //     '127.0.0.1'
+    // ],
 
     images: {
         remotePatterns: [

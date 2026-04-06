@@ -1,7 +1,7 @@
 
 'use server';
 
-
+// import {revalidatePath} from "next/cache";
 import {createServerSupabaseClient} from "@/src/shared/lib/supabase";
 
 export async function deleteCarAction(carId: number) {
@@ -16,7 +16,8 @@ export async function deleteCarAction(carId: number) {
             return { success: false, error: error.message };
         }
 
-
+        // revalidatePath('/admin');
+        // revalidatePath('/');
 
         return { success: true, message: 'Автомобиль удалён' };
 
