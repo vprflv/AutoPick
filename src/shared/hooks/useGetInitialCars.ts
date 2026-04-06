@@ -1,4 +1,4 @@
-'use client'
+
 import { useState, useEffect, useCallback } from 'react';
 import { Car } from "@/src/shared/types/types";
 import { supabase } from "@/src/shared/lib/supabase";

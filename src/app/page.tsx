@@ -12,6 +12,9 @@ import { useCarFilter } from "@/src/features/catalog/hooks/useCarFilter";
 import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+
 
 
 export default function AutoPickLanding() {
