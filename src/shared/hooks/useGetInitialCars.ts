@@ -1,3 +1,4 @@
+'use client'
 
 import { useState, useEffect, useCallback } from 'react';
 import { Car } from "@/src/shared/types/types";
@@ -12,6 +13,10 @@ export function useGetInitialCars() {
         try {
             setLoading(true);
             setError(null);
+
+            if (!supabase) {
+                throw new Error('Supabase client is not initialized');
+            }
 
             const { data, error: supabaseError } = await supabase
                 .from('cars')
