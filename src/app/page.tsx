@@ -15,27 +15,12 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default function AutoPickLanding() {
-    const {
-        cars: filteredCars,
-        brands,
-        types,
-        filters,
-        resetFilters
-    } = useCarFilter();
+    const { cars: filteredCars, brands, types, filters, resetFilters } = useCarFilter();
 
     const formatPrice = (price: number) =>
         new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
 
-    const {
-        currentItems: paginatedCars,
-        currentPage,
-        totalPages,
-        goToPage,
-        nextPage,
-        prevPage,
-        hasNext,
-        hasPrev,
-    } = usePagination({
+    const pagination = usePagination({
         items: filteredCars,
         itemsPerPage: 10,
     });
@@ -48,7 +33,6 @@ export default function AutoPickLanding() {
             <section id="catalog" className="py-8">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-10">
-
                         <div className="lg:w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
                             <Filters
                                 searchTerm={filters.searchTerm}
@@ -75,7 +59,7 @@ export default function AutoPickLanding() {
                             </div>
 
                             <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-7 pb-12">
-                                {paginatedCars.map((car) => (
+                                {pagination.currentItems.map((car) => (
                                     <CarCard
                                         key={car.id}
                                         car={car}
@@ -91,17 +75,9 @@ export default function AutoPickLanding() {
                                 </div>
                             )}
 
-                            {totalPages > 1 && (
+                            {pagination.totalPages > 1 && (
                                 <div className="pt-8 mt-auto border-t border-zinc-100">
-                                    <Pagination
-                                        currentPage={currentPage}
-                                        totalPages={totalPages}
-                                        goToPage={goToPage}
-                                        nextPage={nextPage}
-                                        prevPage={prevPage}
-                                        hasNext={hasNext}
-                                        hasPrev={hasPrev}
-                                    />
+                                    <Pagination {...pagination} />
                                 </div>
                             )}
                         </div>
