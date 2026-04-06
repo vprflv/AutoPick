@@ -2,13 +2,13 @@
   command = "pnpm build"
   publish = ".next"
 
-# Основной редирект для Next.js App Router
+# Основной редирект для Next.js App Router (самое важное)
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Дополнительные редиректы для динамических маршрутов
+# Дополнительные редиректы для динамических страниц
 [[redirects]]
   from = "/cars/*"
   to = "/index.html"
