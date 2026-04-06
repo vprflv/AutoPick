@@ -1,4 +1,5 @@
-'use client'
+// src/shared/hooks/useGetInitialCars.ts
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Car } from "@/src/shared/types/types";
@@ -14,8 +15,11 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            if (!supabase) {
-                throw new Error('Supabase client is not initialized');
+            // Защита от отсутствия клиента
+            if (!supabase || typeof supabase.from !== 'function') {
+                console.warn('Supabase client not ready yet');
+                setCars([]);
+                return;
             }
 
             const { data, error: supabaseError } = await supabase
@@ -29,7 +33,10 @@ export function useGetInitialCars() {
                 `)
                 .order('created_at', { ascending: false });
 
-            if (supabaseError) throw supabaseError;
+            if (supabaseError) {
+                console.error('Supabase error:', supabaseError);
+                throw supabaseError;
+            }
 
             const carsWithImages: Car[] = (data || []).map((car: any) => ({
                 ...car,
@@ -43,6 +50,7 @@ export function useGetInitialCars() {
         } catch (err: any) {
             console.error('loadCars error:', err);
             setError(err.message || 'Ошибка загрузки автомобилей');
+            setCars([]); // Важно: очищаем список при ошибке
         } finally {
             setLoading(false);
         }
