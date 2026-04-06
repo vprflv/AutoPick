@@ -1,37 +1,35 @@
 // src/shared/lib/supabase.ts
+
+// ====================== КЛИЕНТСКИЙ КЛИЕНТ (для браузера) ======================
 import { createBrowserClient } from '@supabase/ssr';
-import { cookies } from 'next/headers'; // для серверного клиента
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim();
 
-// ====================== КЛИЕНТСКИЙ КЛИЕНТ ======================
-let supabase: any;
+const dummyClient = {
+    from: () => ({
+        select: () => Promise.resolve({ data: [], error: null }),
+        insert: () => Promise.resolve({ data: null, error: null }),
+        update: () => Promise.resolve({ data: null, error: null }),
+        delete: () => Promise.resolve({ data: null, error: null }),
+    }),
+};
 
-if (!supabaseUrl || !supabaseKey) {
-    console.warn('⚠️ Supabase URL or Key is missing. Using dummy client.');
-    supabase = {
-        from: () => ({
-            select: () => Promise.resolve({ data: [], error: null }),
-            insert: () => Promise.resolve({ data: null, error: null }),
-            update: () => Promise.resolve({ data: null, error: null }),
-            delete: () => Promise.resolve({ data: null, error: null }),
-        }),
-    };
-} else {
-    supabase = createBrowserClient(supabaseUrl, supabaseKey);
-}
+export const supabase = (!supabaseUrl || !supabaseKey)
+    ? dummyClient
+    : createBrowserClient(supabaseUrl, supabaseKey);
 
-export { supabase };
 export default supabase;
 
-// ====================== СЕРВЕРНЫЙ КЛИЕНТ ======================
+// ====================== СЕРВЕРНЫЙ КЛИЕНТ (только для Server Actions) ======================
 export async function createServerSupabaseClient() {
     const { createServerClient } = await import('@supabase/ssr');
+    const { cookies } = await import('next/headers');
+
     const cookieStore = await cookies();
 
     if (!supabaseUrl || !supabaseKey) {
-        throw new Error('Supabase server client: URL or Key is missing');
+        throw new Error('Supabase server credentials are missing');
     }
 
     return createServerClient(supabaseUrl, supabaseKey, {
@@ -45,7 +43,7 @@ export async function createServerSupabaseClient() {
                         cookieStore.set(name, value, options);
                     });
                 } catch (err) {
-                    console.error('Cookie set error:', err);
+                    console.error('Failed to set cookie:', err);
                 }
             },
         },
