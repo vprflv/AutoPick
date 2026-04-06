@@ -5,14 +5,8 @@ RUN corepack enable && corepack prepare pnpm@9 --activate
 
 WORKDIR /app
 
-# Copy root files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc* ./
-
-# Copy all workspace package.json files
-COPY src/app/package.json ./src/app/
-COPY src/features/*/package.json ./src/features/
-COPY src/components/*/package.json ./src/components/
-COPY src/shared/*/package.json ./src/shared/
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile --prefer-offline
@@ -20,7 +14,7 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 # Copy source code
 COPY . .
 
-# Build
+# Build the application
 RUN pnpm build
 
 # Production image
@@ -30,7 +24,7 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copy necessary files from builder
+# Copy built files
 COPY --from=base /app/.next ./.next
 COPY --from=base /app/public ./public
 COPY --from=base /app/package.json ./package.json
