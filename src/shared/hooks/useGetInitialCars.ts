@@ -15,9 +15,9 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            // Защита от отсутствия клиента
+            // Защита от dummy клиента
             if (!supabase || typeof supabase.from !== 'function') {
-                console.warn('Supabase client not ready yet');
+                console.warn('Supabase client is dummy or not initialized');
                 setCars([]);
                 return;
             }
@@ -34,7 +34,7 @@ export function useGetInitialCars() {
                 .order('created_at', { ascending: false });
 
             if (supabaseError) {
-                console.error('Supabase error:', supabaseError);
+                console.error('Supabase query error:', supabaseError);
                 throw supabaseError;
             }
 
@@ -50,7 +50,7 @@ export function useGetInitialCars() {
         } catch (err: any) {
             console.error('loadCars error:', err);
             setError(err.message || 'Ошибка загрузки автомобилей');
-            setCars([]); // Важно: очищаем список при ошибке
+            setCars([]); // очищаем при ошибке
         } finally {
             setLoading(false);
         }
