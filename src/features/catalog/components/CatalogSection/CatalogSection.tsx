@@ -17,7 +17,7 @@ export default function CatalogSection() {
 
     const pagination = usePagination({
         items: filteredCars,
-        itemsPerPage: 10,
+        itemsPerPage: 4,
     });
 
     return (
