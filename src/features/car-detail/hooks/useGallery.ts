@@ -1,83 +1,103 @@
+// src/shared/hooks/useGallery.ts
+'use client';
 
-import {useCallback, useEffect, useRef, useState} from "react";
-import {Car} from "@/src/shared/types/types";
-import {useParams, useRouter} from "next/navigation";
-import {supabase} from "@/src/shared/lib/supabase";
-
-
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Car } from "@/src/shared/types/types";
+import { useParams, useRouter } from "next/navigation";
+import { supabase } from "@/src/shared/lib/supabase";
 
 export function useGallery() {
     const [images, setImages] = useState<string[]>([]);
-
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isFullscreen, setIsFullscreen] = useState(false);
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const params = useParams();
     const router = useRouter();
 
-    // Для свайпа
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
+    const loadingImages = useCallback(async () => {
+        const carId = Number(params.id);
 
+        console.log('🔄 useGallery: Начало загрузки для carId =', carId);
 
-        const loadingImages = useCallback(async () => {
-            const carId = Number(params.id);
-            if (!carId) {
-                router.push('/');
+        if (!carId) {
+            console.warn('⚠️ useGallery: carId не найден, редирект на главную');
+            router.push('/');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setError(null);
+
+            if (!supabase || typeof supabase.from !== 'function') {
+                console.warn('⚠️ useGallery: Используется dummy клиент Supabase');
+                setImages([]);
                 return;
             }
-            try {
 
-                setLoading(true);
-                setError(null);
-                const result: any = await supabase
-                    .from('cars')
-                    .select(`
-                        *,
-                        car_images (
-                            image_url,
-                            sort_order
-                        )
-                    `)
-                    .eq('id', carId)
-                    .single();
+            console.log('📡 useGallery: Выполняем запрос к Supabase для id =', carId);
 
-                if (result?.error) {
-                    console.error('Supabase error:', result.error);
-                    setError(result.error.message);
-                    return;
-                }
+            // Безопасный вызов .single() с type assertion
+            const result: any = await supabase
+                .from('cars')
+                .select(`
+                    *,
+                    car_images (
+                        image_url,
+                        sort_order
+                    )
+                `)
+                .eq('id', carId)
+                .single();
 
-                const foundCar = result.data as Car;
+            console.log('📥 useGallery: Получен результат:', result);
 
-                // Формируем массив изображений
-                const carImages = foundCar.car_images && foundCar.car_images.length > 0
-                    ? foundCar.car_images
-                        .sort((a: any, b: any) => a.sort_order - b.sort_order)
-                        .map((img: any) => img.image_url)
-                    : (foundCar.image ? [foundCar.image] : []);
-                setImages(carImages);
-
-            }catch(err:any){
-                console.error(err);
-                setError(err.message || 'Ошибка загрузки автомобиля');
-                setTimeout(() => router.push('/'), 1500);
-            }finally {
-                setLoading(false);
+            if (result?.error) {
+                console.error('❌ useGallery: Ошибка Supabase:', result.error);
+                setError(result.error.message);
+                setImages([]);
+                return;
             }
 
-    },[params.id, router])
+            const foundCar = result?.data as Car | null;
 
+            if (!foundCar) {
+                console.warn('⚠️ useGallery: Автомобиль не найден');
+                setError('Автомобиль не найден');
+                setTimeout(() => router.push('/'), 1500);
+                return;
+            }
+
+            const carImages = foundCar.car_images && foundCar.car_images.length > 0
+                ? foundCar.car_images
+                    .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
+                    .map((img: any) => img.image_url)
+                : (foundCar.image ? [foundCar.image] : []);
+
+            console.log('🖼️ useGallery: Загружено изображений:', carImages.length);
+            console.log('📸 Список изображений:', carImages);
+
+            setImages(carImages);
+
+        } catch (err: any) {
+            console.error('💥 useGallery: Критическая ошибка:', err);
+            setError(err.message || 'Ошибка загрузки автомобиля');
+            setTimeout(() => router.push('/'), 1500);
+        } finally {
+            setLoading(false);
+        }
+    }, [params.id, router]);
 
     useEffect(() => {
         loadingImages();
     }, [loadingImages]);
 
-
+    // Навигация
     const goToPrevious = useCallback(() => {
         setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     }, [images.length]);
@@ -94,9 +114,9 @@ export function useGallery() {
         setIsFullscreen(true);
     }, []);
 
-    const closeFullscreen = () => {
+    const closeFullscreen = useCallback(() => {
         setIsFullscreen(false);
-    };
+    }, []);
 
     // Свайп
     const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -114,11 +134,8 @@ export function useGallery() {
         const isLeftSwipe = distance > 50;
         const isRightSwipe = distance < -50;
 
-        if (isLeftSwipe) {
-            goToNext();
-        } else if (isRightSwipe) {
-            goToPrevious();
-        }
+        if (isLeftSwipe) goToNext();
+        else if (isRightSwipe) goToPrevious();
 
         touchStartX.current = 0;
         touchEndX.current = 0;
@@ -135,7 +152,8 @@ export function useGallery() {
         selectImage,
         closeFullscreen,
         currentImageIndex,
-        isFullscreen
-
-    }
+        isFullscreen,
+        loading,
+        error
+    };
 }
