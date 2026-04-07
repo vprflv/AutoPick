@@ -11,6 +11,12 @@ const nextConfig = {
 
     images: {
         remotePatterns: [
+
+            {
+                protocol: 'https',
+                hostname: '**',           // временно разрешаем ВСЕ https домены
+            },
+
             {
                 protocol: 'https',
                 hostname: 'picsum.photos',
