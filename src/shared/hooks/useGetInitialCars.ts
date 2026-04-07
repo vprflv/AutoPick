@@ -15,35 +15,35 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
-            // Защита от dummy-клиента
+            // Если это dummy клиент — сразу выходим
             if (!supabase || typeof supabase.from !== 'function') {
-                console.warn('Supabase is using dummy client - no real data');
+                console.warn('Supabase dummy client active - no cars loaded');
                 setCars([]);
                 return;
             }
 
-            const { data, error: supabaseError } = await supabase
+            // Реальный запрос (TypeScript-safe)
+            const result: any = await supabase
                 .from('cars')
                 .select(`
                     *,
-                    car_images (
-                        image_url,
-                        sort_order
-                    )
+                    car_images (image_url, sort_order)
                 `)
                 .order('created_at', { ascending: false });
 
-            if (supabaseError) {
-                console.error('Supabase error:', supabaseError);
-                setError(supabaseError.message);
+            if (result?.error) {
+                console.error('Supabase error:', result.error);
+                setError(result.error.message);
                 setCars([]);
                 return;
             }
 
-            const carsWithImages: Car[] = (data || []).map((car: any) => ({
+            const rawData = result?.data || [];
+
+            const carsWithImages: Car[] = rawData.map((car: any) => ({
                 ...car,
                 images: car.car_images
-                        ?.sort((a: any, b: any) => a.sort_order - b.sort_order)
+                        ?.sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
                         .map((img: any) => img.image_url) ||
                     (car.image ? [car.image] : []),
             }));
