@@ -25,19 +25,25 @@ const nextConfig = {
 
             {
                 protocol: 'https',
-                hostname: '**.picsum.photos',   // на всякий случай (для поддоменов)
+                hostname: '**.picsum.photos',
             },
             {
                 protocol: 'https',
-                hostname: 'upload.wikimedia.org',   // на всякий случай (для поддоменов)
+                hostname: 'upload.wikimedia.org',
             },
             {
                 protocol: 'https',
-                hostname: 'drive.google.com',   // на всякий случай (для поддоменов)
+                hostname: 'drive.google.com',
             },
             {
                 protocol: 'https',
-                hostname: '*.supabase.co',   // важно!
+                hostname: '*.supabase.co',
+            },
+
+            {
+                protocol: 'https',
+                hostname: 'upload.wikimedia.org',
+                pathname: '/**',
             },
         ],
     },
