@@ -34,7 +34,7 @@ export function useGallery() {
 
                 setLoading(true);
                 setError(null);
-                const { data, error: supabaseError } = await supabase
+                const result: any = await supabase
                     .from('cars')
                     .select(`
                         *,
@@ -46,13 +46,13 @@ export function useGallery() {
                     .eq('id', carId)
                     .single();
 
-                if (supabaseError || !data) {
-                    setError('Автомобиль не найден');
-                    setTimeout(() => router.push('/'), 1500);
+                if (result?.error) {
+                    console.error('Supabase error:', result.error);
+                    setError(result.error.message);
                     return;
                 }
 
-                const foundCar = data as Car;
+                const foundCar = result.data as Car;
 
                 // Формируем массив изображений
                 const carImages = foundCar.car_images && foundCar.car_images.length > 0
