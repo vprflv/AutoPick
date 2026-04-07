@@ -15,6 +15,14 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'picsum.photos',
             },
+
+            {
+                protocol: 'https',
+                hostname: 'yfrqupwvvklyojymetod.supabase.co',
+                pathname: '/storage/v1/object/public/**',
+            },
+
+
             {
                 protocol: 'https',
                 hostname: '**.picsum.photos',   // на всякий случай (для поддоменов)
