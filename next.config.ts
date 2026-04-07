@@ -10,6 +10,11 @@ const nextConfig = {
     // ],
 
     images: {
+
+        domains: [
+            'yfrqupwvvklyojymetod.supabase.co', // замените на ваш поддомен Supabase
+            // добавьте другие домены, если нужно
+        ],
         remotePatterns: [
 
             {
