@@ -14,7 +14,13 @@ const nextConfig = {
 
             {
                 protocol: 'https',
-                hostname: '**',           // временно разрешаем ВСЕ https домены
+                hostname: 'yfrqupwvvklyojymetod.supabase.co',
+                pathname: '/storage/v1/object/public/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'upload.wikimedia.org',
+                pathname: '/**',
             },
 
             {
@@ -22,21 +28,13 @@ const nextConfig = {
                 hostname: 'picsum.photos',
             },
 
-            {
-                protocol: 'https',
-                hostname: 'yfrqupwvvklyojymetod.supabase.co',
-                pathname: '/storage/v1/object/public/**',
-            },
 
 
             {
                 protocol: 'https',
                 hostname: '**.picsum.photos',
             },
-            {
-                protocol: 'https',
-                hostname: 'upload.wikimedia.org',
-            },
+
             {
                 protocol: 'https',
                 hostname: 'drive.google.com',
@@ -46,11 +44,6 @@ const nextConfig = {
                 hostname: '*.supabase.co',
             },
 
-            {
-                protocol: 'https',
-                hostname: 'upload.wikimedia.org',
-                pathname: '/**',
-            },
         ],
     },
 };
