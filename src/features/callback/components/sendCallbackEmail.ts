@@ -13,7 +13,7 @@ interface CallbackEmailData {
 
 export async function sendCallbackEmail(data: CallbackEmailData) {
     try {
-        const apiKey = process.env.RESEND_API_KEY;
+        const apiKey = process.env.RESEND_API_KEY || process.env.NEXT_PUBLIC_RESEND_API_KEY;
 
         console.log('=== RESEND DEBUG ===');
         console.log('RESEND_API_KEY exists:', !!apiKey);
