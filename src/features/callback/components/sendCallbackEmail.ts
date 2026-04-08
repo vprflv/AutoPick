@@ -2,7 +2,7 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 interface CallbackEmailData {
     name: string;
@@ -16,6 +16,13 @@ interface CallbackEmailData {
 
 export async function sendCallbackEmail(data: CallbackEmailData) {
     try{
+
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        if (!process.env.RESEND_API_KEY) {
+            console.error('RESEND_API_KEY is missing in environment variables');
+        }
+
         const { data: emailData, error } = await resend.emails.send({
             from: 'AutoPick <onboarding@resend.dev>',
             to: ['lex293408@gmail.com'],
