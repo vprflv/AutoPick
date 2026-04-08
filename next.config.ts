@@ -2,6 +2,10 @@
 const nextConfig = {
 
     experimental: {
+
+        serverActions: {
+            bodySizeLimit: '2mb',
+        },
     },
     // allowedDevOrigins: [
     //     '192.168.0.102',     // твой текущий IP
