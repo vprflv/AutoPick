@@ -17,7 +17,24 @@ interface CallbackEmailData {
 export async function sendCallbackEmail(data: CallbackEmailData) {
     try{
 
+        const apiKey = process.env.RESEND_API_KEY;
+
+        console.log('🔑 RESEND_API_KEY exists:', !!apiKey);
+        console.log('🔑 RESEND_API_KEY length:', apiKey ? apiKey.length : 0);
+
+        if (!apiKey) {
+            console.error('❌ RESEND_API_KEY is missing or empty');
+            return {
+                success: false,
+                error: 'Серверная ошибка: API ключ Resend не настроен'
+            };
+        }
+
         const resend = new Resend(process.env.RESEND_API_KEY);
+
+
+
+
 
         if (!process.env.RESEND_API_KEY) {
             console.error('RESEND_API_KEY is missing in environment variables');
