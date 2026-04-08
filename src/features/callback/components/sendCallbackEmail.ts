@@ -12,57 +12,54 @@ interface CallbackEmailData {
 }
 
 export async function sendCallbackEmail(data: CallbackEmailData) {
+    console.log('=== SEND CALLBACK EMAIL STARTED ===');
+    console.log('Received data:', {
+        name: data.name,
+        phone: data.phone,
+        hasEmail: !!data.email,
+        hasComment: !!data.comment,
+        source: data.source
+    });
+
+    const apiKey = process.env.RESEND_API_KEY;
+
+    console.log('RESEND_API_KEY from env:', apiKey ? 'PRESENT' : 'MISSING');
+    console.log('RESEND_API_KEY length:', apiKey ? apiKey.length : 0);
+
+    if (!apiKey) {
+        console.error('❌ CRITICAL: RESEND_API_KEY is missing');
+        return {
+            success: false,
+            error: 'Серверная ошибка конфигурации'
+        };
+    }
+
     try {
-        const apiKey = process.env.RESEND_API_KEY;
-
-        console.log('=== RESEND DEBUG ===');
-        console.log('RESEND_API_KEY exists:', !!apiKey);
-        console.log('RESEND_API_KEY length:', apiKey ? apiKey.length : 0);
-        console.log('Full env keys:', Object.keys(process.env).filter(key => key.includes('RESEND')));
-        console.log('===================');
-
-        if (!apiKey) {
-            console.error('❌ RESEND_API_KEY is missing or empty');
-            return {
-                success: false,
-                error: 'Серверная ошибка: API ключ Resend не настроен'
-            };
-        }
-
         const resend = new Resend(apiKey);
 
-        const { data: emailData, error } = await resend.emails.send({
+        const result = await resend.emails.send({
             from: 'AutoPick <onboarding@resend.dev>',
             to: ['lex293408@gmail.com'],
-            subject: `Новая заявка "Перезвоните мне" от ${data.name}`,
+            subject: `Новая заявка от ${data.name}`,
             html: `
-                <h2>Новая заявка на обратный звонок</h2>
+                <h2>Новая заявка</h2>
                 <p><strong>Имя:</strong> ${data.name}</p>
                 <p><strong>Телефон:</strong> ${data.phone}</p>
                 ${data.email ? `<p><strong>Email:</strong> ${data.email}</p>` : ''}
-                ${data.comment ? `<p><strong>Комментарий:</strong><br>${data.comment.replace(/\n/g, '<br>')}</p>` : ''}
-                <hr>
-                <p><strong>Источник заявки:</strong> ${data.source || 'Неизвестно'}</p>
-                <hr>
-                <p><strong>Согласие на обработку данных:</strong> ${data.privacy ? 'Да' : 'Нет'}</p>
-                <hr>
-                <p><small>Отправлено: ${new Date().toLocaleString('ru-RU')}</small></p>
+                ${data.comment ? `<p><strong>Комментарий:</strong> ${data.comment}</p>` : ''}
+                <p><strong>Источник:</strong> ${data.source || 'Неизвестно'}</p>
+                <p><strong>Согласие:</strong> ${data.privacy ? 'Да' : 'Нет'}</p>
             `,
         });
 
-        if (error) {
-            console.error('Resend error:', error);
-            return { success: false, error: error.message };
-        }
+        console.log('✅ Resend success:', result);
+        return { success: true, data: result };
 
-        console.log('✅ Письмо успешно отправлено');
-        return { success: true, data: emailData };
-
-    } catch (error: any) {
-        console.error('💥 Ошибка отправки письма:', error);
+    } catch (err: any) {
+        console.error('💥 Resend failed:', err);
         return {
             success: false,
-            error: 'Не удалось отправить письмо. Попробуйте позже.'
+            error: err.message || 'Не удалось отправить письмо'
         };
     }
 }
