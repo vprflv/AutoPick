@@ -15,6 +15,11 @@ export function useGetInitialCars() {
             setLoading(true);
             setError(null);
 
+            console.log('=== SUPABASE DEBUG ===');
+            console.log('NEXT_PUBLIC_SUPABASE_URL exists:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
+            console.log('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY exists:', !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY);
+            console.log('===================');
+
             // Если это dummy клиент — сразу выходим
             if (!supabase || typeof supabase.from !== 'function') {
                 console.warn('Supabase dummy client active - no cars loaded');
