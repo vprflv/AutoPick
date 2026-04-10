@@ -16,11 +16,6 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
     try {
         const apiKey = process.env.RESEND_API_KEY || process.env.NEXT_PUBLIC_RESEND_API_KEY;
 
-        console.log('=== RESEND DEBUG ===');
-        console.log('RESEND_API_KEY exists:', !!apiKey);
-        console.log('RESEND_API_KEY length:', apiKey ? apiKey.length : 0);
-        console.log('All env keys with RESEND:', Object.keys(process.env).filter(k => k.includes('RESEND')));
-        console.log('===================');
 
         if (!apiKey) {
             console.error('❌ RESEND_API_KEY is missing');
@@ -56,7 +51,6 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
             return { success: false, error: error.message };
         }
 
-        console.log('✅ Письмо успешно отправлено');
         return { success: true, data: emailData };
 
     } catch (error: any) {

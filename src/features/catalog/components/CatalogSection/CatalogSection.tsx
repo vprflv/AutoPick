@@ -9,7 +9,6 @@ import { useCarFilter } from "@/src/features/catalog/hooks/useCarFilter";
 import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 
 export default function CatalogSection() {
-    console.log('SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'OK' : 'MISSING');
     const { cars: filteredCars, brands, types, filters, resetFilters } = useCarFilter();
 
     const formatPrice = (price: number) =>

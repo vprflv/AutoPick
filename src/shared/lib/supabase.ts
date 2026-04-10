@@ -8,30 +8,11 @@ import { createBrowserClient } from '@supabase/ssr';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim();
 
-console.log('=== SUPABASE CLIENT INIT ===');
-console.log('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl? 'OK' : 'MISSING');
-console.log('NEXT_PUBLIC_SUPABASE_ANON_KEY:', supabaseKey ? 'OK' : 'MISSING');
-console.log('===========================');
+if(!supabaseUrl || !supabaseKey){
+    console.log('нет переменных окружения')
+}
 
-const dummySupabase = {
-    from: (table: string) => ({
-        select: (columns?: string) => ({
-            eq: (column: string, value: any) => ({
-                single: () => Promise.resolve({ data: null, error: null }),
-            }),
-            order: (column: string, options?: any) => ({
-                single: () => Promise.resolve({ data: [], error: null }),
-            }),
-        }),
-        insert: () => Promise.resolve({ data: null, error: null }),
-        update: () => Promise.resolve({ data: null, error: null }),
-        delete: () => Promise.resolve({ data: null, error: null }),
-    }),
-};
-
-export const supabase = (!supabaseUrl || !supabaseKey)
-    ? dummySupabase
-    : createBrowserClient(supabaseUrl, supabaseKey!);
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey!);
 
 export default supabase;
 

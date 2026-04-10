@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Car } from "@/src/shared/types/types";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/src/shared/lib/supabase";
@@ -22,27 +22,16 @@ export function useGallery() {
     const loadingImages = useCallback(async () => {
         const carId = Number(params.id);
 
-        console.log('🔄 useGallery: Начало загрузки для carId =', carId);
-
-        if (!carId) {
-            console.warn('⚠️ useGallery: carId не найден, редирект на главную');
-            router.push('/');
-            return;
-        }
-
         try {
             setLoading(true);
             setError(null);
 
-            if (!supabase || typeof supabase.from !== 'function') {
-                console.warn('⚠️ useGallery: Используется dummy клиент Supabase');
-                setImages([]);
+            if (!supabase ) {
+                setError('Нет подключения к базе данных')
                 return;
             }
 
-            console.log('📡 useGallery: Выполняем запрос к Supabase для id =', carId);
 
-            // Безопасный вызов .single() с type assertion
             const result: any = await supabase
                 .from('cars')
                 .select(`
@@ -55,10 +44,10 @@ export function useGallery() {
                 .eq('id', carId)
                 .single();
 
-            console.log('📥 useGallery: Получен результат:', result);
+
 
             if (result?.error) {
-                console.error('❌ useGallery: Ошибка Supabase:', result.error);
+                console.error(' Ошибка Supabase:', result.error);
                 setError(result.error.message);
                 setImages([]);
                 return;
@@ -67,7 +56,7 @@ export function useGallery() {
             const foundCar = result?.data as Car | null;
 
             if (!foundCar) {
-                console.warn('⚠️ useGallery: Автомобиль не найден');
+                console.warn('Автомобиль не найден');
                 setError('Автомобиль не найден');
                 setTimeout(() => router.push('/'), 1500);
                 return;
@@ -79,13 +68,10 @@ export function useGallery() {
                     .map((img: any) => img.image_url)
                 : (foundCar.image ? [foundCar.image] : []);
 
-            console.log('🖼️ useGallery: Загружено изображений:', carImages.length);
-            console.log('📸 Список изображений:', carImages);
-
             setImages(carImages);
 
         } catch (err: any) {
-            console.error('💥 useGallery: Критическая ошибка:', err);
+            console.error('useGallery: Критическая ошибка:', err);
             setError(err.message || 'Ошибка загрузки автомобиля');
             setTimeout(() => router.push('/'), 1500);
         } finally {
