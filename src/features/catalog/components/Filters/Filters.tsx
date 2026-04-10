@@ -35,23 +35,24 @@ export default function Filters({
                                     resetFilters,
                                 }: FiltersProps) {
     return (
-        <div className="bg-white rounded-3xl shadow-lg p-8 sticky top-24">
-            <h3 className="text-2xl font-semibold mb-8">Фильтры</h3>
+        <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8 sticky top-20 lg:top-24 self-start">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-6 lg:mb-8">Фильтры</h3>
 
             {/* Поиск */}
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
                 <label className="block text-sm font-medium text-zinc-500 mb-2">Поиск</label>
                 <input
                     type="text"
                     placeholder="Марка или модель..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl focus:border-blue-600 outline-none text-lg"
+                    className="w-full px-5 py-4 bg-zinc-50 border border-zinc-200 rounded-2xl
+                               focus:border-blue-600 outline-none text-base sm:text-lg"
                 />
             </div>
 
             {/* Марка */}
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
                 <label className="block text-sm font-medium text-zinc-500 mb-2">Марка</label>
                 <CustomSelect
                     value={selectedBrand}
@@ -66,7 +67,7 @@ export default function Filters({
             </div>
 
             {/* Тип автомобиля */}
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
                 <label className="block text-sm font-medium text-zinc-500 mb-2">Тип автомобиля</label>
                 <CustomSelect
                     value={selectedType}
@@ -81,16 +82,16 @@ export default function Filters({
             </div>
 
             {/* Сортировка */}
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
                 <label className="block text-sm font-medium text-zinc-500 mb-2">Сортировка</label>
                 <CustomSelect
                     value={sortBy}
                     onChange={setSortBy}
                     options={[
                         { value: "price-desc", label: "Цена по убыванию" },
-                        { value: "price-asc",  label: "Цена по возрастанию" },
-                        { value: "year-desc",  label: "Сначала новые" },
-                        { value: "year-asc",   label: "Сначала старые" },
+                        { value: "price-asc", label: "Цена по возрастанию" },
+                        { value: "year-desc", label: "Сначала новые" },
+                        { value: "year-asc", label: "Сначала старые" },
                     ]}
                 />
             </div>
@@ -98,7 +99,8 @@ export default function Filters({
             {/* Сброс фильтров */}
             <button
                 onClick={resetFilters}
-                className="mt-10 w-full py-4 text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 transition-colors"
+                className="mt-6 lg:mt-10 w-full py-4 text-blue-600 hover:text-blue-700
+                           font-medium flex items-center justify-center gap-2 transition-colors"
             >
                 Сбросить все фильтры ↺
             </button>
