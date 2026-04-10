@@ -16,7 +16,15 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
 
-ENV NODE_ENV=production
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+ARG NEXT_PUBLIC_RESEND_API_KEY
+ARG RESEND_API_KEY
+
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+ENV NEXT_PUBLIC_RESEND_API_KEY=$NEXT_PUBLIC_RESEND_API_KEY
+ENV RESEND_API_KEY=$RESEND_API_KEY
 
 # Собираем приложение (здесь можно передать build-time переменные, если нужно)
 RUN pnpm build
@@ -24,7 +32,7 @@ RUN pnpm build
 # ====================== RUNNER (production) ======================
 FROM base AS runner
 
-
+ENV NODE_ENV=production
 
 # Создаём пользователя
 RUN addgroup --system --gid 1001 nodejs

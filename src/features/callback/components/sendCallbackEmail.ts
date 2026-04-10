@@ -1,5 +1,6 @@
 'use server';
 
+declare const process: NodeJS.Process;
 import { Resend } from 'resend';
 
 interface CallbackEmailData {
