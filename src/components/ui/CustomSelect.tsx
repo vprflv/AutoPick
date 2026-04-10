@@ -62,7 +62,7 @@ export default function CustomSelect<T = string>({
             </button>
 
             {isOpen && (
-                <div className="absolute z-[100] w-full mt-2 bg-white border border-zinc-200 rounded-2xl shadow-2xl py-2 max-h-80 overflow-auto">
+                <div className="absolute z-[200] w-full mt-2 bg-white border border-zinc-200 rounded-2xl shadow-2xl py-2 max-h-80 overflow-auto">
                     {options.map((option) => (
                         <button
                             key={String(option.value)}
