@@ -16,13 +16,15 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
 
+ENV NODE_ENV=production
+
 # Собираем приложение (здесь можно передать build-time переменные, если нужно)
 RUN pnpm build
 
 # ====================== RUNNER (production) ======================
 FROM base AS runner
 
-ENV NODE_ENV=production
+
 
 # Создаём пользователя
 RUN addgroup --system --gid 1001 nodejs
