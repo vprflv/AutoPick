@@ -21,11 +21,6 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 # Копируем весь код
 COPY . .
 
-ENV NEXT_PUBLIC_SUPABASE_URL=https://yfrqupwvvklyojymetod.supabase.co
-ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_DgDXLA7PyOLUa9tEU0e6zw_utfIta9f
-ENV NEXT_PUBLIC_RESEND_API_KEY=re_ULBpYCK9_2gi9Y4p2GUyokdM3uodT3VH3
-ENV RESEND_API_KEY=re_ULBpYCK9_2gi9Y4p2GUyokdM3uodT3VH3
-
 
 # Собираем приложение
 RUN pnpm build
