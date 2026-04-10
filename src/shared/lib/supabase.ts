@@ -1,4 +1,4 @@
-// src/shared/lib/supabase.ts
+
 import { createBrowserClient } from '@supabase/ssr';
 
 // ====================== КЛИЕНТСКИЙ КЛИЕНТ ======================
