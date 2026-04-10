@@ -16,8 +16,8 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
 
-# Копируем .env для сборки
-COPY .env .env
+# Копируем .env.production как .env
+COPY .env.production .env
 
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
@@ -34,7 +34,6 @@ FROM base AS runner
 
 ENV NODE_ENV=production
 
-# Переменные для runtime
 ARG RESEND_API_KEY
 ENV RESEND_API_KEY=${RESEND_API_KEY}
 
@@ -46,7 +45,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod --prefer-offline
 
-# Копируем .env из builder этапа
+# Копируем .env из builder
 COPY --from=builder /app/.env .env
 
 COPY --from=builder /app/.next ./.next
