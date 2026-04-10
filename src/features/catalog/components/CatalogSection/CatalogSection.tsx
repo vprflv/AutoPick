@@ -1,6 +1,6 @@
 // src/features/catalog/components/CatalogSection.tsx
 'use client';
-
+import { useEffect } from 'react';
 import Filters from "@/src/features/catalog/components/Filters/Filters";
 import CarCard from "@/src/features/catalog/components/CarCard/CarCard";
 import Pagination from "@/src/features/catalog/components/Pagination/Pagination";
@@ -19,6 +19,17 @@ export default function CatalogSection() {
         items: filteredCars,
         itemsPerPage: 4,
     });
+
+    useEffect(() => {
+        pagination.resetPagination()
+    }, [
+        filters.searchTerm,
+        filters.selectedBrand,
+        filters.selectedType,
+        filters.priceRange,
+        filters.sortBy,
+
+    ]);
 
     return (
         <section id="catalog" className="py-8">

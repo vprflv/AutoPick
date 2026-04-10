@@ -1,6 +1,6 @@
-// src/features/catalog/hooks/usePagination.ts
 
-import { useState, useMemo } from 'react';
+
+import { useState, useMemo, useCallback } from 'react';
 
 interface UsePaginationProps {
     items: any[];
@@ -22,6 +22,10 @@ export function usePagination({ items, itemsPerPage }: UsePaginationProps) {
         setCurrentPage(page);
     };
 
+    const resetPagination = useCallback(() => {
+        goToPage(1);
+    }, [goToPage]);
+
     const nextPage = () => {
         if (currentPage < totalPages) setCurrentPage(currentPage + 1);
     };
@@ -34,11 +38,12 @@ export function usePagination({ items, itemsPerPage }: UsePaginationProps) {
         currentItems,
         currentPage,
         totalPages,
+        resetPagination,
         goToPage,
         nextPage,
         prevPage,
         hasNext: currentPage < totalPages,
         hasPrev: currentPage > 1,
-        totalItems: items.length,   // полезно для отображения
+        totalItems: items.length,
     };
 }
