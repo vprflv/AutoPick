@@ -17,14 +17,14 @@ COPY package.json pnpm-lock.yaml ./
 
 # Устанавливаем все зависимости (включая dev)
 RUN pnpm install --frozen-lockfile --prefer-offline
-
+process.env.
 # Копируем весь код
 COPY . .
 
-ENV NEXT_PUBLIC_SUPABASE_URL=https://yfrqupwvvklyojymetod.supabase.co
-ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=sb_publishable_DgDXLA7PyOLUa9tEU0e6zw_utfIta9f
-ENV NEXT_PUBLIC_RESEND_API_KEY=re_ULBpYCK9_2gi9Y4p2GUyokdM3uodT3VH3
-ENV RESEND_API_KEY=re_ULBpYCK9_2gi9Y4p2GUyokdM3uodT3VH3
+ENV NEXT_PUBLIC_SUPABASE_URL=process.env.NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
+ENV NEXT_PUBLIC_RESEND_API_KEY=process.env.NEXT_PUBLIC_RESEND_API_KEY
+ENV RESEND_API_KEY=process.env.RESEND_API_KEY
 
 # Собираем приложение
 RUN pnpm build
