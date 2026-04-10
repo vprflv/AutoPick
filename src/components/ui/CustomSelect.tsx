@@ -1,41 +1,38 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
-interface Option<T = string> {
-    value: T;
-    label: string;
-}
 
-interface CustomSelectProps<T = string> {
-    value: T;
-    onChange: (value: T) => void;
-    options: Option<T>[];
+interface CustomSelectProps {
+    value: string;
+    onChange: (value: string) => void;
+    options: { value: string; label: string }[];
     placeholder?: string;
     className?: string;
 }
 
-export default function CustomSelect<T = string>({
-                                                     value,
-                                                     onChange,
-                                                     options,
-                                                     placeholder = "Выберите...",
-                                                     className = "",
-                                                 }: CustomSelectProps<T>) {
+export default function CustomSelect({
+                                         value,
+                                         onChange,
+                                         options,
+                                         placeholder = "Выберите...",
+                                         className = "",
+                                     }: CustomSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+
     const selectedOption = options.find(opt => opt.value === value);
 
+    // Обновляем позицию при открытии
     useEffect(() => {
         if (isOpen && buttonRef.current) {
             setButtonRect(buttonRef.current.getBoundingClientRect());
         }
     }, [isOpen]);
 
-
-
+    // Закрытие при клике вне
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
@@ -46,8 +43,8 @@ export default function CustomSelect<T = string>({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (optionValue: T) => {
-        onChange(optionValue);
+    const handleSelect = (newValue: string) => {
+        onChange(newValue);
         setIsOpen(false);
     };
 
@@ -80,7 +77,7 @@ export default function CustomSelect<T = string>({
                 >
                     {options.map((option) => (
                         <button
-                            key={option.value}
+                            key={option.value}   // ← Здесь было проблема, теперь string явно
                             onClick={() => handleSelect(option.value)}
                             className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
@@ -92,6 +89,5 @@ export default function CustomSelect<T = string>({
                 document.body
             )}
         </div>
-
     );
 }
