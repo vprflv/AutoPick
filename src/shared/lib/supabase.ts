@@ -12,9 +12,9 @@ if(!supabaseUrl || !supabaseKey){
     console.log('нет переменных окружения')
 }
 
-export const supabase = createBrowserClient(supabaseUrl, supabaseKey!);
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey);
 
-export default supabase;
+
 
 // ====================== СЕРВЕРНЫЙ КЛИЕНТ (для админки) ======================
 export async function createServerSupabaseClient() {
