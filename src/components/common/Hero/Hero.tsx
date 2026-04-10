@@ -20,7 +20,6 @@ export function Hero(){
                         className="px-8 sm:px-10 py-4 sm:py-5 bg-blue-600 hover:bg-blue-700 text-base sm:text-lg font-semibold rounded-2xl transition-all active:scale-95 flex items-center gap-3 shadow-lg shadow-blue-600/30"
                     >
                         Начать подбор сейчас
-                        <span className="text-2xl">↓</span>
                     </button>
                 </div>
             </div>

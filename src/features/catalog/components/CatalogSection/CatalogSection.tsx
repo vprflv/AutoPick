@@ -55,11 +55,6 @@ export default function CatalogSection() {
                     </div>
 
                     <div className="flex-1 flex flex-col">
-                        <div className="mb-6">
-                            <h2 className="text-3xl font-bold">
-                                Найдено автомобилей: <span className="text-blue-600">{filteredCars.length}</span>
-                            </h2>
-                        </div>
 
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-7 pb-12">
                             {pagination.currentItems.map((car) => (
