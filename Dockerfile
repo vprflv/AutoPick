@@ -17,7 +17,7 @@ COPY package.json pnpm-lock.yaml ./
 
 # Устанавливаем все зависимости (включая dev)
 RUN pnpm install --frozen-lockfile --prefer-offline
-process.env.
+
 # Копируем весь код
 COPY . .
 
