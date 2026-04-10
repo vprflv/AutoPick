@@ -1,20 +1,21 @@
-
+// src/shared/lib/supabase.ts
 import { createBrowserClient } from '@supabase/ssr';
-
-
-
 
 // ====================== КЛИЕНТСКИЙ КЛИЕНТ ======================
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY?.trim();
 
-if(!supabaseUrl || !supabaseKey){
-    console.log('нет переменных окружения')
+if (!supabaseUrl || !supabaseKey) {
+    throw new Error(
+        'Supabase credentials are missing. ' +
+        'Please check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY in your environment variables.'
+    );
 }
 
-export const supabase = createBrowserClient(supabaseUrl, supabaseKey);
+const client = createBrowserClient(supabaseUrl, supabaseKey);
 
-
+export const supabase = client;
+export default client;
 
 // ====================== СЕРВЕРНЫЙ КЛИЕНТ (для админки) ======================
 export async function createServerSupabaseClient() {
@@ -24,7 +25,7 @@ export async function createServerSupabaseClient() {
     const cookieStore = await cookies();
 
     if (!supabaseUrl || !supabaseKey) {
-        throw new Error('Supabase server credentials are missing. Check NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY');
+        throw new Error('Supabase server credentials are missing.');
     }
 
     return createServerClient(supabaseUrl, supabaseKey, {
