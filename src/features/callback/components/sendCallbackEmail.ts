@@ -18,7 +18,6 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
 
 
         if (!apiKey) {
-            console.error('❌ RESEND_API_KEY is missing');
             return {
                 success: false,
                 error: 'Серверная ошибка конфигурации'
@@ -54,7 +53,6 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
         return { success: true, data: emailData };
 
     } catch (error: any) {
-        console.error('💥 Ошибка отправки письма:', error);
         return {
             success: false,
             error: 'Не удалось отправить письмо. Попробуйте позже.'

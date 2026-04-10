@@ -29,7 +29,8 @@ export default function CarCard({ car, formatPrice }: CarCardProps) {
     } = useCarCard(car);
 
     return (
-        <div className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100 flex flex-col h-full w-full">
+        <div
+            className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100 flex flex-col h-full w-full">
 
             {/* Галерея изображений */}
             <CarCardGallery
@@ -46,27 +47,29 @@ export default function CarCard({ car, formatPrice }: CarCardProps) {
             />
 
             {/* Основной контент */}
-            <div className="flex-1 flex flex-col p-5 sm:p-7">
+            <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-7">
 
                 {/* Название автомобиля */}
-                <h3 className="text-xl sm:text-2xl font-semibold leading-tight mb-5 text-center">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold leading-tight mb-4 text-center line-clamp-2">
                     {car.brand} {car.model}
                 </h3>
 
                 {/* Характеристики */}
-                <div className="space-y-1 text-sm text-zinc-600 mb-8 text-center">
-                    <div>Пробег: <span className="font-medium text-zinc-700">
-                        {car.mileage.toLocaleString('ru-RU')} км
-                    </span></div>
+                <div className="space-y-1 text-sm text-zinc-600 mb-6 text-center">
+                    <div>
+                        Пробег: <span className="font-medium text-zinc-700">
+                            {car.mileage.toLocaleString('ru-RU')} км
+                        </span>
+                    </div>
                     {car.fuel && <div>Топливо: <span className="font-medium">{car.fuel}</span></div>}
                     {car.transmission && <div>Коробка: <span className="font-medium">{car.transmission}</span></div>}
                 </div>
 
-                {/* Цена + Кнопка — всегда по центру */}
-                <div className="mt-auto flex flex-col items-center gap-5">
+                {/* Цена + Кнопка */}
+                <div className="mt-auto flex flex-col items-center gap-4">
                     <div className="text-center">
                         <div className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Цена</div>
-                        <div className="text-3xl font-bold text-blue-600 tracking-tighter">
+                        <div className="text-2xl sm:text-3xl font-bold text-blue-600 tracking-tighter">
                             {formatPrice(car.price)}
                         </div>
                     </div>
@@ -74,7 +77,7 @@ export default function CarCard({ car, formatPrice }: CarCardProps) {
                     <Button
                         variant="primary"
                         size="md"
-                        className="px-10 py-3.5 text-base font-medium w-full max-w-[200px]"
+                        className="w-full sm:w-auto px-8 py-3.5 text-base font-medium"
                         onClick={() => router.push(`/cars/${car.id}`)}
                     >
                         Подробнее
