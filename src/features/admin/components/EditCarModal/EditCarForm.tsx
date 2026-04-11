@@ -6,6 +6,7 @@ import {Car, CreateCarData, formDataCar} from "@/src/shared/types/types";
 import { editCarAction } from "@/src/features/admin/actions/editCarAction";
 import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
+import {carSelectFields} from "@/src/features/admin/config/selectFields";
 
 interface EditCarFormProps {
     formData: formDataCar;
@@ -96,42 +97,52 @@ export function EditCarForm({
                     />
                 </div>
 
-                <CustomSelectAdmin
-                    label="Тип кузова"
-                    value={formData.type}
-                    onChange={(val) => setFormData({...formData, type: val})}
-                    options={[
-                        {value: 'Седан', label: 'Седан'},
-                        {value: 'Кроссовер', label: 'Кроссовер'},
-                        {value: 'Универсал', label: 'Универсал'},
-                        {value: 'Хэтчбек', label: 'Хэтчбек'},
-                        {value: 'Внедорожник', label: 'Внедорожник'},
-                    ]}
-                />
+                {carSelectFields.map(({ label, field, options }) => (
+                    <CustomSelectAdmin
+                        key={field}
+                        label={label}
+                        value={formData[field]}
+                        onChange={(val) => setFormData({ ...formData, [field]: val })}
+                        options={options}
+                    />
+                ))}
 
-                <CustomSelectAdmin
-                    label="Топливо"
-                    value={formData.fuel}
-                    onChange={(val) => setFormData({...formData, fuel: val})}
-                    options={[
-                        {value: 'Бензин', label: 'Бензин'},
-                        {value: 'Дизель', label: 'Дизель'},
-                        {value: 'Гибрид', label: 'Гибрид'},
-                        {value: 'Электро', label: 'Электро'},
-                    ]}
-                />
+                {/*<CustomSelectAdmin*/}
+                {/*    label="Тип кузова"*/}
+                {/*    value={formData.type}*/}
+                {/*    onChange={(val) => setFormData({...formData, type: val})}*/}
+                {/*    options={[*/}
+                {/*        {value: 'Седан', label: 'Седан'},*/}
+                {/*        {value: 'Кроссовер', label: 'Кроссовер'},*/}
+                {/*        {value: 'Универсал', label: 'Универсал'},*/}
+                {/*        {value: 'Хэтчбек', label: 'Хэтчбек'},*/}
+                {/*        {value: 'Внедорожник', label: 'Внедорожник'},*/}
+                {/*    ]}*/}
+                {/*/>*/}
 
-                <CustomSelectAdmin
-                    label="Коробка передач"
-                    value={formData.transmission}
-                    onChange={(val) => setFormData({...formData, transmission: val})}
-                    options={[
-                        {value: 'Автомат', label: 'Автомат'},
-                        {value: 'Робот', label: 'Робот'},
-                        {value: 'Механика', label: 'Механика'},
-                        {value: 'Вариатор', label: 'Вариатор'},
-                    ]}
-                />
+                {/*<CustomSelectAdmin*/}
+                {/*    label="Топливо"*/}
+                {/*    value={formData.fuel}*/}
+                {/*    onChange={(val) => setFormData({...formData, fuel: val})}*/}
+                {/*    options={[*/}
+                {/*        {value: 'Бензин', label: 'Бензин'},*/}
+                {/*        {value: 'Дизель', label: 'Дизель'},*/}
+                {/*        {value: 'Гибрид', label: 'Гибрид'},*/}
+                {/*        {value: 'Электро', label: 'Электро'},*/}
+                {/*    ]}*/}
+                {/*/>*/}
+
+                {/*<CustomSelectAdmin*/}
+                {/*    label="Коробка передач"*/}
+                {/*    value={formData.transmission}*/}
+                {/*    onChange={(val) => setFormData({...formData, transmission: val})}*/}
+                {/*    options={[*/}
+                {/*        {value: 'Автомат', label: 'Автомат'},*/}
+                {/*        {value: 'Робот', label: 'Робот'},*/}
+                {/*        {value: 'Механика', label: 'Механика'},*/}
+                {/*        {value: 'Вариатор', label: 'Вариатор'},*/}
+                {/*    ]}*/}
+                {/*/>*/}
 
 
             <ImageUploader

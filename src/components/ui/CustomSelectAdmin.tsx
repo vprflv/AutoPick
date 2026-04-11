@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 interface CustomSelectProps {
+    key:string
     value: string;
     onChange: (value: string) => void;
     options: { value: string; label: string }[];
@@ -18,7 +19,7 @@ export function CustomSelectAdmin({
                                          options,
                                          placeholder = "Выберите...",
                                          className = "",
-                                         label,
+                                         label, key
                                      }: CustomSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
