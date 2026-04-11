@@ -25,7 +25,7 @@ export default function CustomSelect<T = string>({
                                          options,
                                          placeholder = "Выберите...",
                                          className = "",
-                                     }: CustomSelectProps) {
+                                     }: CustomSelectProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
