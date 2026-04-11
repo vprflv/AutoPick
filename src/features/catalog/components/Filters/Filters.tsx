@@ -35,13 +35,8 @@ export default function Filters({
                                     resetFilters,
                                 }: FiltersProps) {
     return (
-        <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8
-                        sticky top-20 sm:top-24 lg:top-28 self-start
-                        max-h-[calc(100vh-100px)] lg:max-h-none overflow-y-auto lg:overflow-visible">
-
-            <h3 className="text-xl sm:text-2xl font-semibold mb-6 lg:mb-8 text-zinc-900">
-                Фильтры
-            </h3>
+        <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8 sticky top-20 lg:top-24 self-start">
+            <h3 className="text-xl sm:text-2xl font-semibold mb-6 lg:mb-8">Фильтры</h3>
 
             {/* Поиск */}
             <div className="mb-6 lg:mb-8">
@@ -101,12 +96,11 @@ export default function Filters({
                 />
             </div>
 
-            {/* Кнопка сброса */}
+            {/* Сброс фильтров */}
             <button
                 onClick={resetFilters}
-                className="mt-8 w-full py-4 text-blue-600 hover:text-blue-700 font-medium
-                           flex items-center justify-center gap-2 transition-colors border border-blue-100
-                           hover:border-blue-200 rounded-2xl active:bg-blue-50"
+                className="mt-6 lg:mt-10 w-full py-4 text-blue-600 hover:text-blue-700
+                           font-medium flex items-center justify-center gap-2 transition-colors"
             >
                 Сбросить все фильтры ↺
             </button>
