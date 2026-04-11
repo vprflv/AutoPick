@@ -7,7 +7,7 @@ import { createPortal } from 'react-dom';
 interface CustomSelectProps<T extends string = string> {
     value: T;
     onChange: (value: T) => void;
-    options: { value: T; label: string }[];
+    options: Array<{ value: T; label: string }>;
     placeholder?: string;
     className?: string;
 }
@@ -23,7 +23,7 @@ export default function CustomSelect<T extends string = string>({
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
-    const selectedOption = options.find(opt => opt.value === value);
+    const selectedOption = options.find((opt) => opt.value === value);
 
     useEffect(() => {
         if (isOpen && buttonRef.current) {
@@ -76,13 +76,13 @@ export default function CustomSelect<T extends string = string>({
                 >
                     {options.map((option) => (
                         <button
-                            key={option.value}
-                            onMouseDown={(e) => {                    // ← Изменили с onClick на onMouseDown
+                            key={String(option.value)} // ← String() для безопасности
+                            onMouseDown={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();
                                 handleSelect(option.value);
                             }}
-                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
+                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 active:bg-zinc-100 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
                         >
                             {option.label}
