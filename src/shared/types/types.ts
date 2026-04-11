@@ -52,6 +52,25 @@ export interface CarGalleryData {
 
 
 
+export interface FiltersCar {
+    searchTerm: string;
+    setSearchTerm: (value: string) => void;
 
+    selectedBrand: 'all' | string;
+    setSelectedBrand: (value: 'all' | string) => void;
+
+    selectedType: 'all' | string;
+    setSelectedType: (value: 'all' | string) => void;
+
+    priceRange: { min: number; max: number };
+    setPriceRange: (value: { min: number; max: number }) => void;
+
+    sortBy: 'price-asc' | 'price-desc' | 'year-desc' | 'year-asc';
+    setSortBy: (value: 'price-asc' | 'price-desc' | 'year-desc' | 'year-asc') => void;
+
+    brands: string[];
+    types: string[];
+    resetFilters: () => void;
+}
 
 

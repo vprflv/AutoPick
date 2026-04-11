@@ -36,21 +36,7 @@ export default function CatalogSection() {
                 <div className="flex flex-col lg:flex-row gap-10">
 
                     <div className="lg:w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
-                        <Filters
-                            searchTerm={filters.searchTerm}
-                            setSearchTerm={filters.setSearchTerm}
-                            selectedBrand={filters.selectedBrand}
-                            setSelectedBrand={filters.setSelectedBrand}
-                            selectedType={filters.selectedType}
-                            setSelectedType={filters.setSelectedType}
-                            priceRange={filters.priceRange}
-                            setPriceRange={filters.setPriceRange}
-                            sortBy={filters.sortBy}
-                            setSortBy={filters.setSortBy}
-                            brands={brands}
-                            types={types}
-                            resetFilters={resetFilters}
-                        />
+                        <Filters filters={filters} />
                     </div>
 
                     <div className="flex-1 flex flex-col">
