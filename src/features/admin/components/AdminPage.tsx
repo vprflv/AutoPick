@@ -12,7 +12,7 @@ import {deleteCarAction} from "@/src/features/admin/actions/deleteCarAction";
 import {AdminHeader} from "@/src/features/admin/components/AdminHeader";
 import {CarForm} from "@/src/features/admin/components/CarForm";
 import {CarList} from "@/src/features/admin/components/CarList";
-import {EditCarModal} from "@/src/features/admin/components/EditCarModal";
+import {EditCarModal} from "@/src/features/admin/components/EditCarModal/EditCarModal";
 
 export function AdminPage() {
     const {cars,loadCars}=useGetInitialCars()
