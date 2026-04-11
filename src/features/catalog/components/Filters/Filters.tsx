@@ -6,9 +6,11 @@ import { FiltersCar } from "@/src/shared/types/types";
 
 interface FiltersProps {
     filters: FiltersCar;
+    brands:string[]
+    types:string[]
 }
 
-export default function Filters({ filters }: FiltersProps) {
+export default function Filters({ filters, brands, types }: FiltersProps) {
     const {
         searchTerm,
         setSearchTerm,
@@ -20,8 +22,6 @@ export default function Filters({ filters }: FiltersProps) {
         setPriceRange,
         sortBy,
         setSortBy,
-        brands = [],      // ← защита
-        types = [],       // ← защита
         resetFilters,
     } = filters;
 

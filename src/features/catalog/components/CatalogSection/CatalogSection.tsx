@@ -36,7 +36,7 @@ export default function CatalogSection() {
                 <div className="flex flex-col lg:flex-row gap-10">
 
                     <div className="lg:w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
-                        <Filters filters={filters} />
+                        <Filters filters={filters} brands={brands} types={types} />
                     </div>
 
                     <div className="flex-1 flex flex-col">

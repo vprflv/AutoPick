@@ -13,7 +13,7 @@ export function useCarFilter() {
     const [priceRange, setPriceRange] = useState({ min: 500000, max: 100000000 });
     const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'year-asc'>('price-desc');
 
-    const brands = ['all', ...new Set(cars.map(car => car.brand))];
+    const brands = ['all', ...new Set(cars.map(car => car.brand || ''))];
     const types = ['all', ...new Set(cars.map(car => car.type || ''))];
 
     const filteredAndSortedCars = useMemo(() => {
