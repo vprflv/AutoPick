@@ -4,21 +4,21 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
-interface CustomSelectProps {
-    value: string;
-    onChange: (value: string) => void;
-    options: { value: string; label: string }[];
+interface CustomSelectProps<T extends string = string> {
+    value: T;
+    onChange: (value: T) => void;
+    options: { value: T; label: string }[];
     placeholder?: string;
     className?: string;
 }
 
-export default function CustomSelect({
-                                         value,
-                                         onChange,
-                                         options,
-                                         placeholder = "Выберите...",
-                                         className = "",
-                                     }: CustomSelectProps) {
+export default function CustomSelect<T extends string = string>({
+                                                                    value,
+                                                                    onChange,
+                                                                    options,
+                                                                    placeholder = "Выберите...",
+                                                                    className = "",
+                                                                }: CustomSelectProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
@@ -41,7 +41,7 @@ export default function CustomSelect({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (newValue: string) => {
+    const handleSelect = (newValue: T) => {
         onChange(newValue);
         setIsOpen(false);
     };
@@ -77,12 +77,12 @@ export default function CustomSelect({
                     {options.map((option) => (
                         <button
                             key={option.value}
-                            onMouseDown={(e) => {
+                            onMouseDown={(e) => {                    // ← Изменили с onClick на onMouseDown
                                 e.stopPropagation();
                                 e.preventDefault();
                                 handleSelect(option.value);
                             }}
-                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 active:bg-zinc-100 transition-colors
+                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
                         >
                             {option.label}
