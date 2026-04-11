@@ -12,7 +12,7 @@ export async function uploadCarImage(file: File): Promise<{ success: boolean; ur
         const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${fileExt}`;
         const filePath = `cars/${fileName}`;
 
-        // Загружаем файл в Storage
+        // Storage
         const { error: uploadError } = await supabase.storage
             .from('car-images')
             .upload(filePath, file, {
@@ -22,7 +22,7 @@ export async function uploadCarImage(file: File): Promise<{ success: boolean; ur
 
         if (uploadError) throw uploadError;
 
-        // Получаем публичную ссылку
+        // link
         const { data: publicUrlData } = supabase.storage
             .from('car-images')
             .getPublicUrl(filePath);

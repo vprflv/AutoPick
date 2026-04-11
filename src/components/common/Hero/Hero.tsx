@@ -24,12 +24,6 @@ export function Hero(){
                 </div>
             </div>
 
-            {/*/!* Индикатор прокрутки вниз *!/*/}
-            {/*<div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden sm:block">*/}
-            {/*    <div className="w-6 h-10 border-2 border-white/70 rounded-full flex justify-center pt-2">*/}
-            {/*        <div className="w-1 h-2 bg-white/70 rounded-full animate-scroll"></div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </section>
     )
 }

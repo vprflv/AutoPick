@@ -13,6 +13,7 @@ interface EditCarFormProps {
     setFormData: (data: any) => void;
     imageUrls: string[];
     setImageUrls: (urls: string[]) => void;
+    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     isPending: boolean;
     setIsPending: (pending: boolean) => void;
     error: string | null;
@@ -22,7 +23,7 @@ interface EditCarFormProps {
 }
 
 export function EditCarForm({
-                                car,
+                                onSubmit,
                                 formData,
                                 setFormData,
                                 imageUrls,
@@ -35,38 +36,10 @@ export function EditCarForm({
                                 onClose,
                             }: EditCarFormProps) {
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
 
-        const validImages = imageUrls.filter(url => url?.trim() !== '');
-
-        if (validImages.length === 0) {
-            setError('Добавьте хотя бы одну фотографию автомобиля');
-            return;
-        }
-
-        setIsPending(true);
-        setError(null);
-
-        const updateData: CreateCarData = {
-            ...formData,
-            images: validImages,
-        };
-
-        const result = await editCarAction(car.id, updateData);
-
-        setIsPending(false);
-
-        if (result.success) {
-            onSuccess?.();
-            onClose();
-        } else {
-            setError(result.error || 'Не удалось обновить автомобиль');
-        }
-    };
 
     return (
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+        <form onSubmit={onSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
             {error && (
                 <div className="p-4 bg-red-900/50 border border-red-700 rounded-2xl text-red-400 text-sm">
                     {error}

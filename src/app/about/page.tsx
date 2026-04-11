@@ -1,7 +1,5 @@
 'use client';
 
-import Button from "@/src/components/ui/Button";
-import Link from "next/link";
 import Header from "@/src/components/common/Header/Header";
 
 export default function AboutPage() {

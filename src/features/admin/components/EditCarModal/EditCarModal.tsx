@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Car } from "@/src/shared/types/types";
 import { EditCarForm } from "./EditCarForm";
+import { useEditCarForm } from "../../hooks/useEditCarForm";
 
 interface EditCarModalProps {
     isOpen: boolean;
@@ -12,42 +13,15 @@ interface EditCarModalProps {
 }
 
 export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalProps) {
-    const [formData, setFormData] = useState({
-        brand: '',
-        model: '',
-        year: new Date().getFullYear(),
-        price: 0,
-        mileage: 0,
-        type: 'Седан',
-        fuel: 'Бензин',
-        transmission: 'Автомат',
-    });
-
-    const [imageUrls, setImageUrls] = useState<string[]>([]);
-    const [isPending, setIsPending] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (car && isOpen) {
-            setFormData({
-                brand: car.brand,
-                model: car.model,
-                year: car.year,
-                price: car.price,
-                mileage: car.mileage,
-                type: car.type,
-                fuel: car.fuel || 'Бензин',
-                transmission: car.transmission || 'Автомат',
-            });
-
-            const initialImages = car.images && car.images.length > 0
-                ? car.images
-                : (car.image ? [car.image] : []);
-
-            setImageUrls(initialImages);
-            setError(null);
-        }
-    }, [car, isOpen]);
+    const {
+        formData,
+        setFormData,
+        imageUrls,
+        setImageUrls,
+        isPending,
+        error,
+        handleSubmit,
+    } = useEditCarForm(car, onSuccess, onClose);
 
     if (!isOpen || !car) return null;
 
@@ -68,7 +42,7 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                     </div>
                 </div>
 
-                {/* Форма с кнопками */}
+                {/* Форма */}
                 <EditCarForm
                     car={car}
                     formData={formData}
@@ -76,10 +50,8 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                     imageUrls={imageUrls}
                     setImageUrls={setImageUrls}
                     isPending={isPending}
-                    setIsPending={setIsPending}
                     error={error}
-                    setError={setError}
-                    onSuccess={onSuccess}
+                    onSubmit={handleSubmit}
                     onClose={onClose}
                 />
             </div>
