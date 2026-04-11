@@ -1,5 +1,5 @@
+// src/features/catalog/components/CatalogSection.tsx
 'use client';
-
 import { useEffect } from 'react';
 import Filters from "@/src/features/catalog/components/Filters/Filters";
 import CarCard from "@/src/features/catalog/components/CarCard/CarCard";
@@ -9,13 +9,7 @@ import { useCarFilter } from "@/src/features/catalog/hooks/useCarFilter";
 import { usePagination } from "@/src/features/catalog/hooks/usePagination";
 
 export default function CatalogSection() {
-    const {
-        cars: filteredCars,
-        brands,
-        types,
-        filters,
-        resetFilters
-    } = useCarFilter();
+    const { cars: filteredCars, brands, types, filters, resetFilters } = useCarFilter();
 
     const formatPrice = (price: number) =>
         new Intl.NumberFormat('ru-RU').format(price) + ' ₽';
@@ -25,15 +19,15 @@ export default function CatalogSection() {
         itemsPerPage: 4,
     });
 
-    // Сброс пагинации при изменении фильтров
     useEffect(() => {
-        pagination.resetPagination?.();   // используем optional chaining
+        pagination.resetPagination()
     }, [
         filters.searchTerm,
         filters.selectedBrand,
         filters.selectedType,
         filters.priceRange,
         filters.sortBy,
+
     ]);
 
     return (
@@ -42,10 +36,25 @@ export default function CatalogSection() {
                 <div className="flex flex-col lg:flex-row gap-10">
 
                     <div className="lg:w-80 flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
-                        <Filters filters={filters} />
+                        <Filters
+                            searchTerm={filters.searchTerm}
+                            setSearchTerm={filters.setSearchTerm}
+                            selectedBrand={filters.selectedBrand}
+                            setSelectedBrand={filters.setSelectedBrand}
+                            selectedType={filters.selectedType}
+                            setSelectedType={filters.setSelectedType}
+                            priceRange={filters.priceRange}
+                            setPriceRange={filters.setPriceRange}
+                            sortBy={filters.sortBy}
+                            setSortBy={filters.setSortBy}
+                            brands={brands}
+                            types={types}
+                            resetFilters={resetFilters}
+                        />
                     </div>
 
                     <div className="flex-1 flex flex-col">
+
                         <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-7 pb-12">
                             {pagination.currentItems.map((car) => (
                                 <CarCard

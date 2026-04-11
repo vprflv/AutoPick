@@ -1,23 +1,24 @@
-'use client';
-
 import { useState, useMemo } from 'react';
-import { useGetInitialCars } from "@/src/shared/hooks/useGetInitialCars";
-import {FiltersCar} from "@/src/shared/types/types";
+import {useGetInitialCars} from "@/src/shared/hooks/useGetInitialCars";
 
 export function useCarFilter() {
-    const { cars } = useGetInitialCars();
 
+    const{cars}=useGetInitialCars()
+
+
+    // Все фильтры в одном месте
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBrand, setSelectedBrand] = useState<'all' | string>('all');
     const [selectedType, setSelectedType] = useState<'all' | string>('all');
-    const [priceRange, setPriceRange] = useState({ min: 500000, max: 100000000 });
-    const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'year-asc'>('price-desc');
+    const [priceRange, setPriceRange] = useState({min: 500000, max: 100000000});
+    const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'year-asc' >('price-desc');
 
     const brands = ['all', ...new Set(cars.map(car => car.brand))];
     const types = ['all', ...new Set(cars.map(car => car.type || ''))];
 
     const filteredAndSortedCars = useMemo(() => {
         let result = [...cars];
+
 
         if (searchTerm) {
             const term = searchTerm.toLowerCase();
@@ -26,17 +27,20 @@ export function useCarFilter() {
             );
         }
 
+        // Фильтр по бренду
         if (selectedBrand !== 'all') {
             result = result.filter(car => car.brand === selectedBrand);
         }
 
+        // Фильтр по типу
         if (selectedType !== 'all') {
             result = result.filter(car => car.type === selectedType);
         }
 
+        // Фильтр по цене
         result = result.filter(car =>
             car.price >= priceRange.min && car.price <= priceRange.max
-        );
+        )
 
         // Сортировка
         if (sortBy === 'price-asc') result.sort((a, b) => a.price - b.price);
@@ -45,6 +49,8 @@ export function useCarFilter() {
         if (sortBy === 'year-asc') result.sort((a, b) => a.year - b.year);
 
         return result;
+
+
     }, [cars, searchTerm, selectedBrand, selectedType, priceRange, sortBy]);
 
     const resetFilters = () => {
@@ -61,17 +67,17 @@ export function useCarFilter() {
         types,
         totalCount: cars.length,
         filters: {
-            searchTerm,
-            setSearchTerm,
-            selectedBrand,
-            setSelectedBrand,
-            selectedType,
-            setSelectedType,
-            priceRange,
-            setPriceRange,
-            sortBy,
-            setSortBy,
-        } as FiltersCar,
+            searchTerm, setSearchTerm,
+            selectedBrand, setSelectedBrand,
+            selectedType, setSelectedType,
+            priceRange, setPriceRange,
+            sortBy, setSortBy,
+        },
         resetFilters,
-    };
+    }
+
+
+
+
+
 }
