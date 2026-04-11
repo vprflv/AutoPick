@@ -2,14 +2,15 @@
 
 import React from 'react';
 import CustomSelect from "@/src/components/ui/CustomSelect";
-import {FiltersCar} from "@/src/shared/types/types";
+import { FiltersCar } from "@/src/shared/types/types";
 
 interface FiltersProps {
-filters:FiltersCar
+    filters: FiltersCar;
 }
 
-export default function Filters({filters}: FiltersProps) {
-    const {searchTerm,
+export default function Filters({ filters }: FiltersProps) {
+    const {
+        searchTerm,
         setSearchTerm,
         selectedBrand,
         setSelectedBrand,
@@ -19,9 +20,11 @@ export default function Filters({filters}: FiltersProps) {
         setPriceRange,
         sortBy,
         setSortBy,
-        brands,
-        types,
-        resetFilters} = filters;
+        brands = [],      // ← защита
+        types = [],       // ← защита
+        resetFilters,
+    } = filters;
+
     return (
         <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8
                         sticky top-20 sm:top-24 lg:top-28 self-start
@@ -51,10 +54,10 @@ export default function Filters({filters}: FiltersProps) {
                     value={selectedBrand}
                     onChange={setSelectedBrand}
                     options={[
-                        {value: "all", label: "Все марки"},
+                        { value: "all", label: "Все марки" },
                         ...brands
-                            .filter(b => b !== "all")
-                            .map(brand => ({value: brand, label: brand}))
+                            .filter((b): b is string => b !== "all" && Boolean(b))
+                            .map(brand => ({ value: brand, label: brand }))
                     ]}
                 />
             </div>
@@ -66,10 +69,10 @@ export default function Filters({filters}: FiltersProps) {
                     value={selectedType}
                     onChange={setSelectedType}
                     options={[
-                        {value: 'all', label: "Все типы"},
+                        { value: 'all', label: "Все типы" },
                         ...types
-                            .filter(t => t !== "all")
-                            .map(type => ({value: type, label: type}))
+                            .filter((t): t is string => t !== "all" && Boolean(t))
+                            .map(type => ({ value: type, label: type }))
                     ]}
                 />
             </div>
@@ -81,10 +84,10 @@ export default function Filters({filters}: FiltersProps) {
                     value={sortBy}
                     onChange={setSortBy}
                     options={[
-                        {value: "price-desc", label: "Цена по убыванию"},
-                        {value: "price-asc", label: "Цена по возрастанию"},
-                        {value: "year-desc", label: "Сначала новые"},
-                        {value: "year-asc", label: "Сначала старые"},
+                        { value: "price-desc", label: "Цена по убыванию" },
+                        { value: "price-asc", label: "Цена по возрастанию" },
+                        { value: "year-desc", label: "Сначала новые" },
+                        { value: "year-asc", label: "Сначала старые" },
                     ]}
                 />
             </div>
@@ -93,8 +96,8 @@ export default function Filters({filters}: FiltersProps) {
             <button
                 onClick={resetFilters}
                 className="mt-8 w-full py-4 text-blue-600 hover:text-blue-700 font-medium
-                           flex items-center justify-center gap-2 transition-colors border border-blue-100
-                           hover:border-blue-200 rounded-2xl active:bg-blue-50"
+                           flex items-center justify-center gap-2 transition-colors
+                           border border-blue-100 hover:border-blue-200 rounded-2xl active:bg-blue-50"
             >
                 Сбросить все фильтры ↺
             </button>

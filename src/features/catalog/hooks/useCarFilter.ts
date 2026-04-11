@@ -19,7 +19,7 @@ export function useCarFilter() {
     const filteredAndSortedCars = useMemo(() => {
         let result = [...cars];
 
-        if (searchTerm) {
+        if (searchTerm.trim()) {
             const term = searchTerm.toLowerCase();
             result = result.filter(car =>
                 `${car.brand} ${car.model}`.toLowerCase().includes(term)
