@@ -1,12 +1,8 @@
 'use client';
 
-import {Car, CreateCarData, formDataCar} from "@/src/shared/types/types";
-import React, { useEffect, useState, useRef } from "react";
-import Button from "@/src/components/ui/Button";
-
-import { editCarAction } from "@/src/features/admin/actions/editCarAction";
-import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
-import {EditCarForm} from "@/src/features/admin/components/EditCarModal/EditCarForm";
+import React, { useEffect, useState } from "react";
+import { Car } from "@/src/shared/types/types";
+import { EditCarForm } from "./EditCarForm";
 
 interface EditCarModalProps {
     isOpen: boolean;
@@ -16,8 +12,6 @@ interface EditCarModalProps {
 }
 
 export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalProps) {
-    const formRef = useRef<HTMLFormElement>(null);
-
     const [formData, setFormData] = useState({
         brand: '',
         model: '',
@@ -55,15 +49,11 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
         }
     }, [car, isOpen]);
 
-
-
-
     if (!isOpen || !car) return null;
 
     return (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-            <div
-                className="bg-zinc-900 rounded-3xl w-full max-w-2xl max-h-[95vh] flex flex-col overflow-hidden shadow-2xl">
+            <div className="bg-zinc-900 rounded-3xl w-full max-w-2xl max-h-[95vh] flex flex-col overflow-hidden shadow-2xl">
 
                 {/* Заголовок */}
                 <div className="px-6 py-5 border-b border-zinc-800 flex-shrink-0">
@@ -78,88 +68,21 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
                     </div>
                 </div>
 
-                {/* Форма */}
+                {/* Форма с кнопками */}
                 <EditCarForm
                     car={car}
-                    formRef={formRef}
-                    imageUrls={imageUrls}
-                    setError={setError}
-                    error={error}
-                    setIsPending={setIsPending}
                     formData={formData}
+                    setFormData={setFormData}
+                    imageUrls={imageUrls}
+                    setImageUrls={setImageUrls}
+                    isPending={isPending}
+                    setIsPending={setIsPending}
+                    error={error}
+                    setError={setError}
                     onSuccess={onSuccess}
                     onClose={onClose}
-                    setFormData={setFormData} setImageUrls={setImageUrls}  />
-
-
-
-                {/*<form*/}
-                {/*    ref={formRef}*/}
-                {/*    onSubmit={handleSubmit}*/}
-                {/*    className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6"*/}
-                {/*>*/}
-                {/*    {error && (*/}
-                {/*        <div className="p-4 bg-red-900/50 border border-red-700 rounded-2xl text-red-400 text-sm">*/}
-                {/*            {error}*/}
-                {/*        </div>*/}
-                {/*    )}*/}
-
-                {/*    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">*/}
-                {/*        /!* ... все твои поля остаются без изменений ... *!/*/}
-                {/*        <div>*/}
-                {/*            <label className="block text-sm mb-2 text-zinc-400">Марка</label>*/}
-                {/*            <input*/}
-                {/*                type="text"*/}
-                {/*                value={formData.brand}*/}
-                {/*                onChange={(e) => setFormData({...formData, brand: e.target.value})}*/}
-                {/*                className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*                required*/}
-                {/*            />*/}
-                {/*        </div>*/}
-
-                {/*        /!* Остальные поля (model, year, price, mileage, CustomSelectAdmin) — оставляем как было *!/*/}
-                {/*        /!* ... (я не дублирую их все, чтобы не было слишком длинно) ... *!/*/}
-
-                {/*        <ImageUploader*/}
-                {/*            images={imageUrls}*/}
-                {/*            onChange={setImageUrls}*/}
-                {/*            maxImages={8}*/}
-                {/*        />*/}
-                {/*    </div>*/}
-                {/*</form>*/}
-
-                {/* Кнопки — СДЕЛАЛИ МЕНЬШЕ И КОМПАКТНЕЕ */}
-                <div className="p-5 md:p-6 border-t border-zinc-800 bg-zinc-900 flex gap-3 flex-shrink-0">
-                    <Button
-                        type="button"
-                        variant="outline"
-                        size="md"
-                        className="flex-1 py-3 text-base font-medium"
-                        onClick={onClose}
-                        disabled={isPending}
-                    >
-                        Отмена
-                    </Button>
-
-                    <Button
-                        type="button"
-                        variant="primary"
-                        size="md"
-                        className="flex-1 py-3 text-base font-medium"
-                        disabled={isPending}
-                        onClick={handleSaveClick}
-                    >
-                        {isPending ? 'Сохраняем...' : 'Сохранить изменения'}
-                    </Button>
-                </div>
+                />
             </div>
         </div>
     );
-
-
-    function handleSaveClick() {
-        if (formRef.current) {
-            formRef.current.requestSubmit();
-        }
-    }
 }

@@ -1,47 +1,44 @@
-import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
-import React, {JSX, RefObject, useRef} from "react";
-import {Car, CreateCarData, formDataCar} from "@/src/shared/types/types";
-import {editCarAction} from "@/src/features/admin/actions/editCarAction";
+'use client';
+
+import React from "react";
+import Button from "@/src/components/ui/Button";
+import { Car, CreateCarData } from "@/src/shared/types/types";
+import { editCarAction } from "@/src/features/admin/actions/editCarAction";
+import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
+import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
 
 interface EditCarFormProps {
-    car:Car
-    formRef: RefObject<HTMLFormElement>
-    imageUrls:string[]
-    setError:(string)=>void
-    setIsPending:(boolean)=>void
-    setFormData:(formDataCar)=>void
-    setImageUrls:(imageUrls)=>void
-    onClose:()=>void
-    onSuccess:(()=> void )| undefined
-    error:string | null
-    formData:formDataCar
-
-
+    car: Car;
+    formData: any;           // лучше создать тип formDataCar
+    setFormData: (data: any) => void;
+    imageUrls: string[];
+    setImageUrls: (urls: string[]) => void;
+    isPending: boolean;
+    setIsPending: (pending: boolean) => void;
+    error: string | null;
+    setError: (error: string | null) => void;
+    onSuccess?: () => void;
+    onClose: () => void;
 }
 
-
-
-
-export function EditCarForm({   car,
-                                formRef,
-                                imageUrls,
-                                setError,
-                                error,
-                                setIsPending,
+export function EditCarForm({
+                                car,
                                 formData,
+                                setFormData,
+                                imageUrls,
+                                setImageUrls,
+                                isPending,
+                                setIsPending,
+                                error,
+                                setError,
                                 onSuccess,
                                 onClose,
-                                setFormData,
-                                setImageUrls  }: EditCarFormProps) {
-
+                            }: EditCarFormProps) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
         e.preventDefault();
 
-        if (!car) return;
-
-        const validImages = imageUrls.filter(url => url && url.trim() !== '');
+        const validImages = imageUrls.filter(url => url?.trim() !== '');
 
         if (validImages.length === 0) {
             setError('Добавьте хотя бы одну фотографию автомобиля');
@@ -68,13 +65,8 @@ export function EditCarForm({   car,
         }
     };
 
-
     return (
-        <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
             {error && (
                 <div className="p-4 bg-red-900/50 border border-red-700 rounded-2xl text-red-400 text-sm">
                     {error}
@@ -82,20 +74,19 @@ export function EditCarForm({   car,
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* ... все твои поля остаются без изменений ... */}
+                {/* Поля формы — оставляем как было */}
                 <div>
                     <label className="block text-sm mb-2 text-zinc-400">Марка</label>
                     <input
                         type="text"
                         value={formData.brand}
-                        onChange={(e) => setFormData({...formData, brand: e.target.value})}
+                        onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
                         className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
                         required
                     />
                 </div>
 
-                {/* Остальные поля (model, year, price, mileage, CustomSelectAdmin) — оставляем как было */}
-                {/* ... (я не дублирую их все, чтобы не было слишком длинно) ... */}
+                {/* ... остальные поля (model, year, price, mileage, CustomSelectAdmin) ... */}
 
                 <ImageUploader
                     images={imageUrls}
@@ -103,6 +94,30 @@ export function EditCarForm({   car,
                     maxImages={8}
                 />
             </div>
+
+            {/* Компактные кнопки внизу формы */}
+            <div className="pt-6 border-t border-zinc-800 flex gap-3">
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="md"
+                    className="flex-1 py-3 text-base"
+                    onClick={onClose}
+                    disabled={isPending}
+                >
+                    Отмена
+                </Button>
+
+                <Button
+                    type="submit"
+                    variant="primary"
+                    size="md"
+                    className="flex-1 py-3 text-base font-medium"
+                    disabled={isPending}
+                >
+                    {isPending ? 'Сохраняем...' : 'Сохранить изменения'}
+                </Button>
+            </div>
         </form>
-    )
+    );
 }
