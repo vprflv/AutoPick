@@ -34,32 +34,34 @@ export function CarDetailPage() {
 
     return (
         <>
-            <div className="min-h-screen bg-zinc-50 pb-12 md:pb-16">
+            <div className="min-h-screen bg-zinc-50">
                 {/* Шапка */}
                 <div className="bg-white border-b sticky top-0 z-50">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-5 flex items-center justify-between">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
                         <button
                             onClick={() => router.back()}
-                            className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors text-sm sm:text-base"
+                            className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors text-sm sm:text-base font-medium"
                         >
                             ← Назад к каталогу
                         </button>
-                        <div className="font-bold text-2xl">AutoPick</div>
+                        <div className="font-bold text-2xl tracking-tight">AutoPick</div>
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 md:pt-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
 
-                        {/* Галерея */}
+                        {/* Галерея — занимает больше места */}
                         <div className="lg:col-span-3">
-                            <GalleryCardDeatil car={car}  />
+                            <GalleryCardDeatil car={car} />
                         </div>
 
-                        {/* Правая колонка с информацией */}
+                        {/* Информация об автомобиле */}
                         <div className="lg:col-span-2 space-y-8">
+
+                            {/* Название и теги */}
                             <div>
-                                <div className="flex items-center gap-4 mb-4">
+                                <div className="flex flex-wrap gap-3 mb-4">
                                     <span className="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-2xl text-sm font-medium">
                                         {car.year} год
                                     </span>
@@ -68,32 +70,32 @@ export function CarDetailPage() {
                                     </span>
                                 </div>
 
-                                <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight mb-6">
+                                <h1 className="text-4xl sm:text-5xl font-bold tracking-tighter leading-tight text-zinc-900">
                                     {car.brand} {car.model}
                                 </h1>
                             </div>
 
                             {/* Цена */}
-                            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow">
-                                <div className="text-zinc-500 text-sm">Цена</div>
-                                <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-blue-600 tracking-tighter mt-1">
-                                    {formatPrice(car.price)} ₽
+                            <div className="bg-white rounded-3xl p-7 shadow-sm">
+                                <div className="text-sm text-zinc-500 mb-1">Цена</div>
+                                <div className="text-5xl font-bold text-blue-600 tracking-tighter">
+                                    {formatPrice(car.price)}
                                 </div>
                             </div>
 
                             {/* Характеристики */}
-                            <div className="bg-white rounded-3xl p-6 sm:p-8 shadow">
+                            <div className="bg-white rounded-3xl p-7 shadow-sm">
                                 <h3 className="text-xl font-semibold mb-6">Характеристики</h3>
-                                <div className="grid grid-cols-1 gap-y-6 text-base sm:text-lg">
-                                    <div className="flex justify-between">
+                                <div className="grid grid-cols-1 gap-y-5 text-[15px]">
+                                    <div className="flex justify-between border-b border-zinc-100 pb-4">
                                         <span className="text-zinc-500">Пробег</span>
                                         <span className="font-medium">{car.mileage.toLocaleString('ru-RU')} км</span>
                                     </div>
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between border-b border-zinc-100 pb-4">
                                         <span className="text-zinc-500">Тип кузова</span>
                                         <span className="font-medium">{car.type}</span>
                                     </div>
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between border-b border-zinc-100 pb-4">
                                         <span className="text-zinc-500">Топливо</span>
                                         <span className="font-medium">{car.fuel || '—'}</span>
                                     </div>
@@ -104,20 +106,17 @@ export function CarDetailPage() {
                                 </div>
                             </div>
 
-                            {/* Кнопки */}
-                            <div className="flex flex-col gap-4 pt-4">
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    className="py-6 sm:py-7 text-base sm:text-xl font-medium"
-                                    onClick={() => setIsModalOpen(true)}
-                                >
-                                    Оставить заявку
-                                </Button>
+                            {/* Кнопка заявки */}
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                className="w-full py-7 text-lg font-medium shadow-lg shadow-blue-500/20"
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                Оставить заявку на этот автомобиль
+                            </Button>
 
-                            </div>
-
-                            <p className="text-center text-sm text-zinc-500 pt-4">
+                            <p className="text-center text-sm text-zinc-500">
                                 Гарантия юридической чистоты • Осмотр перед покупкой • Помощь с оформлением
                             </p>
                         </div>
@@ -129,10 +128,10 @@ export function CarDetailPage() {
             <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                title="Перезвоните мне"
+                title="Оставить заявку"
             >
                 <CallbackForm
-                    source={`Страница автомобиля: ${car.brand} ${car.model}`}
+                    source={`Страница автомобиля: ${car.brand} ${car.model} (${car.year})`}
                 />
             </Modal>
         </>
