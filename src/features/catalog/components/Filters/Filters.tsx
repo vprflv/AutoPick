@@ -2,38 +2,28 @@
 
 import React from 'react';
 import CustomSelect from "@/src/components/ui/CustomSelect";
+import {FiltersCar} from "@/src/shared/types/types";
+
 
 interface FiltersProps {
-    searchTerm: string;
-    setSearchTerm: (value: string) => void;
-    selectedBrand: string;
-    setSelectedBrand: (value: string) => void;
-    selectedType: string;
-    setSelectedType: (value: string) => void;
-    priceRange: { min: number; max: number };
-    setPriceRange: (value: { min: number; max: number }) => void;
-    sortBy: 'price-asc' | 'price-desc' | 'year-desc' | 'year-asc';
-    setSortBy: (value: 'price-asc' | 'price-desc' | 'year-desc' | 'year-asc') => void;
-    brands: string[];
-    types: string[];
-    resetFilters: () => void;
+  filters: FiltersCar
 }
 
-export default function Filters({
-                                    searchTerm,
-                                    setSearchTerm,
-                                    selectedBrand,
-                                    setSelectedBrand,
-                                    selectedType,
-                                    setSelectedType,
-                                    priceRange,
-                                    setPriceRange,
-                                    sortBy,
-                                    setSortBy,
-                                    brands,
-                                    types,
-                                    resetFilters,
-                                }: FiltersProps) {
+export default function Filters({filters}: FiltersProps) {
+    const{ searchTerm,
+        setSearchTerm,
+        selectedBrand,
+        setSelectedBrand,
+        selectedType,
+        setSelectedType,
+        priceRange,
+        setPriceRange,
+        sortBy,
+        setSortBy,
+        brands,
+        types,
+        resetFilters} = filters
+
     return (
         <div className="bg-white rounded-3xl shadow-lg p-5 sm:p-6 lg:p-8
                         sticky top-20 sm:top-24 lg:top-28 self-start
