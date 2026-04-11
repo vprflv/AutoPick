@@ -26,5 +26,15 @@ export interface CreateCarData extends NewCar {
     images: string[];
 }
 
+export type formDataCar ={
+    brand: string,
+    model: string,
+    year: number,
+    price: number,
+    mileage: number,
+    type: string,
+    fuel: string,
+    transmission: string,
+}
 
 
