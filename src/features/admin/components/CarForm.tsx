@@ -139,10 +139,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     />
                 </div>
 
-
                 <div>
-
-
                     {carSelectFields.map(({ label, field, options }) => (
                         <CustomSelectAdmin
                             key={field}
@@ -152,6 +149,13 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                             options={options}
                         />
                     ))}
+                </div>
+
+
+                {/*<div>*/}
+
+
+
 
                 {/*    <CustomSelectAdmin*/}
                 {/*        label="Тип кузова"*/}
