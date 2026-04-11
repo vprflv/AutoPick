@@ -72,11 +72,15 @@ export default function CustomSelect<T extends string = string>({
                         left: buttonRect.left,
                         width: buttonRect.width,
                     }}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     {options.map((option) => (
                         <button
                             key={option.value}
-                            onClick={() => handleSelect(option.value)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleSelect(option.value)
+                            }}
                             className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
                         >
