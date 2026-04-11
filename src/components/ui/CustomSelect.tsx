@@ -4,42 +4,33 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
-
-
-interface Option<T = string> {
-    value: T;
-    label: string;
-}
-
-interface CustomSelectProps<T = string> {
+interface CustomSelectProps<T extends string = string> {
     value: T;
     onChange: (value: T) => void;
-    options: Option<T>[];
+    options: { value: T; label: string }[];
     placeholder?: string;
     className?: string;
 }
 
-export default function CustomSelect<T = string>({
-                                         value,
-                                         onChange,
-                                         options,
-                                         placeholder = "Выберите...",
-                                         className = "",
-                                     }: CustomSelectProps<T>) {
+export default function CustomSelect<T extends string = string>({
+                                                                    value,
+                                                                    onChange,
+                                                                    options,
+                                                                    placeholder = "Выберите...",
+                                                                    className = "",
+                                                                }: CustomSelectProps<T>) {
     const [isOpen, setIsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
 
     const selectedOption = options.find(opt => opt.value === value);
 
-    // Обновляем позицию при открытии
     useEffect(() => {
         if (isOpen && buttonRef.current) {
             setButtonRect(buttonRef.current.getBoundingClientRect());
         }
     }, [isOpen]);
 
-    // Закрытие при клике вне
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
