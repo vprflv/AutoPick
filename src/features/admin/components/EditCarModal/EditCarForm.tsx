@@ -100,7 +100,7 @@ export function EditCarForm({
                 <div>
                     <label className="block text-sm mb-2 text-zinc-400">Год выпуска</label>
                     <input
-                        type="number"
+                        type="text"
                         value={formData.year}
                         onChange={(e) => setFormData({...formData, year: parseInt(e.target.value) || 0})}
                         className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
@@ -111,7 +111,7 @@ export function EditCarForm({
                 <div>
                     <label className="block text-sm mb-2 text-zinc-400">Цена (₽)</label>
                     <input
-                        type="number"
+                        type="text"
                         value={formData.price}
                         onChange={(e) => setFormData({...formData, price: parseInt(e.target.value) || 0})}
                         className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
@@ -122,7 +122,7 @@ export function EditCarForm({
                 <div>
                     <label className="block text-sm mb-2 text-zinc-400">Пробег (км)</label>
                     <input
-                        type="number"
+                        type="text"
                         value={formData.mileage}
                         onChange={(e) => setFormData({...formData, mileage: parseInt(e.target.value) || 0})}
                         className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
