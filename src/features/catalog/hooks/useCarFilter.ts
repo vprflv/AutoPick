@@ -5,7 +5,7 @@ import { useGetInitialCars } from "@/src/shared/hooks/useGetInitialCars";
 import {FiltersCar} from "@/src/shared/types/types";
 
 export function useCarFilter() {
-    const { cars } = useGetInitialCars();
+    const { cars = [] } = useGetInitialCars();
 
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBrand, setSelectedBrand] = useState<'all' | string>('all');
