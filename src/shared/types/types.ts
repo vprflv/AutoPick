@@ -74,17 +74,4 @@ export interface FiltersCar {
 }
 
 
-export interface EditCarForm{
-    formData: formDataCar;
-    setFormData: (data: any) => void;
-    imageUrls: string[];
-    setImageUrls: (urls: string[]) => void;
-    isPending: boolean;
-    setIsPending: (pending: boolean) => void;
-    error: string | null;
-    setError: (error: string | null) => void;
-    onSuccess?: () => void;
-    onClose: () => void;
-}
-
 
