@@ -24,7 +24,7 @@ export function CallbackForm({ source = "Главная страница", }: Ca
     } = useSendEmail(source);   // передаём source в хук
 
     return (
-        <div className="pt-4 pb-6 max-h-[85vh] overflow-y-auto pr-2 custom-scroll">
+        <div className="pt-4 pl-4 pb-6 max-h-[85vh] overflow-y-auto pr-2 custom-scroll">
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Имя */}
                 <div>

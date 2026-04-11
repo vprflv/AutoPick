@@ -34,7 +34,6 @@ export function AdminPage() {
 
 // Обработчик успешного редактирования
     const handleEditSuccess = () => {
-            console.log("handleEditSuccess вызван — обновляем список");
             loadCars();           // обновляем данные
             setIsEditModalOpen(false);
             setEditingCar(null);

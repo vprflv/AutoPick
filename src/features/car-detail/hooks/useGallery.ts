@@ -47,7 +47,6 @@ export function useGallery() {
 
 
             if (result?.error) {
-                console.error(' Ошибка Supabase:', result.error);
                 setError(result.error.message);
                 setImages([]);
                 return;
@@ -56,7 +55,6 @@ export function useGallery() {
             const foundCar = result?.data as Car | null;
 
             if (!foundCar) {
-                console.warn('Автомобиль не найден');
                 setError('Автомобиль не найден');
                 setTimeout(() => router.push('/'), 1500);
                 return;
@@ -71,7 +69,6 @@ export function useGallery() {
             setImages(carImages);
 
         } catch (err: any) {
-            console.error('useGallery: Критическая ошибка:', err);
             setError(err.message || 'Ошибка загрузки автомобиля');
             setTimeout(() => router.push('/'), 1500);
         } finally {

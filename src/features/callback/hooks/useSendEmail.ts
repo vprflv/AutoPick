@@ -64,7 +64,6 @@ export function useSendEmail(defaultSource: string = 'Неизвестная с�
         } catch (err: any) {
             const errorMessage = err.message || 'Произошла неожиданная ошибка';
             setError(errorMessage);
-            console.error('Ошибка отправки заявки:', err);
             return false;
         } finally {
             setIsSubmitting(false);

@@ -40,10 +40,6 @@ export async function addCarAction(data: CreateCarData) {
                 .from('car_images')
                 .insert(imageInserts);
 
-            if (imagesError) {
-                console.error('Ошибка сохранения изображений:', imagesError);
-                // Не откатываем создание автомобиля, только логируем
-            }
         }
 
         return {
@@ -53,7 +49,6 @@ export async function addCarAction(data: CreateCarData) {
         };
 
     } catch (err: any) {
-        console.error('addCarAction error:', err);
         return {
             success: false,
             error: err.message || 'Произошла ошибка при добавлении автомобиля',

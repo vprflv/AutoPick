@@ -33,7 +33,6 @@ export async function uploadCarImage(file: File): Promise<{ success: boolean; ur
         };
 
     } catch (err: any) {
-        console.error('Upload error:', err);
         return {
             success: false,
             error: err.message || 'Не удалось загрузить изображение'

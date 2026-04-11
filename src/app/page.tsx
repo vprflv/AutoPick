@@ -1,10 +1,6 @@
 // src/app/page.tsx
 'use client';
 
-console.log('=== ENV CHECK ===');
-console.log('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? 'OK' : 'MISSING');
-console.log('NEXT_PUBLIC_SUPABASE_KEY exists:', !!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY);
-
 import Header from "@/src/components/common/Header/Header";
 import { Hero } from "@/src/components/common/Hero/Hero";
 import Footer from "@/src/components/common/Footer/Footer";

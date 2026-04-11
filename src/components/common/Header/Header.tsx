@@ -13,7 +13,6 @@ export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleMenu = useCallback(() => {
-        console.log("toggleMenu вызван, текущее состояние:", isMenuOpen);
         setIsMenuOpen(prev => !prev);
     }, [isMenuOpen]);
 

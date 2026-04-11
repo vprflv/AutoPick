@@ -39,7 +39,7 @@ export async function createServerSupabaseClient() {
                         cookieStore.set(name, value, options);
                     });
                 } catch (err) {
-                    console.error('Failed to set cookie:', err);
+
                 }
             },
         },

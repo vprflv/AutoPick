@@ -32,7 +32,6 @@ export function useGetInitialCars() {
                 .order('created_at', { ascending: false });
 
             if (result?.error) {
-                console.error('Supabase error:', result.error);
                 setError(result.error.message);
                 setCars([]);
                 return;
@@ -50,7 +49,6 @@ export function useGetInitialCars() {
 
             setCars(carsWithImages);
         } catch (err: any) {
-            console.error('loadCars error:', err);
             setError(err.message || 'Ошибка загрузки автомобилей');
             setCars([]);
         } finally {

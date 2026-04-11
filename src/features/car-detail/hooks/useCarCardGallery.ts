@@ -56,7 +56,6 @@ export function useCarCardGallery() {
 
 
             } catch (err: any) {
-                console.error(err);
                 setError(err.message || 'Ошибка загрузки автомобиля');
                 setTimeout(() => router.push('/'), 1500);
             } finally {

@@ -46,7 +46,6 @@ export async function sendCallbackEmail(data: CallbackEmailData) {
         });
 
         if (error) {
-            console.error('Resend error:', error);
             return { success: false, error: error.message };
         }
 
