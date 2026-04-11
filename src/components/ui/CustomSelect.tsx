@@ -2,38 +2,30 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { createPortal } from 'react-dom';
 
-interface CustomSelectProps<T extends string = string> {
-    value: T;
-    onChange: (value: T) => void;
-    options: Array<{ value: T; label: string }>;
+interface CustomSelectProps {
+    value: string;
+    onChange: (value: string) => void;
+    options: { value: string; label: string }[];
     placeholder?: string;
     className?: string;
 }
 
-export default function CustomSelect<T extends string = string>({
-                                                                    value,
-                                                                    onChange,
-                                                                    options,
-                                                                    placeholder = "Выберите...",
-                                                                    className = "",
-                                                                }: CustomSelectProps<T>) {
+export default function CustomSelect({
+                                         value,
+                                         onChange,
+                                         options,
+                                         placeholder = "Выберите...",
+                                         className = "",
+                                     }: CustomSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const [buttonRect, setButtonRect] = useState<DOMRect | null>(null);
+    const ref = useRef<HTMLDivElement>(null);
 
-    const selectedOption = options.find((opt) => opt.value === value);
-
-    useEffect(() => {
-        if (isOpen && buttonRef.current) {
-            setButtonRect(buttonRef.current.getBoundingClientRect());
-        }
-    }, [isOpen]);
+    const selectedOption = options.find(opt => opt.value === value);
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
-            if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
+            if (ref.current && !ref.current.contains(e.target as Node)) {
                 setIsOpen(false);
             }
         };
@@ -41,13 +33,8 @@ export default function CustomSelect<T extends string = string>({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (newValue: T) => {
-        onChange(newValue);
-        setIsOpen(false);
-    };
-
     return (
-        <div className="relative" ref={buttonRef as any}>
+        <div className="relative" ref={ref}>
             <button
                 type="button"
                 onClick={() => setIsOpen(!isOpen)}
@@ -64,31 +51,22 @@ export default function CustomSelect<T extends string = string>({
                 />
             </button>
 
-            {isOpen && buttonRect && createPortal(
-                <div
-                    className="fixed bg-white border border-zinc-200 rounded-2xl shadow-2xl py-2 max-h-80 overflow-auto z-[9999]"
-                    style={{
-                        top: buttonRect.bottom + 8,
-                        left: buttonRect.left,
-                        width: buttonRect.width,
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                >
+            {isOpen && (
+                <div className="absolute z-[100] w-full mt-2 bg-white border border-zinc-200 rounded-2xl shadow-xl py-2 max-h-80 overflow-auto">
                     {options.map((option) => (
                         <button
                             key={option.value}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleSelect(option.value);
+                            onClick={() => {
+                                onChange(option.value);
+                                setIsOpen(false);
                             }}
-                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
+                            className={`w-full px-5 py-3 text-left hover:bg-zinc-50 active:bg-zinc-100 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
                         >
                             {option.label}
                         </button>
                     ))}
-                </div>,
-                document.body
+                </div>
             )}
         </div>
     );
