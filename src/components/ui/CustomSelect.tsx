@@ -4,15 +4,22 @@ import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
-interface CustomSelectProps {
-    value: string;
-    onChange: (value: string) => void;
-    options: { value: string; label: string }[];
+
+
+interface Option<T = string> {
+    value: T;
+    label: string;
+}
+
+interface CustomSelectProps<T = string> {
+    value: T;
+    onChange: (value: T) => void;
+    options: Option<T>[];
     placeholder?: string;
     className?: string;
 }
 
-export default function CustomSelect({
+export default function CustomSelect<T = string>({
                                          value,
                                          onChange,
                                          options,
@@ -43,7 +50,7 @@ export default function CustomSelect({
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const handleSelect = (newValue: string) => {
+    const handleSelect = (newValue: T) => {
         onChange(newValue);
         setIsOpen(false);
     };
@@ -77,7 +84,7 @@ export default function CustomSelect({
                 >
                     {options.map((option) => (
                         <button
-                            key={option.value}   // ← Здесь было проблема, теперь string явно
+                            key={option.value}
                             onClick={() => handleSelect(option.value)}
                             className={`w-full px-5 py-3 text-left hover:bg-zinc-50 transition-colors
                                 ${option.value === value ? 'bg-blue-50 text-blue-600 font-medium' : 'text-zinc-700'}`}
