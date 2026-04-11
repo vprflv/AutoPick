@@ -8,17 +8,13 @@ import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
 
 interface EditCarFormProps {
-    car: Car;
     formData: formDataCar;
     setFormData: (data: any) => void;
     imageUrls: string[];
     setImageUrls: (urls: string[]) => void;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     isPending: boolean;
-    setIsPending: (pending: boolean) => void;
     error: string | null;
-    setError: (error: string | null) => void;
-    onSuccess?: () => void;
     onClose: () => void;
 }
 
@@ -29,10 +25,7 @@ export function EditCarForm({
                                 imageUrls,
                                 setImageUrls,
                                 isPending,
-                                setIsPending,
                                 error,
-                                setError,
-                                onSuccess,
                                 onClose,
                             }: EditCarFormProps) {
 

@@ -44,7 +44,6 @@ export function EditCarModal({ isOpen, onClose, car, onSuccess }: EditCarModalPr
 
                 {/* Форма */}
                 <EditCarForm
-                    car={car}
                     formData={formData}
                     setFormData={setFormData}
                     imageUrls={imageUrls}
