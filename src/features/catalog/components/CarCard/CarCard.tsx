@@ -16,35 +16,14 @@ interface CarCardProps {
 export default function CarCard({ car, formatPrice }: CarCardProps) {
     const router = useRouter();
 
-    const {
-        images,
-        mainImage,
-        currentImageIndex,
-        goToPrevious,
-        goToNext,
-        handleTouchStart,
-        handleTouchMove,
-        handleTouchEnd,
-        hasMultipleImages,
-    } = useCarCard(car);
+    const gallery= useCarCard(car);
 
     return (
         <div
             className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-zinc-100 flex flex-col h-full w-full">
 
             {/* Галерея изображений */}
-            <CarCardGallery
-                handleTouchStart={handleTouchStart}
-                handleTouchEnd={handleTouchEnd}
-                handleTouchMove={handleTouchMove}
-                mainImage={mainImage}
-                car={car}
-                hasMultipleImages={hasMultipleImages}
-                goToPrevious={goToPrevious}
-                goToNext={goToNext}
-                currentImageIndex={currentImageIndex}
-                images={images}
-            />
+            <CarCardGallery car={car} gallery={gallery}/>
 
             {/* Основной контент */}
             <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-7">

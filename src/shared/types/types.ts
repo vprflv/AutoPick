@@ -38,3 +38,16 @@ export type formDataCar ={
 }
 
 
+export interface CarGalleryData {
+    images: string[];
+    mainImage: string;
+    currentImageIndex: number;
+    hasMultipleImages: boolean;
+    goToPrevious: (e?: React.MouseEvent) => void;
+    goToNext: (e?: React.MouseEvent) => void;
+    handleTouchStart: (e: React.TouchEvent) => void;
+    handleTouchMove: (e: React.TouchEvent) => void;
+    handleTouchEnd: () => void;
+}
+
+

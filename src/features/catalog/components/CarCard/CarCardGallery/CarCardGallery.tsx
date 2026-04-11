@@ -1,33 +1,30 @@
 import Image from "next/image";
-import {Car} from "@/src/shared/types/types";
+import {Car, CarGalleryData} from "@/src/shared/types/types";
 
 
 
 interface CarCardGalleryProps{
-    handleTouchStart:(e: React.TouchEvent) => void
-    handleTouchEnd:() => void
-    handleTouchMove:(e: React.TouchEvent)=>void
-    mainImage:string
     car:Car
-    hasMultipleImages:boolean
-    goToPrevious:(e?: React.MouseEvent)=>void
-    goToNext:(e?: React.MouseEvent)=>void
-    currentImageIndex:number
-    images:string []
+    gallery: CarGalleryData;
 
 
 }
 
-export function CarCardGallery({handleTouchStart,
-                                   handleTouchEnd,
-                                   handleTouchMove,
-                                   mainImage,
-                                   car,
-                                   hasMultipleImages,
-                                   goToPrevious,
-                                   goToNext,
-                                   currentImageIndex,
-                                   images}:CarCardGalleryProps) {
+export function CarCardGallery({car, gallery }:CarCardGalleryProps) {
+    const {
+        images,
+        mainImage,
+        currentImageIndex,
+        hasMultipleImages,
+        goToPrevious,
+        goToNext,
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
+    } = gallery;
+
+
+
     return (
 
         <div className="relative">
