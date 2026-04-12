@@ -2,7 +2,7 @@
 
 import React from "react";
 import Button from "@/src/components/ui/Button";
-import {Car, CreateCarData, formDataCar} from "@/src/shared/types/types";
+import { formDataCar} from "@/src/shared/types/types";
 
 import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";

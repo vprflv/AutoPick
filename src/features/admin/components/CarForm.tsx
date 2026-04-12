@@ -7,7 +7,6 @@ import {CustomSelectAdmin} from "@/src/components/ui/CustomSelectAdmin";
 import {addCarAction} from "@/src/features/admin/actions/addCarAction";
 import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
 import {carSelectFields} from "@/src/features/admin/config/selectFields";
-import {EditCarFormInput} from "@/src/features/admin/components/EditCarModal/EditCarFormInput";
 import {AdminTextInput} from "@/src/features/admin/components/inputs/AdminTextInput";
 
 interface CarFormProps {
