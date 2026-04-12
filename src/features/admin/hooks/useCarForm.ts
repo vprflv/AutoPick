@@ -1,18 +1,38 @@
-import React, {useState, useTransition} from "react";
+import React, {useCallback, useState, useTransition} from "react";
 import {addCarAction} from "@/src/features/admin/actions/addCarAction";
+import {formDataCar} from "@/src/shared/types/types";
 
 
-export function useCarForm(onSuccess?:()=>void, onClose?:()=>void) {
-    const [formData, setFormData] = useState({
-        brand: '',
-        model: '',
-        year: new Date().getFullYear(),
-        price: 0,
-        mileage: 0,
-        type: 'Седан',
-        fuel: 'Бензин',
-        transmission: 'Автомат',
-    });
+const initialFormData: formDataCar = {
+    brand: '',
+    model: '',
+    year: new Date().getFullYear(),
+    price: 0,
+    mileage: 0,
+    type: 'Седан',
+    fuel: 'Бензин',
+    transmission: 'Автомат',
+};
+
+interface UseCarFormReturn {
+    formData: formDataCar;
+    setFormData: React.Dispatch<React.SetStateAction<formDataCar>>;
+    imageUrls: string[];
+    setImageUrls: React.Dispatch<React.SetStateAction<string[]>>;
+    isPending: boolean;
+    error: string | null;
+    successMessage: string | null;
+    handleSubmit: (e: React.FormEvent) => void;
+    resetForm: () => void;
+}
+
+
+
+
+
+
+export function useCarForm(onSuccess?:()=>void):UseCarFormReturn {
+    const [formData, setFormData] = useState<formDataCar>((initialFormData));
 
 
 
@@ -20,6 +40,14 @@ export function useCarForm(onSuccess?:()=>void, onClose?:()=>void) {
     const [error, setError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [imageUrls, setImageUrls] = useState<string[]>(['']);
+
+
+    const resetForm = useCallback(() => {
+        setFormData(initialFormData);
+        setImageUrls(['']);
+        setError(null);
+        setSuccessMessage(null);
+    }, []);
 
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -41,26 +69,25 @@ export function useCarForm(onSuccess?:()=>void, onClose?:()=>void) {
             });
 
             if (result.success) {
-                setSuccessMessage(result.message || 'Автомобиль добавлен!');
-
-                setFormData({
-                    brand: '',
-                    model: '',
-                    year: new Date().getFullYear(),
-                    price: 0,
-                    mileage: 0,
-                    type: 'Седан',
-                    fuel: 'Бензин',
-                    transmission: 'Автомат',
-                });
-                setImageUrls(['']);
+                setSuccessMessage(result.message || 'Автомобиль успешно добавлен!');
+                resetForm();
                 onSuccess?.();
-            }else {
+            } else {
                 setError(result.error || 'Не удалось добавить автомобиль');
             }
         })    };
 
 
-    return {formData, handleSubmit, setFormData, imageUrls, setImageUrls};
+    return {
+        formData,
+        setFormData,
+        imageUrls,
+        setImageUrls,
+        isPending,
+        error,
+        successMessage,
+        handleSubmit,
+        resetForm,
+    };
 
 }
