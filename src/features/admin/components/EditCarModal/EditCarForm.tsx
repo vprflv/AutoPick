@@ -42,17 +42,6 @@ export function EditCarForm({
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Поля формы — оставляем как было */}
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2 text-zinc-400">Марка</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={formData.brand}*/}
-                {/*        onChange={(e) => setFormData({...formData, brand: e.target.value})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Марка"
@@ -62,35 +51,12 @@ export function EditCarForm({
                 />
 
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2 text-zinc-400">Модель</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={formData.model}*/}
-                {/*        onChange={(e) => setFormData({...formData, model: e.target.value})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
-
-
                 <AdminTextInput
                     label="Модель"
                     value={formData.model}
                     onChange={(val) => setFormData({ ...formData, model: String(val) })}
                     required
                 />
-
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2 text-zinc-400">Год выпуска</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={formData.year}*/}
-                {/*        onChange={(e) => setFormData({...formData, year: parseInt(e.target.value) || 0})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Год выпуска"
@@ -101,17 +67,6 @@ export function EditCarForm({
                     required
                 />
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2 text-zinc-400">Цена (₽)</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={formData.price}*/}
-                {/*        onChange={(e) => setFormData({...formData, price: parseInt(e.target.value) || 0})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
-
                 <AdminTextInput
                     label="Цена (₽)"
                     value={formData.price}
@@ -121,16 +76,6 @@ export function EditCarForm({
                     required
                 />
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2 text-zinc-400">Пробег (км)</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        value={formData.mileage}*/}
-                {/*        onChange={(e) => setFormData({...formData, mileage: parseInt(e.target.value) || 0})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
-                {/*        required*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Пробег (км)"
@@ -158,8 +103,8 @@ export function EditCarForm({
             />
         </div>
 
-    {/* Компактные кнопки внизу формы */
-    }
+    {/* Компактные кнопки внизу формы */}
+
     <div className="pt-6 border-t border-zinc-800 flex gap-3">
         <Button
             type="button"

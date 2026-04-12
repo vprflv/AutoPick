@@ -8,6 +8,7 @@ import {addCarAction} from "@/src/features/admin/actions/addCarAction";
 import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
 import {carSelectFields} from "@/src/features/admin/config/selectFields";
 import {AdminTextInput} from "@/src/features/admin/components/inputs/AdminTextInput";
+import {useCarForm} from "@/src/features/admin/hooks/useCarForm";
 
 interface CarFormProps {
     onSuccess?: () => void;
@@ -15,61 +16,63 @@ interface CarFormProps {
 }
 
 export function CarForm({  onSuccess, onCancel }: CarFormProps) {
-    const [isPending, startTransition] = useTransition();
-    const [error, setError] = useState<string | null>(null);
-    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    // const [isPending, startTransition] = useTransition();
+    // const [error, setError] = useState<string | null>(null);
+    // const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
 
-    const [formData, setFormData] = useState({
-        brand: '',
-        model: '',
-        year: new Date().getFullYear(),
-        price: 0,
-        mileage: 0,
-        type: 'Седан',
-        fuel: 'Бензин',
-        transmission: 'Автомат',
-    });
+    // const [formData, setFormData] = useState({
+    //     brand: '',
+    //     model: '',
+    //     year: new Date().getFullYear(),
+    //     price: 0,
+    //     mileage: 0,
+    //     type: 'Седан',
+    //     fuel: 'Бензин',
+    //     transmission: 'Автомат',
+    // });
 
-    const [imageUrls, setImageUrls] = useState<string[]>(['']);
+    // const [imageUrls, setImageUrls] = useState<string[]>(['']);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError(null);
-        setSuccessMessage(null);
+    // const handleSubmit = (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     setError(null);
+    //     setSuccessMessage(null);
+    //
+    //     const validImages = imageUrls.filter(url => url.trim() !== '');
+    //
+    //     if (validImages.length === 0) {
+    //         setError('Добавьте хотя бы одну фотографию автомобиля');
+    //         return;
+    //     }
+    //
+    //     startTransition(async () => {
+    //         const result = await addCarAction({
+    //             ...formData,
+    //             images: validImages,
+    //         });
+    //
+    //         if (result.success) {
+    //             setSuccessMessage(result.message || 'Автомобиль добавлен!');
+    //
+    //             setFormData({
+    //                 brand: '',
+    //                 model: '',
+    //                 year: new Date().getFullYear(),
+    //                 price: 0,
+    //                 mileage: 0,
+    //                 type: 'Седан',
+    //                 fuel: 'Бензин',
+    //                 transmission: 'Автомат',
+    //             });
+    //             setImageUrls(['']);
+    //             onSuccess?.();
+    //         }else {
+    //             setError(result.error || 'Не удалось добавить автомобиль');
+    //         }
+    //     })    };
 
-        const validImages = imageUrls.filter(url => url.trim() !== '');
-
-        if (validImages.length === 0) {
-            setError('Добавьте хотя бы одну фотографию автомобиля');
-            return;
-        }
-
-        startTransition(async () => {
-            const result = await addCarAction({
-                ...formData,
-                images: validImages,
-            });
-
-            if (result.success) {
-                setSuccessMessage(result.message || 'Автомобиль добавлен!');
-
-                setFormData({
-                    brand: '',
-                    model: '',
-                    year: new Date().getFullYear(),
-                    price: 0,
-                    mileage: 0,
-                    type: 'Седан',
-                    fuel: 'Бензин',
-                    transmission: 'Автомат',
-                });
-                setImageUrls(['']);
-                onSuccess?.();
-            }else {
-                setError(result.error || 'Не удалось добавить автомобиль');
-            }
-        })    };
+    const {formData, handleSubmit, setFormData, imageUrls, setImageUrls}=useCarForm(onSuccess, onCancel )
 
     return (
         <div className="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
