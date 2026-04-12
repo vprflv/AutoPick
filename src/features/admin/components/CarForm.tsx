@@ -7,6 +7,8 @@ import {CustomSelectAdmin} from "@/src/components/ui/CustomSelectAdmin";
 import {addCarAction} from "@/src/features/admin/actions/addCarAction";
 import {ImageUploader} from "@/src/features/admin/components/ImageUploader";
 import {carSelectFields} from "@/src/features/admin/config/selectFields";
+import {EditCarFormInput} from "@/src/features/admin/components/EditCarModal/EditCarFormInput";
+import {AdminTextInput} from "@/src/features/admin/components/inputs/AdminTextInput";
 
 interface CarFormProps {
     onSuccess?: () => void;
@@ -31,14 +33,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
     });
 
     const [imageUrls, setImageUrls] = useState<string[]>(['']);
-
-    // const handleImageChange = (index: number, value: string) => {
-    //     const newImages = [...imageUrls];
-    //     newImages[index] = value;
-    //     setImageUrls(newImages);
-    // };
-
-
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -76,68 +70,109 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
             }else {
                 setError(result.error || 'Не удалось добавить автомобиль');
             }
-        })
-    };
+        })    };
 
     return (
         <div className="bg-zinc-900 rounded-3xl p-8 border border-zinc-800">
             <h2 className="text-2xl font-semibold mb-8">Добавление нового автомобиля</h2>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label className="block text-sm mb-2">Марка</label>
-                    <input
-                        type="text"
-                        required
-                        value={formData.brand}
-                        onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
 
-                <div>
-                    <label className="block text-sm mb-2">Модель</label>
-                    <input
-                        type="text"
-                        required
-                        value={formData.model}
-                        onChange={(e) => setFormData({...formData, model: e.target.value})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
 
-                <div>
-                    <label className="block text-sm mb-2">Год выпуска</label>
-                    <input
-                        type="text"
-                        required
-                        value={formData.year}
-                        onChange={(e) => setFormData({...formData, year: Number(e.target.value)})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Марка</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        value={formData.brand}*/}
+                {/*        onChange={(e) => setFormData({...formData, brand: e.target.value})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
 
-                <div>
-                    <label className="block text-sm mb-2">Цена (₽)</label>
-                    <input
-                        type="text"
-                        required
-                        value={formData.price}
-                        onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
+                <AdminTextInput
+                    label="Марка"
+                    value={formData.brand}
+                    onChange={(val) => setFormData({ ...formData, brand: val })}
+                    required
+                />
 
-                <div>
-                    <label className="block text-sm mb-2">Пробег (км)</label>
-                    <input
-                        type="text"
-                        required
-                        value={formData.mileage}
-                        onChange={(e) => setFormData({...formData, mileage: Number(e.target.value)})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Модель</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        value={formData.model}*/}
+                {/*        onChange={(e) => setFormData({...formData, model: e.target.value})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Модель"
+                    value={formData.model}
+                    onChange={(val) => setFormData({ ...formData, model: val })}
+                    required
+                />
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Год выпуска</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        value={formData.year}*/}
+                {/*        onChange={(e) => setFormData({...formData, year: Number(e.target.value)})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Год выпуска"
+                    type="number"
+                    value={formData.year}
+                    onChange={(val) => setFormData({ ...formData, year: val })}
+                    required
+                />
+
+
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Цена (₽)</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        value={formData.price}*/}
+                {/*        onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Цена (₽)"
+                    type="number"
+                    value={formData.price}
+                    onChange={(val) => setFormData({ ...formData, price: val })}
+                    required
+                />
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2">Пробег (км)</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        required*/}
+                {/*        value={formData.mileage}*/}
+                {/*        onChange={(e) => setFormData({...formData, mileage: Number(e.target.value)})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Пробег (км)"
+                    type="number"
+                    value={formData.mileage}
+                    onChange={(val) => setFormData({ ...formData, mileage: val })}
+                    required
+                />
 
                 <div>
                     {carSelectFields.map(({ label, field, options }) => (
@@ -150,55 +185,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                         />
                     ))}
                 </div>
-
-
-                {/*<div>*/}
-
-
-
-
-                {/*    <CustomSelectAdmin*/}
-                {/*        label="Тип кузова"*/}
-                {/*        value={formData.type}*/}
-                {/*        onChange={(val) => setFormData({ ...formData, type: val })}*/}
-                {/*        options={[*/}
-                {/*            { value: 'Седан', label: 'Седан' },*/}
-                {/*            { value: 'Кроссовер', label: 'Кроссовер' },*/}
-                {/*            { value: 'Универсал', label: 'Универсал' },*/}
-                {/*            { value: 'Хэтчбек', label: 'Хэтчбек' },*/}
-                {/*            { value: 'Внедорожник', label: 'Внедорожник' },*/}
-                {/*        ]}*/}
-                {/*    />*/}
-                {/*</div>*/}
-
-                {/*<div>*/}
-
-                {/*    <CustomSelectAdmin*/}
-                {/*        label="Топливо"*/}
-                {/*        value={formData.fuel}*/}
-                {/*        onChange={(val) => setFormData({ ...formData, fuel: val })}*/}
-                {/*        options={[*/}
-                {/*            { value: 'Бензин', label: 'Бензин' },*/}
-                {/*            { value: 'Дизель', label: 'Дизель' },*/}
-                {/*            { value: 'Гибрид', label: 'Гибрид' },*/}
-                {/*            { value: 'Электро', label: 'Электро' },*/}
-                {/*        ]}*/}
-                {/*    />*/}
-                {/*</div>*/}
-
-                {/*<div>*/}
-                {/*    <CustomSelectAdmin*/}
-                {/*        label="Коробка передач"*/}
-                {/*        value={formData.transmission}*/}
-                {/*        onChange={(val) => setFormData({ ...formData, transmission: val })}*/}
-                {/*        options={[*/}
-                {/*            { value: 'Автомат', label: 'Автомат' },*/}
-                {/*            { value: 'Робот', label: 'Робот' },*/}
-                {/*            { value: 'Механика', label: 'Механика' },*/}
-                {/*            { value: 'Вариатор', label: 'Вариатор' },*/}
-                {/*        ]}*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <ImageUploader
                     images={imageUrls}

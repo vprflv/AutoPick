@@ -3,7 +3,7 @@
 import React from "react";
 import Button from "@/src/components/ui/Button";
 import {Car, CreateCarData, formDataCar} from "@/src/shared/types/types";
-import { editCarAction } from "@/src/features/admin/actions/editCarAction";
+
 import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
 import {carSelectFields} from "@/src/features/admin/config/selectFields";
@@ -106,44 +106,6 @@ export function EditCarForm({
                         options={options}
                     />
                 ))}
-
-                {/*<CustomSelectAdmin*/}
-                {/*    label="Тип кузова"*/}
-                {/*    value={formData.type}*/}
-                {/*    onChange={(val) => setFormData({...formData, type: val})}*/}
-                {/*    options={[*/}
-                {/*        {value: 'Седан', label: 'Седан'},*/}
-                {/*        {value: 'Кроссовер', label: 'Кроссовер'},*/}
-                {/*        {value: 'Универсал', label: 'Универсал'},*/}
-                {/*        {value: 'Хэтчбек', label: 'Хэтчбек'},*/}
-                {/*        {value: 'Внедорожник', label: 'Внедорожник'},*/}
-                {/*    ]}*/}
-                {/*/>*/}
-
-                {/*<CustomSelectAdmin*/}
-                {/*    label="Топливо"*/}
-                {/*    value={formData.fuel}*/}
-                {/*    onChange={(val) => setFormData({...formData, fuel: val})}*/}
-                {/*    options={[*/}
-                {/*        {value: 'Бензин', label: 'Бензин'},*/}
-                {/*        {value: 'Дизель', label: 'Дизель'},*/}
-                {/*        {value: 'Гибрид', label: 'Гибрид'},*/}
-                {/*        {value: 'Электро', label: 'Электро'},*/}
-                {/*    ]}*/}
-                {/*/>*/}
-
-                {/*<CustomSelectAdmin*/}
-                {/*    label="Коробка передач"*/}
-                {/*    value={formData.transmission}*/}
-                {/*    onChange={(val) => setFormData({...formData, transmission: val})}*/}
-                {/*    options={[*/}
-                {/*        {value: 'Автомат', label: 'Автомат'},*/}
-                {/*        {value: 'Робот', label: 'Робот'},*/}
-                {/*        {value: 'Механика', label: 'Механика'},*/}
-                {/*        {value: 'Вариатор', label: 'Вариатор'},*/}
-                {/*    ]}*/}
-                {/*/>*/}
-
 
             <ImageUploader
                 images={imageUrls}
