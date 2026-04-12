@@ -94,7 +94,7 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Год выпуска"
-                    type="text"
+                    type="number"
                     value={formData.year}
                     onChange={(val) => setFormData({ ...formData, year: Number(val) })}
                     required
@@ -113,7 +113,7 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Цена (₽)"
-                    type="text"
+                    type="number"
                     value={formData.price}
                     onChange={(val) => setFormData({ ...formData, price: Number(val) })}
                     required
@@ -132,7 +132,7 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Пробег (км)"
-                    type="text"
+                    type="number"
                     value={formData.mileage}
                     onChange={(val) => setFormData({ ...formData, mileage: Number(val) })}
                     required
