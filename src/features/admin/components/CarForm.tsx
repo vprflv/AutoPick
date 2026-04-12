@@ -92,7 +92,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                 <AdminTextInput
                     label="Марка"
                     value={formData.brand}
-                    onChange={(val) => setFormData({ ...formData, brand: val })}
+                    onChange={(val) => setFormData({ ...formData, brand: String(val) })}
                     required
                 />
 
@@ -110,7 +110,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                 <AdminTextInput
                     label="Модель"
                     value={formData.model}
-                    onChange={(val) => setFormData({ ...formData, model: val })}
+                    onChange={(val) => setFormData({ ...formData, model: String(val) })}
                     required
                 />
 
@@ -129,7 +129,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     label="Год выпуска"
                     type="number"
                     value={formData.year}
-                    onChange={(val) => setFormData({ ...formData, year: val })}
+                    onChange={(val) => setFormData({ ...formData, year: Number(val) })}
                     required
                 />
 
@@ -150,7 +150,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     label="Цена (₽)"
                     type="number"
                     value={formData.price}
-                    onChange={(val) => setFormData({ ...formData, price: val })}
+                    onChange={(val) => setFormData({ ...formData, price: Number(val) })}
                     required
                 />
 
@@ -169,7 +169,7 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     label="Пробег (км)"
                     type="number"
                     value={formData.mileage}
-                    onChange={(val) => setFormData({ ...formData, mileage: val })}
+                    onChange={(val) => setFormData({ ...formData, mileage: Number(val) })}
                     required
                 />
 

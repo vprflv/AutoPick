@@ -3,11 +3,12 @@
 import React from 'react';
 import {formDataCar} from "@/src/shared/types/types";
 
+
 interface AdminTextInputProps {
     label: string;
     type?: 'text' | 'number';
     value: string | number;
-    onChange: (formDataCar) => void;
+    onChange: (value: string | number) => void;
     required?: boolean;
     placeholder?: string;
 }
