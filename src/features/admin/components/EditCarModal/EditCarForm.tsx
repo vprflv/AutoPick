@@ -94,9 +94,10 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Год выпуска"
-                    type="number"
                     value={formData.year}
-                    onChange={(val) => setFormData({ ...formData, year: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                        year: typeof val === 'number' ? val : Number(val) || 0 })}
+                    isNumeric={true}
                     required
                 />
 
@@ -113,9 +114,10 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Цена (₽)"
-                    type="number"
                     value={formData.price}
-                    onChange={(val) => setFormData({ ...formData, price: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                        price:typeof val === 'number'? val: Number(val) || 0 })}
+                    isNumeric={true}
                     required
                 />
 
@@ -132,9 +134,10 @@ export function EditCarForm({
 
                 <AdminTextInput
                     label="Пробег (км)"
-                    type="number"
                     value={formData.mileage}
-                    onChange={(val) => setFormData({ ...formData, mileage: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                        mileage:typeof val === 'number' ? val : Number(val) || 0 })}
+                    isNumeric={true}
                     required
                 />
 
