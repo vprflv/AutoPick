@@ -95,7 +95,8 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                 <AdminTextInput
                     label="Год выпуска"
                     value={formData.year}
-                    onChange={(val) => setFormData({ ...formData, year: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                         year: typeof val === 'number' ? val : Number(val) || 0 })}
                     isNumeric={true}
                     required
                 />
@@ -105,7 +106,8 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     label="Цена (₽)"
                     type="text"
                     value={formData.price}
-                    onChange={(val) => setFormData({ ...formData, price: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                        price:typeof val === 'number'? val: Number(val) || 0 })}
                     isNumeric={true}
                     required
                 />
@@ -115,7 +117,8 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     label="Пробег (км)"
                     type="text"
                     value={formData.mileage}
-                    onChange={(val) => setFormData({ ...formData, mileage: Number(val) })}
+                    onChange={(val) => setFormData({ ...formData,
+                        mileage:typeof val === 'number' ? val : Number(val) || 0 })}
                     isNumeric={true}
                     required
                 />
