@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import {formDataCar} from "@/src/shared/types/types";
+
 
 
 interface AdminTextInputProps {

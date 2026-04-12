@@ -77,35 +77,12 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Марка</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        required*/}
-                {/*        value={formData.brand}*/}
-                {/*        onChange={(e) => setFormData({...formData, brand: e.target.value})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
-
                 <AdminTextInput
                     label="Марка"
                     value={formData.brand}
                     onChange={(val) => setFormData({ ...formData, brand: String(val) })}
                     required
                 />
-
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Модель</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        required*/}
-                {/*        value={formData.model}*/}
-                {/*        onChange={(e) => setFormData({...formData, model: e.target.value})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Модель"
@@ -114,16 +91,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     required
                 />
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Год выпуска</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        required*/}
-                {/*        value={formData.year}*/}
-                {/*        onChange={(e) => setFormData({...formData, year: Number(e.target.value)})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Год выпуска"
@@ -134,18 +101,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                 />
 
 
-
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Цена (₽)</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        required*/}
-                {/*        value={formData.price}*/}
-                {/*        onChange={(e) => setFormData({...formData, price: Number(e.target.value)})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
-
                 <AdminTextInput
                     label="Цена (₽)"
                     type="text"
@@ -154,16 +109,6 @@ export function CarForm({  onSuccess, onCancel }: CarFormProps) {
                     required
                 />
 
-                {/*<div>*/}
-                {/*    <label className="block text-sm mb-2">Пробег (км)</label>*/}
-                {/*    <input*/}
-                {/*        type="text"*/}
-                {/*        required*/}
-                {/*        value={formData.mileage}*/}
-                {/*        onChange={(e) => setFormData({...formData, mileage: Number(e.target.value)})}*/}
-                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 focus:outline-none focus:border-blue-500"*/}
-                {/*    />*/}
-                {/*</div>*/}
 
                 <AdminTextInput
                     label="Пробег (км)"

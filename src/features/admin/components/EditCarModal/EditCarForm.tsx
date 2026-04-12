@@ -7,6 +7,7 @@ import { formDataCar} from "@/src/shared/types/types";
 import { ImageUploader } from "@/src/features/admin/components/ImageUploader";
 import { CustomSelectAdmin } from "@/src/components/ui/CustomSelectAdmin";
 import {carSelectFields} from "@/src/features/admin/config/selectFields";
+import {AdminTextInput} from "@/src/features/admin/components/inputs/AdminTextInput";
 
 interface EditCarFormProps {
     formData: formDataCar;
@@ -42,60 +43,100 @@ export function EditCarForm({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Поля формы — оставляем как было */}
-                <div>
-                    <label className="block text-sm mb-2 text-zinc-400">Марка</label>
-                    <input
-                        type="text"
-                        value={formData.brand}
-                        onChange={(e) => setFormData({...formData, brand: e.target.value})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2 text-zinc-400">Марка</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        value={formData.brand}*/}
+                {/*        onChange={(e) => setFormData({...formData, brand: e.target.value})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
 
-                <div>
-                    <label className="block text-sm mb-2 text-zinc-400">Модель</label>
-                    <input
-                        type="text"
-                        value={formData.model}
-                        onChange={(e) => setFormData({...formData, model: e.target.value})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
+                <AdminTextInput
+                    label="Марка"
+                    value={formData.brand}
+                    onChange={(val) => setFormData({ ...formData, brand: String(val) })}
+                    required
+                />
 
-                <div>
-                    <label className="block text-sm mb-2 text-zinc-400">Год выпуска</label>
-                    <input
-                        type="text"
-                        value={formData.year}
-                        onChange={(e) => setFormData({...formData, year: parseInt(e.target.value) || 0})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
 
-                <div>
-                    <label className="block text-sm mb-2 text-zinc-400">Цена (₽)</label>
-                    <input
-                        type="text"
-                        value={formData.price}
-                        onChange={(e) => setFormData({...formData, price: parseInt(e.target.value) || 0})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2 text-zinc-400">Модель</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        value={formData.model}*/}
+                {/*        onChange={(e) => setFormData({...formData, model: e.target.value})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
 
-                <div>
-                    <label className="block text-sm mb-2 text-zinc-400">Пробег (км)</label>
-                    <input
-                        type="text"
-                        value={formData.mileage}
-                        onChange={(e) => setFormData({...formData, mileage: parseInt(e.target.value) || 0})}
-                        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div>
+
+                <AdminTextInput
+                    label="Модель"
+                    value={formData.model}
+                    onChange={(val) => setFormData({ ...formData, model: String(val) })}
+                    required
+                />
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2 text-zinc-400">Год выпуска</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        value={formData.year}*/}
+                {/*        onChange={(e) => setFormData({...formData, year: parseInt(e.target.value) || 0})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Год выпуска"
+                    type="text"
+                    value={formData.year}
+                    onChange={(val) => setFormData({ ...formData, year: Number(val) })}
+                    required
+                />
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2 text-zinc-400">Цена (₽)</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        value={formData.price}*/}
+                {/*        onChange={(e) => setFormData({...formData, price: parseInt(e.target.value) || 0})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Цена (₽)"
+                    type="text"
+                    value={formData.price}
+                    onChange={(val) => setFormData({ ...formData, price: Number(val) })}
+                    required
+                />
+
+                {/*<div>*/}
+                {/*    <label className="block text-sm mb-2 text-zinc-400">Пробег (км)</label>*/}
+                {/*    <input*/}
+                {/*        type="text"*/}
+                {/*        value={formData.mileage}*/}
+                {/*        onChange={(e) => setFormData({...formData, mileage: parseInt(e.target.value) || 0})}*/}
+                {/*        className="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-blue-500"*/}
+                {/*        required*/}
+                {/*    />*/}
+                {/*</div>*/}
+
+                <AdminTextInput
+                    label="Пробег (км)"
+                    type="text"
+                    value={formData.mileage}
+                    onChange={(val) => setFormData({ ...formData, mileage: Number(val) })}
+                    required
+                />
 
                 {carSelectFields.map(({ label, field, options }) => (
                     <CustomSelectAdmin
