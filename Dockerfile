@@ -12,20 +12,20 @@ RUN corepack enable && corepack prepare pnpm@9 --activate
 FROM base AS builder
 
 COPY package.json pnpm-lock.yaml ./
+
 RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
 
-# Копируем .env.production как .env
-#COPY .env.local .env
-
+# === Переменные для сборки ===
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
-ARG NEXT_PUBLIC_RESEND_API_KEY
+ARG RESEND_API_KEY
 
+# Важно: используем то же имя, что и в коде
 ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
-ENV NEXT_PUBLIC_RESEND_API_KEY=${NEXT_PUBLIC_RESEND_API_KEY}
+ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
+ENV RESEND_API_KEY=${RESEND_API_KEY}
 
 RUN pnpm build
 
@@ -34,10 +34,10 @@ FROM base AS runner
 
 ENV NODE_ENV=production
 
+# Переменные для runtime (Server Actions)
 ENV NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
-ENV NEXT_PUBLIC_RESEND_API_KEY=${NEXT_PUBLIC_RESEND_API_KEY}
-
+ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY}
+ENV RESEND_API_KEY=${RESEND_API_KEY}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -46,9 +46,6 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod --prefer-offline
-
-# Копируем .env из builder
-#COPY --from=builder /app/.env .env
 
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
