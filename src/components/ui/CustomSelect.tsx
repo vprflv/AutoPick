@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
@@ -25,12 +25,31 @@ export default function CustomSelect<T extends string = string>({
 
     const selectedOption = options.find((opt) => opt.value === value);
 
-    useEffect(() => {
+    // Обновляем позицию кнопки
+    const updatePosition = useCallback(() => {
         if (isOpen && buttonRef.current) {
             setButtonRect(buttonRef.current.getBoundingClientRect());
         }
     }, [isOpen]);
 
+    useEffect(() => {
+        updatePosition();
+    }, [isOpen, updatePosition]);
+
+    // Обновляем позицию при скролле
+    useEffect(() => {
+        if (!isOpen) return;
+
+        window.addEventListener('scroll', updatePosition, true);
+        window.addEventListener('resize', updatePosition);
+
+        return () => {
+            window.removeEventListener('scroll', updatePosition, true);
+            window.removeEventListener('resize', updatePosition);
+        };
+    }, [isOpen, updatePosition]);
+
+    // Закрытие при клике вне
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (buttonRef.current && !buttonRef.current.contains(e.target as Node)) {
@@ -76,7 +95,7 @@ export default function CustomSelect<T extends string = string>({
                 >
                     {options.map((option) => (
                         <button
-                            key={String(option.value)} // ← String() для безопасности
+                            key={String(option.value)}
                             onMouseDown={(e) => {
                                 e.stopPropagation();
                                 e.preventDefault();

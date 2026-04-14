@@ -17,7 +17,7 @@ RUN pnpm install --frozen-lockfile --prefer-offline
 COPY . .
 
 # Копируем .env.production как .env
-COPY .env.production .env
+COPY .env.local .env
 
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY

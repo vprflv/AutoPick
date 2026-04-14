@@ -1,10 +1,14 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Car } from "@/src/shared/types/types";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/src/shared/lib/supabase";
+import type { Database } from "@/src/shared/types/supabase";
+
+type CarWithImages = Database['public']['Tables']['cars']['Row'] & {
+    car_images: Array<Database['public']['Tables']['car_images']['Row']>;
+};
 
 export function useGallery() {
     const [images, setImages] = useState<string[]>([]);
@@ -22,37 +26,38 @@ export function useGallery() {
     const loadingImages = useCallback(async () => {
         const carId = Number(params.id);
 
+        if (!carId || isNaN(carId)) {
+            setError('Неверный ID автомобиля');
+            setLoading(false);
+            return;
+        }
+
         try {
             setLoading(true);
             setError(null);
 
-            if (!supabase ) {
-                setError('Нет подключения к базе данных')
+            if (!supabase) {
+                setError('Нет подключения к базе данных');
                 return;
             }
 
-
-            const result: any = await supabase
+            const { data, error: supabaseError } = await supabase
                 .from('cars')
                 .select(`
                     *,
-                    car_images (
-                        image_url,
-                        sort_order
-                    )
+                    car_images (image_url, sort_order)
                 `)
                 .eq('id', carId)
                 .single();
 
-
-
-            if (result?.error) {
-                setError(result.error.message);
+            if (supabaseError) {
+                console.error('Supabase error:', supabaseError);
+                setError(supabaseError.message);
                 setImages([]);
                 return;
             }
 
-            const foundCar = result?.data as Car | null;
+            const foundCar = data as CarWithImages | null;
 
             if (!foundCar) {
                 setError('Автомобиль не найден');
@@ -60,16 +65,20 @@ export function useGallery() {
                 return;
             }
 
-            const carImages = foundCar.car_images && foundCar.car_images.length > 0
-                ? foundCar.car_images
-                    .sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
+            const carImages = foundCar.car_images
+                    ?.sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
                     .map((img: any) => img.image_url)
-                : (foundCar.image ? [foundCar.image] : []);
-
+                    .filter((url): url is string => typeof url === 'string' && url.trim() !== '')
+                || (foundCar.image && typeof foundCar.image === 'string' && foundCar.image.trim() !== ''
+                    ? [foundCar.image.trim()]
+                    : []);
             setImages(carImages);
 
-        } catch (err: any) {
-            setError(err.message || 'Ошибка загрузки автомобиля');
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Ошибка загрузки автомобиля';
+            console.error('Ошибка загрузки галереи:', err);
+            setError(message);
+            setImages([]);
             setTimeout(() => router.push('/'), 1500);
         } finally {
             setLoading(false);
@@ -101,7 +110,7 @@ export function useGallery() {
         setIsFullscreen(false);
     }, []);
 
-    // Свайп
+    // Свайп на мобильных
     const handleTouchStart = useCallback((e: React.TouchEvent) => {
         touchStartX.current = e.touches[0].clientX;
     }, []);
@@ -120,23 +129,24 @@ export function useGallery() {
         if (isLeftSwipe) goToNext();
         else if (isRightSwipe) goToPrevious();
 
+        // Сброс
         touchStartX.current = 0;
         touchEndX.current = 0;
     }, [goToNext, goToPrevious]);
 
     return {
         images,
-        handleTouchStart,
-        handleTouchMove,
-        handleTouchEnd,
-        goToPrevious,
-        goToNext,
-        openFullscreen,
-        selectImage,
-        closeFullscreen,
         currentImageIndex,
         isFullscreen,
         loading,
-        error
+        error,
+        goToPrevious,
+        goToNext,
+        selectImage,
+        openFullscreen,
+        closeFullscreen,
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
     };
 }

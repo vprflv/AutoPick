@@ -31,7 +31,7 @@ export function CarList({ cars, onDelete, onEdit }: CarListProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {cars.map((car) => {
-                    // Берём первое фото как главное, если массив существует
+
                     const mainImage = car.images && car.images.length > 0
                         ? car.images[0]
                         : car.images; // fallback на старое поле
@@ -60,7 +60,7 @@ export function CarList({ cars, onDelete, onEdit }: CarListProps) {
                                     {car.type}
                                 </div>
 
-                                {/* Количество фото */}
+                                {/* фото */}
                                 {car.images && car.images.length > 1 && (
                                     <div
                                         className="absolute bottom-3 right-3 bg-black/70 text-white text-xs px-2.5 py-0.5 rounded-lg">

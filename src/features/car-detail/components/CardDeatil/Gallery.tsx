@@ -1,33 +1,51 @@
 import Image from "next/image";
 import { Car } from "@/src/shared/types/types";
-import {useGallery} from "@/src/features/car-detail/hooks/useGallery";
+import { useGallery } from "@/src/features/car-detail/hooks/useGallery";
 
 interface CardGalleryDeatil {
     car: Car;
 }
 
 export function GalleryCardDeatil({ car }: CardGalleryDeatil) {
-    const {images, handleTouchStart, handleTouchMove,handleTouchEnd, goToPrevious,goToNext, openFullscreen, selectImage, closeFullscreen, currentImageIndex, isFullscreen }= useGallery()
+    const {
+        images,
+        handleTouchStart,
+        handleTouchMove,
+        handleTouchEnd,
+        goToPrevious,
+        goToNext,
+        openFullscreen,
+        selectImage,
+        closeFullscreen,
+        currentImageIndex,
+        isFullscreen
+    } = useGallery();
 
-    // const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    // const [isFullscreen, setIsFullscreen] = useState(false);
-
+    // Надёжное определение текущего изображения с fallback
+    const currentImage = images[currentImageIndex];
+    const imageSrc = currentImage && typeof currentImage === 'string' && currentImage.trim() !== ''
+        ? currentImage.trim()
+        : "/placeholder-car.svg";
 
     return (
         <div className="lg:col-span-3 space-y-6">
             {/* Большое основное фото */}
-            <div className="relative aspect-[16/10] bg-zinc-100 rounded-3xl overflow-hidden shadow-2xl group"
-                 onTouchStart={handleTouchStart}
-                 onTouchMove={handleTouchMove}
-                 onTouchEnd={handleTouchEnd}
-
+            <div
+                className="relative aspect-[16/10] bg-zinc-100 rounded-3xl overflow-hidden shadow-2xl group"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
             >
                 <Image
-                    src={images[currentImageIndex] || '/placeholder-car.jpg'}
+                    src={imageSrc}
                     alt={`${car.brand} ${car.model}`}
                     fill
                     className="object-cover transition-all duration-700 group-hover:scale-105"
                     priority
+                    onError={(e) => {
+                        // Если даже placeholder не загрузился — ставим запасной
+                        (e.currentTarget as HTMLImageElement).src = '/placeholder-car.svg';
+                    }}
                 />
 
                 {/* Стрелки */}
@@ -68,35 +86,42 @@ export function GalleryCardDeatil({ car }: CardGalleryDeatil) {
                 )}
             </div>
 
-            {/* Миниатюры — с отступом сверху и слева */}
+            {/* Миниатюры */}
             {images.length > 1 && (
-                <div >   {/* ← Добавили отступ сверху и слева */}
-                    <div className="flex gap-4 overflow-x-auto pt-2 pl-1  pb-4 scrollbar-hide snap-x snap-mandatory">
-                        {images.map((img, index) => (
-                            <button
-                                key={index}
-                                onClick={() => selectImage(index)}
-                                className={`flex-shrink-0 relative w-28 h-20 sm:w-32 sm:h-24 rounded-3xl overflow-hidden border-2 transition-all duration-300 snap-start ${
-                                    index === currentImageIndex
-                                        ? 'border-blue-600 shadow-2xl scale-[1.04]'
-                                        : 'border-transparent hover:border-zinc-300 hover:scale-[1.02]'
-                                }`}
-                            >
-                                <Image src={img} alt={`Фото ${index + 1}`} fill className="object-cover" />
-                            </button>
-                        ))}
+                <div className="pt-2 pl-1 pb-4">
+                    <div className="flex gap-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory">
+                        {images.map((img, index) => {
+                            const imgSrc = img && typeof img === 'string' && img.trim() !== ''
+                                ? img.trim()
+                                : "/placeholder-car.svg";
+
+                            return (
+                                <button
+                                    key={index}
+                                    onClick={() => selectImage(index)}
+                                    className={`flex-shrink-0 relative w-28 h-20 sm:w-32 sm:h-24 rounded-3xl overflow-hidden border-2 transition-all duration-300 snap-start ${
+                                        index === currentImageIndex
+                                            ? 'border-blue-600 shadow-2xl scale-[1.04]'
+                                            : 'border-transparent hover:border-zinc-300 hover:scale-[1.02]'
+                                    }`}
+                                >
+                                    <Image
+                                        src={imgSrc}
+                                        alt={`Фото ${index + 1}`}
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
             )}
 
-            {/* Полноэкранная галерея (Lightbox) */}
+            {/* Полноэкранная галерея */}
             {isFullscreen && images.length > 0 && (
                 <div
                     className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-
                     onClick={closeFullscreen}
                 >
                     <div
@@ -104,7 +129,7 @@ export function GalleryCardDeatil({ car }: CardGalleryDeatil) {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <Image
-                            src={images[currentImageIndex]}
+                            src={images[currentImageIndex] || "/placeholder-car.svg"}
                             alt={`${car.brand} ${car.model}`}
                             fill
                             className="object-contain"

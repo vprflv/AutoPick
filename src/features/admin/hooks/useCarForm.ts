@@ -57,11 +57,6 @@ export function useCarForm(onSuccess?:()=>void):UseCarFormReturn {
 
         const validImages = imageUrls.filter(url => url.trim() !== '');
 
-        if (validImages.length === 0) {
-            setError('Добавьте хотя бы одну фотографию автомобиля');
-            return;
-        }
-
         startTransition(async () => {
             const result = await addCarAction({
                 ...formData,

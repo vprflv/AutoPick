@@ -10,7 +10,7 @@ export function useCarFilter() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedBrand, setSelectedBrand] = useState<'all' | string>('all');
     const [selectedType, setSelectedType] = useState<'all' | string>('all');
-    const [priceRange, setPriceRange] = useState({ min: 500000, max: 100000000 });
+    const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({ min: 500000, max: 100000000 });
     const [sortBy, setSortBy] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'year-asc'>('price-desc');
 
     const brands = ['all', ...new Set(cars.map(car => car.brand || ''))];

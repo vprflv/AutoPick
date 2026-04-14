@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Car, CreateCarData } from "@/src/shared/types/types";
 import { editCarAction } from "@/src/features/admin/actions/editCarAction";
 
@@ -20,6 +20,14 @@ export function useEditCarForm(car: Car | null, onSuccess?: () => void, onClose?
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    // Надёжная очистка изображений
+    const cleanImages = useCallback((urls: string[] | undefined | null): string[] => {
+        if (!Array.isArray(urls)) return [];
+        return urls.filter((url): url is string =>
+            typeof url === 'string' && url.trim().length > 0
+        );
+    }, []);
+
     // Заполнение формы при открытии модалки
     useEffect(() => {
         if (car) {
@@ -34,32 +42,26 @@ export function useEditCarForm(car: Car | null, onSuccess?: () => void, onClose?
                 transmission: car.transmission || 'Автомат',
             });
 
-            const initialImages = car.images && car.images.length > 0
-                ? car.images
-                : (car.image ? [car.image] : []);
+            const initialImages = cleanImages(car.images || (car.image ? [car.image] : []));
 
             setImageUrls(initialImages);
             setError(null);
         }
-    }, [car]);
+    }, [car, cleanImages]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!car) return;
 
-        const validImages = imageUrls.filter(url => url && url.trim() !== '');
-
-        if (validImages.length === 0) {
-            setError('Добавьте хотя бы одну фотографию автомобиля');
-            return;
-        }
+        // Самая жёсткая фильтрация прямо перед отправкой
+        const validImages = cleanImages(imageUrls);
 
         setIsPending(true);
         setError(null);
 
         const updateData: CreateCarData = {
             ...formData,
-            images: validImages,
+            images: validImages,   // ← гарантированно без пустых строк
         };
 
         const result = await editCarAction(car.id, updateData);

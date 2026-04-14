@@ -79,12 +79,22 @@ export function CarForm({ onSuccess, onCancel }: CarFormProps) {
                     />
                 ))}
 
+                {/* Загрузчик изображений*/}
                 <div className="md:col-span-2">
+                    <div className="mb-2 flex items-center justify-between">
+                        <label className="block text-sm font-medium text-zinc-400">
+                            Фотографии автомобиля
+                        </label>
+                        <span className="text-xs text-zinc-500">необязательно</span>
+                    </div>
                     <ImageUploader
                         images={imageUrls}
                         onChange={setImageUrls}
                         maxImages={8}
                     />
+                    <p className="mt-2 text-xs text-zinc-500">
+                        Добавьте фотографии для лучшего представления автомобиля. Можно добавить позже.
+                    </p>
                 </div>
 
                 <div className="md:col-span-2">
@@ -101,6 +111,12 @@ export function CarForm({ onSuccess, onCancel }: CarFormProps) {
             {successMessage && (
                 <div className="mt-4 p-4 bg-green-900/50 border border-green-700 rounded-2xl text-green-400 text-sm">
                     {successMessage}
+                </div>
+            )}
+
+            {error && (
+                <div className="mt-4 p-4 bg-red-900/50 border border-red-700 rounded-2xl text-red-400 text-sm">
+                    {error}
                 </div>
             )}
 

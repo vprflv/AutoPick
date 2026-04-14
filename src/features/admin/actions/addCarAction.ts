@@ -1,11 +1,21 @@
 'use server'
 
 import {CreateCarData} from "@/src/shared/types/types";
-import {createServerSupabaseClient} from "@/src/shared/lib/supabase";
+import { createServerSupabaseClient } from "../../../shared/lib/supabase";
 
 
 export async function addCarAction(data: CreateCarData) {
     try {
+
+            // === Валидация цены ===
+            if (!data.price || data.price <= 0) {
+                return {
+                    success: false,
+                    error: 'Цена автомобиля должна быть больше 0'
+                };
+            }
+
+
         const supabase = await createServerSupabaseClient();
 
         // Создаём автомобиль
@@ -41,6 +51,7 @@ export async function addCarAction(data: CreateCarData) {
                 .insert(imageInserts);
 
         }
+
 
         return {
             success: true,

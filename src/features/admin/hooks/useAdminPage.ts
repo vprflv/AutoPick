@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Car } from "@/src/shared/types/types";
 import { useGetInitialCars } from "@/src/shared/hooks/useGetInitialCars";
 import { deleteCarAction } from "@/src/features/admin/actions/deleteCarAction";
+import toast from 'react-hot-toast';
 
 export function useAdminPage() {
     const { cars, loadCars } = useGetInitialCars();
@@ -12,17 +13,19 @@ export function useAdminPage() {
     const [editingCar, setEditingCar] = useState<Car | null>(null);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-    // Добавление автомобиля
     const handleAddSuccess = () => {
         setShowForm(false);
-        loadCars();           // обновляем список после добавления
+        loadCars();
+        toast.success('Автомобиль успешно добавлен!', {
+            icon: '🚗',
+        });
     };
 
-    // Редактирование автомобиля
     const handleEditSuccess = () => {
         loadCars();
         setIsEditModalOpen(false);
         setEditingCar(null);
+        toast.success('Автомобиль успешно обновлён!');
     };
 
     const handleEditClick = (car: Car) => {
@@ -35,15 +38,17 @@ export function useAdminPage() {
         setEditingCar(null);
     };
 
-    // Удаление автомобиля
-    const handleDeleteCar = async (id: number) => {
-        if (!confirm('Удалить этот автомобиль?')) return;
 
+    // Удаление
+
+    const handleDeleteCar = async (id: number) => {
         const result = await deleteCarAction(id);
+
         if (result.success) {
             loadCars();
         } else {
-            alert(result.error || 'Не удалось удалить автомобиль');
+            // Ошибку будем показывать в компоненте
+            return result.error || 'Не удалось удалить автомобиль';
         }
     };
 
@@ -58,6 +63,6 @@ export function useAdminPage() {
         handleEditClick,
         handleCloseEditModal,
         handleDeleteCar,
-        loadCars,           // если где-то ещё понадобится
+        loadCars,
     };
 }

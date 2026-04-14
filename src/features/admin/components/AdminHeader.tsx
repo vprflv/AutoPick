@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import {useRouter} from "next/navigation";
 
 export function AdminHeader() {
@@ -8,8 +7,6 @@ export function AdminHeader() {
 
     const handleLogout = () => {
         if (confirm('Вы действительно хотите выйти из админ-панели?')) {
-            // Пока просто возвращаем на главную
-            // В будущем здесь можно добавить очистку localStorage или токена
             router.push('/');
         }
     };

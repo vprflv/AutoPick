@@ -17,7 +17,6 @@ interface AdminTextInputProps {
 
 export function AdminTextInput({
                                    label,
-                                   type = 'text',
                                    value,
                                    onChange,
                                    required = false,

@@ -53,9 +53,10 @@ export default function Header() {
                             >
                                 Перезвоните мне
                             </Button>
-                            <Button variant="primary" size="md">
-                                +7 (999) 123-45-67
-                            </Button>
+                            <div>
+                                <span className="text-blue-800 bold">+7 (999) 123-45-67</span>
+                                <div className="ml-auto">г.Красноярск</div>
+                            </div>
                         </div>
 
                         <button

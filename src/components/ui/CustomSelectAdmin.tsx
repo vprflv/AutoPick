@@ -19,7 +19,7 @@ export function CustomSelectAdmin({
                                          options,
                                          placeholder = "Выберите...",
                                          className = "",
-                                         label, key
+                                         label
                                      }: CustomSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);

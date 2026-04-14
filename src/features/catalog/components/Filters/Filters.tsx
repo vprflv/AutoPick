@@ -3,14 +3,17 @@
 import React from 'react';
 import CustomSelect from "@/src/components/ui/CustomSelect";
 import { FiltersCar } from "@/src/shared/types/types";
+import {PriceRangeFilter} from "@/src/features/catalog/components/Filters/PriceRangeFilter";
 
 interface FiltersProps {
     filters: FiltersCar;
     brands:string[]
     types:string[]
+    resetFilters:()=>void
+
 }
 
-export default function Filters({ filters, brands, types }: FiltersProps) {
+export default function Filters({ filters, brands, types, resetFilters }: FiltersProps) {
     const {
         searchTerm,
         setSearchTerm,
@@ -22,7 +25,6 @@ export default function Filters({ filters, brands, types }: FiltersProps) {
         setPriceRange,
         sortBy,
         setSortBy,
-        resetFilters,
     } = filters;
 
     return (
@@ -76,6 +78,10 @@ export default function Filters({ filters, brands, types }: FiltersProps) {
                     ]}
                 />
             </div>
+
+
+            {/* Диапазон цены  */}
+            <PriceRangeFilter priceRange={priceRange} setPriceRange={setPriceRange}/>
 
             {/* Сортировка */}
             <div className="mb-6 lg:mb-8">

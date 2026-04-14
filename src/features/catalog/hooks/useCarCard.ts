@@ -4,33 +4,49 @@ import { Car } from "@/src/shared/types/types";
 export function useCarCard(car: Car) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    // Формируем массив изображений (с защитой от старого формата)
     const images = useMemo<string[]>(() => {
-        if (car.images && Array.isArray(car.images) && car.images.length > 0) {
-            return car.images;
+        // Приоритет — новый массив car.images
+        if (Array.isArray(car.images) && car.images.length > 0) {
+            return car.images.filter((url): url is string =>
+                typeof url === 'string' && url.trim().length > 0
+            );
         }
-        if (car.image && typeof car.image === 'string') {
-            return [car.image];
-        }
-        return [];
-    }, [car.image, car.image]);
 
-    const mainImage = images[currentImageIndex] || '/placeholder-car.jpg';
+        if (car.image && typeof car.image === 'string' && car.image.trim().length > 0) {
+            return [car.image.trim()];
+        }
+
+        return [];
+    }, [car.images, car.image]);
+
+    const mainImage = useMemo(() => {
+        const img = images[currentImageIndex];
+        if (img && typeof img === 'string' && img.trim().length > 0) {
+            return img.trim();
+        }
+        return '/placeholder-car.svg';
+    }, [images, currentImageIndex]);
 
     // Навигация
     const goToPrevious = useCallback((e?: React.MouseEvent) => {
         if (e) e.stopPropagation();
-        setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+        setCurrentImageIndex((prev) =>
+            prev === 0 ? images.length - 1 : prev - 1
+        );
     }, [images.length]);
 
     const goToNext = useCallback((e?: React.MouseEvent) => {
         if (e) e.stopPropagation();
-        setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+        setCurrentImageIndex((prev) =>
+            prev === images.length - 1 ? 0 : prev + 1
+        );
     }, [images.length]);
 
     const selectImage = useCallback((index: number) => {
-        setCurrentImageIndex(index);
-    }, []);
+        if (index >= 0 && index < images.length) {
+            setCurrentImageIndex(index);
+        }
+    }, [images.length]);
 
     // Свайп
     const touchStartX = useRef(0);

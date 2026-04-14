@@ -1,16 +1,12 @@
 import Image from "next/image";
-import {Car, CarGalleryData} from "@/src/shared/types/types";
+import { Car, CarGalleryData } from "@/src/shared/types/types";
 
-
-
-interface CarCardGalleryProps{
-    car:Car
+interface CarCardGalleryProps {
+    car: Car;
     gallery: CarGalleryData;
-
-
 }
 
-export function CarCardGallery({car, gallery }:CarCardGalleryProps) {
+export function CarCardGallery({ car, gallery }: CarCardGalleryProps) {
     const {
         images,
         mainImage,
@@ -23,10 +19,14 @@ export function CarCardGallery({car, gallery }:CarCardGalleryProps) {
         handleTouchEnd,
     } = gallery;
 
-
+    const imageSrc =
+        mainImage &&
+        typeof mainImage === 'string' &&
+        mainImage.trim().length > 0
+            ? mainImage.trim()
+            : "/placeholder-car.svg";
 
     return (
-
         <div className="relative">
             <div
                 className="relative overflow-hidden"
@@ -35,15 +35,19 @@ export function CarCardGallery({car, gallery }:CarCardGalleryProps) {
                 onTouchEnd={handleTouchEnd}
             >
                 <Image
-                    src={mainImage}
+                    src={imageSrc}
                     alt={`${car.brand} ${car.model}`}
                     width={800}
                     height={520}
                     className="w-full aspect-[16/10] object-cover"
                     priority={false}
+                    onError={(e) => {
+                        // Если даже placeholder не загрузился — принудительно ставим его
+                        (e.currentTarget as HTMLImageElement).src = '/placeholder-car.svg';
+                    }}
                 />
 
-                {/* Стрелки  */}
+                {/* Стрелки */}
                 {hasMultipleImages && (
                     <>
                         {/* Левая стрелка */}
@@ -85,5 +89,5 @@ export function CarCardGallery({car, gallery }:CarCardGalleryProps) {
                 )}
             </div>
         </div>
-    )
+    );
 }

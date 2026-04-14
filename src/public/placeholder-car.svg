@@ -1,0 +1,19 @@
+<!-- src/shared/assets/placeholder-car.svg -->
+<svg width="800" height="520" viewBox="0 0 800 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="800" height="520" rx="20" fill="#27272A"/>
+    <rect x="100" y="180" width="600" height="200" rx="20" fill="#3F3F46"/>
+
+    <!-- Колёса -->
+    <circle cx="250" cy="380" r="50" fill="#18181B"/>
+    <circle cx="550" cy="380" r="50" fill="#18181B"/>
+    <circle cx="250" cy="380" r="25" fill="#27272A"/>
+    <circle cx="550" cy="380" r="25" fill="#27272A"/>
+
+    <!-- Кузов автомобиля -->
+    <path d="M150 250 Q200 180 400 180 Q600 180 650 250 L650 320 Q650 350 620 350 L180 350 Q150 350 150 320 Z" fill="#52525B"/>
+
+    <!-- Окна -->
+    <path d="M220 220 Q280 200 380 200 Q480 200 520 220 L510 280 Q400 270 230 280 Z" fill="#18181B"/>
+
+    <text x="400" y="420" text-anchor="middle" fill="#71717A" font-size="28" font-family="system-ui">Изображение отсутствует</text>
+</svg>

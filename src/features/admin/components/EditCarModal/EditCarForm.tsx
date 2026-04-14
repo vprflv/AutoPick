@@ -11,7 +11,7 @@ import {AdminTextInput} from "@/src/features/admin/components/inputs/AdminTextIn
 
 interface EditCarFormProps {
     formData: formDataCar;
-    setFormData: (data: any) => void;
+    setFormData: (data: formDataCar) => void;
     imageUrls: string[];
     setImageUrls: (urls: string[]) => void;
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
@@ -103,7 +103,7 @@ export function EditCarForm({
             />
         </div>
 
-    {/* Компактные кнопки внизу формы */}
+    {/* Btn */}
 
     <div className="pt-6 border-t border-zinc-800 flex gap-3">
         <Button
