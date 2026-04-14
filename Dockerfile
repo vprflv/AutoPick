@@ -44,7 +44,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile --prod --prefer-offline
 
 # Копируем .env из builder
-COPY --from=builder /app/.env .env
+#COPY --from=builder /app/.env .env
 
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
