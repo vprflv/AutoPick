@@ -1,18 +1,26 @@
+# ====================== BASE ======================
+FROM node:22-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+WORKDIR /app
+
+RUN corepack enable && corepack prepare pnpm@9 --activate
+
 # ====================== BUILDER ======================
 FROM base AS builder
 
 COPY package.json pnpm-lock.yaml ./
-
 RUN pnpm install --frozen-lockfile --prefer-offline
 
 COPY . .
 
-# === Явно задаём переменные для сборки ===
+# Переменные для сборки
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
 ARG RESEND_API_KEY
 
-# Принудительно устанавливаем их
 ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
 ENV NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
 ENV RESEND_API_KEY=$RESEND_API_KEY
