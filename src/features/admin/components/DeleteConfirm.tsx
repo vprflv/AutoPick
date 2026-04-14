@@ -3,7 +3,7 @@ import toast, {Toast} from "react-hot-toast";
 interface DeleteConfirmProps{
     id:number
     t: Toast
-    handleDeleteCar:(id:number) => void
+    handleDeleteCar:(id:number) => Promise<string | null>
 }
 
 
@@ -30,10 +30,10 @@ export function DeleteConfirm ({t, handleDeleteCar, id}:DeleteConfirmProps){
                 <button
                     onClick={async () => {
                         toast.dismiss(t.id);
-                        const error = await handleDeleteCar(id);
+                        const errorMessage = await handleDeleteCar(id);
 
-                        if (error) {
-                            toast.error(error);
+                        if (errorMessage) {
+                            toast.error(errorMessage);
                         } else {
                             toast.success('Автомобиль успешно удалён', {
                                 icon: '🗑️',
