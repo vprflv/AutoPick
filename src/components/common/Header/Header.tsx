@@ -26,8 +26,7 @@ export default function Header() {
                         {/* Лого */}
                         <Link href="/" className="flex items-center gap-3">
                             <div
-                                className="w-10 h-10 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl flex-shrink-0">
-                                🚗
+                                className="w-10 h-10 bg-blue-600 rounded-3xl flex items-center justify-center text-white text-3xl flex-shrink-0">
                             </div>
                             <div>
                                 <div className="text-2xl font-bold tracking-tight">AutoPick</div>
